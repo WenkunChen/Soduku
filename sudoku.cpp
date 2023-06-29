@@ -1,34 +1,36 @@
 #include <iostream>
+#include <random>
 #include <vector>
 #include <algorithm>
 #include <string>
 #include <cstdlib>
-#include <ctime>
 #include <fstream>
-#include<string.h>
+#include <cstring>
 
 #pragma warning (disable: 4996)
 #define BOARD_SIZE 9
 using namespace std;
 
 
-static vector<int> origin_line = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };//Éú³ÉÖÕ¾Ö³õÊ¼ĞĞ
+static vector<int> origin_line = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };//ç”Ÿæˆç»ˆå±€åˆå§‹è¡Œ
+random_device rd;
+default_random_engine e(rd());
 
-// ¼ì²éÊı×Ötmp·ÅÔÚ(row, col)Î»ÖÃÊÇ·ñºÏ·¨
+// æ£€æŸ¥æ•°å­—tmpæ”¾åœ¨(row, col)ä½ç½®æ˜¯å¦åˆæ³•
 bool IsLegal(int tmp, vector<vector<int>>& board, int row, int col) {
-    // ¼ì²éĞĞÊÇ·ñÓĞÖØ¸´Êı×Ö
+    // æ£€æŸ¥è¡Œæ˜¯å¦æœ‰é‡å¤æ•°å­—
     for (int j = 0; j < BOARD_SIZE; j++) {
         if (board[row][j] == tmp) {
             return false;
         }
     }
-    // ¼ì²éÁĞÊÇ·ñÓĞÖØ¸´Êı×Ö
+    // æ£€æŸ¥åˆ—æ˜¯å¦æœ‰é‡å¤æ•°å­—
     for (int i = 0; i < BOARD_SIZE; i++) {
         if (board[i][col] == tmp) {
             return false;
         }
     }
-    // ¼ì²é3x3×Ó¿éÄÚÊÇ·ñÓĞÖØ¸´Êı×Ö
+    // æ£€æŸ¥3x3å­å—å†…æ˜¯å¦æœ‰é‡å¤æ•°å­—
     int blockRow = (row / 3) * 3;
     int blockCol = (col / 3) * 3;
     for (int i = 0; i < 3; i++) {
@@ -41,14 +43,14 @@ bool IsLegal(int tmp, vector<vector<int>>& board, int row, int col) {
     return true;
 }
 
-// µİ¹éÉú³ÉÒ»ÂÖÊı¶ÀÖÕ¾Ö
+// é€’å½’ç”Ÿæˆä¸€è½®æ•°ç‹¬ç»ˆå±€
 bool GenerateFinal(vector<vector<int>>& board, int row, int col) {
-    //°´ĞĞÉú³É
+    //æŒ‰è¡Œç”Ÿæˆ
     if (col == BOARD_SIZE) {
         col = 0;
         row++;
         if (row == BOARD_SIZE) {
-            return true;  // Êı¶ÀÖÕ¾ÖÉú³ÉÍê³É
+            return true;  // æ•°ç‹¬ç»ˆå±€ç”Ÿæˆå®Œæˆ
         }
     }
 
@@ -56,7 +58,7 @@ bool GenerateFinal(vector<vector<int>>& board, int row, int col) {
         return GenerateFinal(board, row, col + 1);
     }
 
-    random_shuffle(origin_line.begin(), origin_line.end());//Ëæ»ú´òÂÒ1~9µÄË³ĞòÅÅÁĞ
+    shuffle(origin_line.begin(), origin_line.end(), std::mt19937(std::random_device()()));//éšæœºæ‰“ä¹±1~9çš„é¡ºåºæ’åˆ—
 
     for (int num : origin_line) {
         if (IsLegal(num, board, row, col)) {
@@ -71,12 +73,12 @@ bool GenerateFinal(vector<vector<int>>& board, int row, int col) {
     return false;
 }
 
-// ´òÓ¡Êı¶ÀÖÕ¾Ö
+// æ‰“å°æ•°ç‹¬ç»ˆå±€
 void PrintBoard(const vector<vector<int>>& board) {
     for (int row = 0; row < BOARD_SIZE; row++) {
         for (int col = 0; col < BOARD_SIZE; col++) {
             if (board[row][col] == 0)
-                cout << "$" << " "; //¿Õ¸ñÓÃ$±íÊ¾
+                cout << "$" << " "; //ç©ºæ ¼ç”¨$è¡¨ç¤º
             else
                 cout << board[row][col] << " ";
         }
@@ -84,7 +86,7 @@ void PrintBoard(const vector<vector<int>>& board) {
     }
 }
 
-//¸ù¾İ´«ÈëµÄ²ÎÊınum,Éú³ÉnumÂÖÊı¶ÀÖÕ¾Ö
+//æ ¹æ®ä¼ å…¥çš„å‚æ•°num,ç”Ÿæˆnumè½®æ•°ç‹¬ç»ˆå±€
 void GenerateFinals(vector<vector<int>>& board, int num) {
     vector<vector<int>> initial(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
     for (int i = 0; i < num; i++) {
@@ -99,26 +101,26 @@ void GenerateFinals(vector<vector<int>>& board, int num) {
     }
 }
 
-// Ëæ»úÍÚµôblank_num¸ö¿ÕÉú³ÉÊı¶ÀÓÎÏ·
+// éšæœºæŒ–æ‰blank_numä¸ªç©ºç”Ÿæˆæ•°ç‹¬æ¸¸æˆ
 void DigBlanks(vector<vector<int>>& board, int blank_num) {
     for (int i = 0; i < blank_num; i++) {
-        int row = rand() % BOARD_SIZE;
-        int col = rand() % BOARD_SIZE;
+        int row = (int)e() % BOARD_SIZE;
+        int col = (int)e() % BOARD_SIZE;
         while (board[row][col] == 0) {
-            row = rand() % BOARD_SIZE;
-            col = rand() % BOARD_SIZE;
+            row = (int)e() % BOARD_SIZE;
+            col = (int)e() % BOARD_SIZE;
         }
         board[row][col] = 0;
     }
 }
 
-// µİ¹é½âÊı¶À,¼ÆËãËüÓĞ¶àÉÙ¸ö½â
+// é€’å½’è§£æ•°ç‹¬,è®¡ç®—å®ƒæœ‰å¤šå°‘ä¸ªè§£
 void CountSolution(vector<vector<int>>& board, int row, int col, int& solution) {
     if (col == BOARD_SIZE) {
         col = 0;
         row++;
         if (row == BOARD_SIZE) {
-            solution++; // ½âµÄ¸öÊı
+            solution++; // è§£çš„ä¸ªæ•°
             return;
         }
     }
@@ -147,7 +149,7 @@ bool SearchUnsolved(vector<vector<int>> board, int& row, int& col) {
 }
 bool solveSudoku(vector<vector<int>>& board) {
     int row, col;
-    //bool flag = true;//±êÖ¾Î»£¬ÅĞ¶Ïµ±Ç°Êı¶ÀÅÌÃæÊÇ·ñ»¹ÓĞÃ»Ìî½øÈ¥µÄÊı
+    //bool flag = true;//æ ‡å¿—ä½ï¼Œåˆ¤æ–­å½“å‰æ•°ç‹¬ç›˜é¢æ˜¯å¦è¿˜æœ‰æ²¡å¡«è¿›å»çš„æ•°
     //for (row = 0; row < BOARD_SIZE && flag ==true; row++) {
     //    for (col = 0; col < BOARD_SIZE && flag == true; col++) {
     //        if (board[row][col] == 0) {
@@ -156,36 +158,36 @@ bool solveSudoku(vector<vector<int>>& board) {
     //    }
     //}
     if (!SearchUnsolved(board, row, col)) {
-        return true; // Êı¶ÀÒÑ½â¾ö
+        return true; // æ•°ç‹¬å·²è§£å†³
     }
 
     for (int num = 1; num <= BOARD_SIZE; num++) {
         if (IsLegal(num, board, row, col)) {
             board[row][col] = num;
-          
+
             if (solveSudoku(board)) {
                 return true;
             }
-            board[row][col] = 0; // »ØËİ
-            
+            board[row][col] = 0; // å›æº¯
+
         }
     }
-    return false; // ÎŞ½â
+    return false; // æ— è§£
 }
 
-//Éú³ÉÎ¨Ò»½âÊı¶ÀÓÎÏ·
+//ç”Ÿæˆå”¯ä¸€è§£æ•°ç‹¬æ¸¸æˆ
 void DigBlanksOnly(vector<vector<int>>& board, int blank_num) {
     for (int i = 0; i < blank_num; i++) {
-        int row = rand() % BOARD_SIZE;
-        int col = rand() % BOARD_SIZE;
+        int row = (int)e() % BOARD_SIZE;
+        int col = (int)e() % BOARD_SIZE;
         while (board[row][col] == 0) {
-            row = rand() % BOARD_SIZE;
-            col = rand() % BOARD_SIZE;
+            row = (int)e() % BOARD_SIZE;
+            col = (int)e() % BOARD_SIZE;
         }
         int temp = board[row][col];
         board[row][col] = 0;
 
-        // ¼ì²éÎ¨Ò»½â
+        // æ£€æŸ¥å”¯ä¸€è§£
         int count = 0;
         vector<vector<int>> tempBoard = board;
         GenerateFinal(tempBoard, 0, 0);
@@ -196,7 +198,7 @@ void DigBlanksOnly(vector<vector<int>>& board, int blank_num) {
     }
 }
 
-//´ÓÖ¸¶¨ÎÄ¼şÂ·¾¶ÖĞ¶ÁÈëÊı¶À£¬Çó½â£¬ÔÙĞ´»Øµ½´æ´¢Çó½â½á¹ûµÄÎÄ¼ş
+//ä»æŒ‡å®šæ–‡ä»¶è·¯å¾„ä¸­è¯»å…¥æ•°ç‹¬ï¼Œæ±‚è§£ï¼Œå†å†™å›åˆ°å­˜å‚¨æ±‚è§£ç»“æœçš„æ–‡ä»¶
 void LoadAndSolve(vector<vector<int>>& board,char* input_path, const string& output_path) {
     ifstream in_file(input_path);
     ofstream out_file(output_path);
@@ -205,11 +207,11 @@ void LoadAndSolve(vector<vector<int>>& board,char* input_path, const string& out
         return;
     }
     if (!out_file) {
-        cerr << "Failed to open output file£¡" << endl;
+        cerr << "Failed to open output fileï¼" << endl;
         return;
     }
     string str, temp;
-    int no = 0;
+    int no;
     while (in_file >> str) {
         str = str.substr(1, str.length() - 2);
         no = stoi(str);
@@ -237,7 +239,7 @@ void LoadAndSolve(vector<vector<int>>& board,char* input_path, const string& out
     out_file.close();
 }
 
-//ÅĞ¶Ï·¶Î§ÊÇ·ñÔÚ[lower£¬higher]
+//åˆ¤æ–­èŒƒå›´æ˜¯å¦åœ¨[lowerï¼Œhigher]
 bool JudgeRange(int lower, int higher,int num) {
     if (num < lower || num > higher || lower > higher) {
         return true;
@@ -245,24 +247,24 @@ bool JudgeRange(int lower, int higher,int num) {
     return false;
 }
 
-// ¼ì²éÊäÈë²ÎÊı
+// æ£€æŸ¥è¾“å…¥å‚æ•°
 void ParameterHandler(char* argv[]) {
-    const char* finalFile = "./finals.txt";//´æÖÕ¾ÖµÄÎÄ¼ş
-    const char* puzzle_file = "./puzzle.txt";//´æÓÎÏ·µÄÎÄ¼ş
-    const char* answer = "./sudoku.txt";//´æ½â´ğµÄÎÄ¼ş
+    const char* finalFile = "./finals.txt";//å­˜ç»ˆå±€çš„æ–‡ä»¶
+    const char* puzzle_file = "./puzzle.txt";//å­˜æ¸¸æˆçš„æ–‡ä»¶
+    const char* answer = "./sudoku.txt";//å­˜è§£ç­”çš„æ–‡ä»¶
 
     vector<vector<int>> board(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
     vector<vector<int>> zero(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
     FILE* stream;
-    if (argv[1] == NULL) {
+    if (argv[1] == nullptr) {
         cout << "Please enter parameters......" << endl;
     }
-     else if (strcmp(argv[1], "-c") == 0){
-        if (argv[2] == NULL) {
+    else if (strcmp(argv[1], "-c") == 0){
+        if (argv[2] == nullptr) {
             cout << "Please enter the final rounds after parameter <-c> " << endl;
             return;
         }
-        int final_round = atoi(argv[2]);
+        int final_round = strtol(argv[2], nullptr, 10);
         if (JudgeRange(1,1000000,final_round)) {
             cout << "Parameter <-c> out of boundary!!! Recommended boundary:1~1000000" << endl;
             return;
@@ -272,31 +274,31 @@ void ParameterHandler(char* argv[]) {
         fclose(stdout);
     }
     else if (strcmp(argv[1], "-s") == 0) {
-        if (argv[2] == NULL) {
+        if (argv[2] == nullptr) {
             cout << "Please enter the file path after parameter <-s>" << endl;
             return;
         }
         char* input_path = argv[2];
         LoadAndSolve(board, input_path, answer);
-        
+
     }
     else if (strcmp(argv[1], "-n") == 0) {
-        if (argv[2] == NULL) {
+        if (argv[2] == nullptr) {
             cout << "Please enter the game rounds you want to generate after parameter <-n>" << endl;
             return;
         }
-        int game_round = atoi(argv[2]);
+        int game_round = strtol(argv[2], nullptr, 10);
         if (JudgeRange(1,10000,game_round)) {
             cout << "Parameter <-n> out of boundary!!! Recommended boundary:1~10000" << endl;
             return;
         }
-        if (argv[3] == NULL) {//ÃüÁîÖĞÖ»°üº¬-nºÍÂÖÊı£¬Ã»ÓÃµ½ÆäËû²ÎÊı
+        if (argv[3] == nullptr) {//å‘½ä»¤ä¸­åªåŒ…å«-nå’Œè½®æ•°ï¼Œæ²¡ç”¨åˆ°å…¶ä»–å‚æ•°
             freopen_s(&stream, puzzle_file, "w", stdout);
             for (int i = 0; i < game_round; i++) {
                 if (GenerateFinal(board, 0, 0)) {
                     cout << "[" << i + 1 << "]" << endl;
-                    int rand_blank = 20 + rand() % 36;
-                    DigBlanks(board, rand_blank); //Ëæ»úÍÚÈ¥20-55¸ö¿Õ¸ñ
+                    int rand_blank = 20 + (int)e() % 36;
+                    DigBlanks(board, rand_blank); //éšæœºæŒ–å»20-55ä¸ªç©ºæ ¼
                     PrintBoard(board);
                     board = zero;
                 }
@@ -307,34 +309,35 @@ void ParameterHandler(char* argv[]) {
             fclose(stdout);
         }
         else if (strcmp(argv[3], "-m") == 0) {
-            if (argv[4] == NULL) {
+            if (argv[4] == nullptr) {
                 cout << "Please enter the difficulty level after parameter <-m>" << endl;
                 return;
             }
-            int level = atoi(argv[4]);
+            int level = strtol(argv[4], nullptr, 10);
             if (JudgeRange(1,3,level)) {
                 cout << "Parameter <-m> out of boundary!!! Recommended boundary:1~3" << endl;
                 return;
             }
-            //Êı¶ÀÄÑ¶ÈÕâÀïÓÃÍÚ¿ÕÊıÁ¿µÄ¶àÉÙÀ´¼òµ¥Çø·Ö£¬ÎÒÃÇ¼òµ¥ÈÏÎªÍÚ¿ÕÔ½¶àÄÑ¶È¾ÍÔ½¸ß
-            //±ÈÈçÕâÀïÎÒÃÇÈÏÎªÍÚ[10,29]ÊÇ¼òµ¥£¬[30,49]ÊÇÖĞµÈ£¬[50,59]ÊÇÀ§ÄÑ
+            //æ•°ç‹¬éš¾åº¦è¿™é‡Œç”¨æŒ–ç©ºæ•°é‡çš„å¤šå°‘æ¥ç®€å•åŒºåˆ†ï¼Œæˆ‘ä»¬ç®€å•è®¤ä¸ºæŒ–ç©ºè¶Šå¤šéš¾åº¦å°±è¶Šé«˜
+            //æ¯”å¦‚è¿™é‡Œæˆ‘ä»¬è®¤ä¸ºæŒ–[10,29]æ˜¯ç®€å•ï¼Œ[30,49]æ˜¯ä¸­ç­‰ï¼Œ[50,59]æ˜¯å›°éš¾
             freopen_s(&stream, puzzle_file, "w", stdout);
             for (int i = 0; i < game_round; i++) {
                 int rand_num = 0;
                 switch (level) {
-                case 1:
-                    rand_num = 10 + rand() % 20;
-                    break;
-                case 2:
-                    rand_num = 30 + rand() % 20;
-                    break;
-                case 3:
-                    rand_num = 50 + rand() % 10;
-                    break;
+                    case 1:
+                        rand_num = 10 + (int)e() % 20;
+                        break;
+                    case 2:
+                        rand_num = 30 + (int)e() % 20;
+                        break;
+                    case 3:
+                        rand_num = 50 + (int)e() % 10;
+                        break;
+                    default:;
                 }
                 if (GenerateFinal(board, 0, 0)) {
                     cout << "[" << i + 1 << "]" << endl;
-                    DigBlanks(board, rand_num); //Ëæ»úÍÚÈ¥seed¸ö¿Õ¸ñ
+                    DigBlanks(board, rand_num); //éšæœºæŒ–å»seedä¸ªç©ºæ ¼
                     PrintBoard(board);
                     board = zero;
                 }
@@ -345,16 +348,16 @@ void ParameterHandler(char* argv[]) {
             fclose(stdout);
         }
         else if (strcmp(argv[3], "-r") == 0) {
-            if (argv[4] == NULL) {
+            if (argv[4] == nullptr) {
                 cout << "Please enter a boundary after parameter <-r>" << endl;
                 return;
             }
             const char* split = "~";
-            // ²ğ·Ö×Ö·û´®
+            // æ‹†åˆ†å­—ç¬¦ä¸²
             char* p = strtok(argv[4], split);
             int min_num = 0, max_num = 0;
             sscanf_s(p, "%d", &min_num);
-            p = strtok(NULL, split);
+            p = strtok(nullptr, split);
             sscanf_s(p, "%d", &max_num);
             if (min_num < 20 || max_num > 55 || max_num < min_num) {
                 cout << "Parameter <-r> out of boundary!!! Recommended boundary:20~55" << endl;
@@ -362,10 +365,10 @@ void ParameterHandler(char* argv[]) {
             }
             freopen_s(&stream, puzzle_file, "w", stdout);
             for (int i = 0; i < game_round; i++) {
-                int seed = min_num + rand() % (max_num - min_num + 1);
+                int seed = min_num + (int)e() % (max_num - min_num + 1);
                 if (GenerateFinal(board, 0, 0)) {
                     cout << "[" << i + 1 << "]" << endl;
-                    DigBlanks(board, seed); 
+                    DigBlanks(board, seed);
                     PrintBoard(board);
                     board = zero;
                 }
@@ -378,10 +381,10 @@ void ParameterHandler(char* argv[]) {
         else if (strcmp(argv[3], "-u") == 0) {
             freopen_s(&stream, puzzle_file, "w", stdout);
             for (int i = 0; i < game_round; i++) {
-                int random_num = 1 + rand() % 20;
+                int random_num = 1 + (int)e() % 20;
                 if (GenerateFinal(board, 0, 0)) {
                     cout << "[" << i + 1 << "]" << endl;
-                    DigBlanksOnly(board, random_num); //ÕâÀïÉÙÍÚÒ»µã¿Õ£¬ÍÚµÄÉÙÎ¨Ò»½â¸ÅÂÊ¸ß£¬Ëæ»úÍÚÈ¥1~20¸ö¿Õ¸ñ, ÈôÃ»ÓĞÎ¨Ò»½âÔò»ØÌî
+                    DigBlanksOnly(board, random_num); //è¿™é‡Œå°‘æŒ–ä¸€ç‚¹ç©ºï¼ŒæŒ–çš„å°‘å”¯ä¸€è§£æ¦‚ç‡é«˜ï¼ŒéšæœºæŒ–å»1~20ä¸ªç©ºæ ¼, è‹¥æ²¡æœ‰å”¯ä¸€è§£åˆ™å›å¡«
                     PrintBoard(board);
                     board = zero;
                 }
@@ -397,9 +400,7 @@ void ParameterHandler(char* argv[]) {
     }
 }
 
-int main(int argc, char* argv[]) {
-    srand(time(NULL));
+int main([[maybe_unused]] int argc, char* argv[]) {
     ParameterHandler(argv);
     return 0;
 }
-
