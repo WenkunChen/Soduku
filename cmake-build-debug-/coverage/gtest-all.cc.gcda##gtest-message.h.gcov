@@ -1,0 +1,1789 @@
+        -:    0:Source:D:/IDE/CLion 2023.1.4/workspace/sudoku/googletest/googletest/include/gtest/gtest-message.h
+        -:    0:Graph:D:\IDE\CLion 2023.1.4\workspace\sudoku\cmake-build-debug-\googletest\googlemock\gtest\CMakeFiles\gtest.dir\src\gtest-all.cc.gcno
+        -:    0:Data:D:\IDE\CLion 2023.1.4\workspace\sudoku\cmake-build-debug-\googletest\googlemock\gtest\CMakeFiles\gtest.dir\src\gtest-all.cc.gcda
+        -:    0:Runs:1
+        -:    1:// Copyright 2005, Google Inc.
+        -:    2:// All rights reserved.
+        -:    3://
+        -:    4:// Redistribution and use in source and binary forms, with or without
+        -:    5:// modification, are permitted provided that the following conditions are
+        -:    6:// met:
+        -:    7://
+        -:    8://     * Redistributions of source code must retain the above copyright
+        -:    9:// notice, this list of conditions and the following disclaimer.
+        -:   10://     * Redistributions in binary form must reproduce the above
+        -:   11:// copyright notice, this list of conditions and the following disclaimer
+        -:   12:// in the documentation and/or other materials provided with the
+        -:   13:// distribution.
+        -:   14://     * Neither the name of Google Inc. nor the names of its
+        -:   15:// contributors may be used to endorse or promote products derived from
+        -:   16:// this software without specific prior written permission.
+        -:   17://
+        -:   18:// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+        -:   19:// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+        -:   20:// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+        -:   21:// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+        -:   22:// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+        -:   23:// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+        -:   24:// LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+        -:   25:// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+        -:   26:// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+        -:   27:// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+        -:   28:// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+        -:   29:
+        -:   30://
+        -:   31:// The Google C++ Testing and Mocking Framework (Google Test)
+        -:   32://
+        -:   33:// This header file defines the Message class.
+        -:   34://
+        -:   35:// IMPORTANT NOTE: Due to limitation of the C++ language, we have to
+        -:   36:// leave some internal implementation details in this header file.
+        -:   37:// They are clearly marked by comments like this:
+        -:   38://
+        -:   39://   // INTERNAL IMPLEMENTATION - DO NOT USE IN A USER PROGRAM.
+        -:   40://
+        -:   41:// Such code is NOT meant to be used by a user directly, and is subject
+        -:   42:// to CHANGE WITHOUT NOTICE.  Therefore DO NOT DEPEND ON IT in a user
+        -:   43:// program!
+        -:   44:
+        -:   45:// GOOGLETEST_CM0001 DO NOT DELETE
+        -:   46:
+        -:   47:#ifndef GTEST_INCLUDE_GTEST_GTEST_MESSAGE_H_
+        -:   48:#define GTEST_INCLUDE_GTEST_GTEST_MESSAGE_H_
+        -:   49:
+        -:   50:#include <limits>
+        -:   51:
+        -:   52:#include "gtest/internal/gtest-port.h"
+        -:   53:
+        -:   54:GTEST_DISABLE_MSC_WARNINGS_PUSH_(4251 \
+        -:   55:/* class A needs to have dll-interface to be used by clients of class B */)
+        -:   56:
+        -:   57:// Ensures that there is at least one operator<< in the global namespace.
+        -:   58:// See Message& operator<<(...) below for why.
+        -:   59:void operator<<(const testing::internal::Secret&, int);
+        -:   60:
+        -:   61:namespace testing {
+        -:   62:
+        -:   63:// The Message class works like an ostream repeater.
+        -:   64://
+        -:   65:// Typical usage:
+        -:   66://
+        -:   67://   1. You stream a bunch of values to a Message object.
+        -:   68://      It will remember the text in a stringstream.
+        -:   69://   2. Then you stream the Message object to an ostream.
+        -:   70://      This causes the text in the Message to be streamed
+        -:   71://      to the ostream.
+        -:   72://
+        -:   73:// For example;
+        -:   74://
+        -:   75://   testing::Message foo;
+        -:   76://   foo << 1 << " != " << 2;
+        -:   77://   std::cout << foo;
+        -:   78://
+        -:   79:// will print "1 != 2".
+        -:   80://
+        -:   81:// Message is not intended to be inherited from.  In particular, its
+        -:   82:// destructor is not virtual.
+        -:   83://
+        -:   84:// Note that stringstream behaves differently in gcc and in MSVC.  You
+        -:   85:// can stream a NULL char pointer to it in the former, but not in the
+        -:   86:// latter (it causes an access violation if you do).  The Message
+        -:   87:// class hides this difference by treating a NULL char pointer as
+        -:   88:// "(null)".
+        -:   89:class GTEST_API_ Message {
+        -:   90: private:
+        -:   91:  // The type of basic IO manipulators (endl, ends, and flush) for
+        -:   92:  // narrow streams.
+        -:   93:  typedef std::ostream& (*BasicNarrowIoManip)(std::ostream&);
+        -:   94:
+        -:   95: public:
+        -:   96:  // Constructs an empty Message.
+        -:   97:  Message();
+        -:   98:
+        -:   99:  // Copy constructor.
+function _ZN7testing7MessageC1ERKS0_ called 0 returned 0% blocks executed 0%
+    #####:  100:  Message(const Message& msg) : ss_(new ::std::stringstream) {  // NOLINT
+    %%%%%:  100-block  0
+call    0 never executed
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+    %%%%%:  100-block  1
+call    4 never executed
+    $$$$$:  100-block  2
+call    5 never executed
+    #####:  101:    *ss_ << msg.GetString();
+call    0 never executed
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+    %%%%%:  101-block  0
+call    4 never executed
+branch  5 never executed
+branch  6 never executed
+    %%%%%:  101-block  1
+call    7 never executed
+    $$$$$:  101-block  2
+call    8 never executed
+    $$$$$:  101-block  3
+    #####:  102:  }
+    $$$$$:  102-block  0
+call    0 never executed
+        -:  103:
+        -:  104:  // Constructs a Message from a C-string.
+        -:  105:  explicit Message(const char* str) : ss_(new ::std::stringstream) {
+        -:  106:    *ss_ << str;
+        -:  107:  }
+        -:  108:
+        -:  109:#if GTEST_OS_SYMBIAN
+        -:  110:  // Streams a value (either a pointer or not) to this object.
+        -:  111:  template <typename T>
+        -:  112:  inline Message& operator <<(const T& value) {
+        -:  113:    StreamHelper(typename internal::is_pointer<T>::type(), value);
+        -:  114:    return *this;
+        -:  115:  }
+        -:  116:#else
+        -:  117:  // Streams a non-pointer value to this object.
+        -:  118:  template <typename T>
+     382*:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+     382*:  135:    *ss_ << val;
+     382*:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA3_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA3_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA22_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA22_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA33_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA33_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA63_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA63_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA31_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA31_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA62_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA62_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA39_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA39_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA30_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA30_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA6_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA6_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA24_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA24_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA59_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA59_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA64_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA64_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA18_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA18_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA40_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA40_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA5_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA5_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA37_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA37_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA12_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA12_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA13_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA13_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA15_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA15_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA16_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA16_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA4_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA4_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA35_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA35_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIcEERS0_RKT_:
+function _ZN7testing7MessagelsIcEERS0_RKT_ called 346 returned 100% blocks executed 100%
+      346:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+      346:  135:    *ss_ << val;
+      346:  135-block  0
+call    0 returned 346
+call    1 returned 346
+      346:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsINS_14TestPartResultEEERS0_RKT_:
+function _ZN7testing7MessagelsINS_14TestPartResultEEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA10_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA10_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIiEERS0_RKT_:
+function _ZN7testing7MessagelsIiEERS0_RKT_ called 7 returned 100% blocks executed 100%
+        7:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+        7:  135:    *ss_ << val;
+        7:  135-block  0
+call    0 returned 7
+call    1 returned 7
+        7:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA2_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA2_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEERS0_RKT_:
+function _ZN7testing7MessagelsINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA11_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA11_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA51_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA51_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIjEERS0_RKT_:
+function _ZN7testing7MessagelsIjEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIxEERS0_RKT_:
+function _ZN7testing7MessagelsIxEERS0_RKT_ called 11 returned 100% blocks executed 100%
+       11:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+       11:  135:    *ss_ << val;
+       11:  135-block  0
+call    0 returned 11
+call    1 returned 11
+       11:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA4096_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA4096_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA29_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA29_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIdEERS0_RKT_:
+function _ZN7testing7MessagelsIdEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA14_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA14_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA34_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA34_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA20_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA20_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA50_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA50_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIS0_EERS0_RKT_:
+function _ZN7testing7MessagelsIS0_EERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA38_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA38_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA27_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA27_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA32_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA32_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA23_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA23_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIyEERS0_RKT_:
+function _ZN7testing7MessagelsIyEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA47_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA47_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA28_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA28_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA256_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA256_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA25_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA25_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA21_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA21_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA48_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA48_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA9_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA9_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA19_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA19_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA17_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA17_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA41_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA41_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA8_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA8_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA7_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA7_cEERS0_RKT_ called 18 returned 100% blocks executed 100%
+       18:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+       18:  135:    *ss_ << val;
+       18:  135-block  0
+call    0 returned 18
+call    1 returned 18
+       18:  136:    return *this;
+        -:  137:  }
+------------------
+_ZN7testing7MessagelsIA68_cEERS0_RKT_:
+function _ZN7testing7MessagelsIA68_cEERS0_RKT_ called 0 returned 0% blocks executed 0%
+    #####:  119:  inline Message& operator <<(const T& val) {
+        -:  120:    // Some libraries overload << for STL containers.  These
+        -:  121:    // overloads are defined in the global namespace instead of ::std.
+        -:  122:    //
+        -:  123:    // C++'s symbol lookup rule (i.e. Koenig lookup) says that these
+        -:  124:    // overloads are visible in either the std namespace or the global
+        -:  125:    // namespace, but not other namespaces, including the testing
+        -:  126:    // namespace which Google Test's Message class is in.
+        -:  127:    //
+        -:  128:    // To allow STL containers (and other types that has a << operator
+        -:  129:    // defined in the global namespace) to be used in Google Test
+        -:  130:    // assertions, testing::Message must access the custom << operator
+        -:  131:    // from the global namespace.  With this using declaration,
+        -:  132:    // overloads of << defined in the global namespace and those
+        -:  133:    // visible via Koenig lookup are both exposed in this function.
+        -:  134:    using ::operator <<;
+    #####:  135:    *ss_ << val;
+    %%%%%:  135-block  0
+call    0 never executed
+call    1 never executed
+    #####:  136:    return *this;
+        -:  137:  }
+------------------
+        -:  138:
+        -:  139:  // Streams a pointer value to this object.
+        -:  140:  //
+        -:  141:  // This function is an overload of the previous one.  When you
+        -:  142:  // stream a pointer to a Message, this definition will be used as it
+        -:  143:  // is more specialized.  (The C++ Standard, section
+        -:  144:  // [temp.func.order].)  If you stream a non-pointer, then the
+        -:  145:  // previous definition will be used.
+        -:  146:  //
+        -:  147:  // The reason for this overload is that streaming a NULL pointer to
+        -:  148:  // ostream is undefined behavior.  Depending on the compiler, you
+        -:  149:  // may get "0", "(nil)", "(null)", or an access violation.  To
+        -:  150:  // ensure consistent result across compilers, we always treat NULL
+        -:  151:  // as "(null)".
+        -:  152:  template <typename T>
+       19:  153:  inline Message& operator <<(T* const& pointer) {  // NOLINT
+       19:  154:    if (pointer == NULL) {
+    #####:  155:      *ss_ << "(null)";
+        -:  156:    } else {
+       19:  157:      *ss_ << pointer;
+        -:  158:    }
+       19:  159:    return *this;
+        -:  160:  }
+------------------
+_ZN7testing7MessagelsIcEERS0_RKPT_:
+function _ZN7testing7MessagelsIcEERS0_RKPT_ called 1 returned 100% blocks executed 71%
+        1:  153:  inline Message& operator <<(T* const& pointer) {  // NOLINT
+        1:  154:    if (pointer == NULL) {
+        1:  154-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    #####:  155:      *ss_ << "(null)";
+    %%%%%:  155-block  0
+call    0 never executed
+call    1 never executed
+        -:  156:    } else {
+        1:  157:      *ss_ << pointer;
+        1:  157-block  0
+call    0 returned 1
+call    1 returned 1
+        -:  158:    }
+        1:  159:    return *this;
+        1:  159-block  0
+        -:  160:  }
+------------------
+_ZN7testing7MessagelsIKcEERS0_RKPT_:
+function _ZN7testing7MessagelsIKcEERS0_RKPT_ called 18 returned 100% blocks executed 71%
+       18:  153:  inline Message& operator <<(T* const& pointer) {  // NOLINT
+       18:  154:    if (pointer == NULL) {
+       18:  154-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 18
+    #####:  155:      *ss_ << "(null)";
+    %%%%%:  155-block  0
+call    0 never executed
+call    1 never executed
+        -:  156:    } else {
+       18:  157:      *ss_ << pointer;
+       18:  157-block  0
+call    0 returned 18
+call    1 returned 18
+        -:  158:    }
+       18:  159:    return *this;
+       18:  159-block  0
+        -:  160:  }
+------------------
+        -:  161:#endif  // GTEST_OS_SYMBIAN
+        -:  162:
+        -:  163:  // Since the basic IO manipulators are overloaded for both narrow
+        -:  164:  // and wide streams, we have to provide this specialized definition
+        -:  165:  // of operator <<, even though its body is the same as the
+        -:  166:  // templatized version above.  Without this definition, streaming
+        -:  167:  // endl or other basic IO manipulators to Message will confuse the
+        -:  168:  // compiler.
+        -:  169:  Message& operator <<(BasicNarrowIoManip val) {
+        -:  170:    *ss_ << val;
+        -:  171:    return *this;
+        -:  172:  }
+        -:  173:
+        -:  174:  // Instead of 1/0, we want to see true/false for bool values.
+        -:  175:  Message& operator <<(bool b) {
+        -:  176:    return *this << (b ? "true" : "false");
+        -:  177:  }
+        -:  178:
+        -:  179:  // These two overloads allow streaming a wide C string to a Message
+        -:  180:  // using the UTF-8 encoding.
+        -:  181:  Message& operator <<(const wchar_t* wide_c_str);
+        -:  182:  Message& operator <<(wchar_t* wide_c_str);
+        -:  183:
+        -:  184:#if GTEST_HAS_STD_WSTRING
+        -:  185:  // Converts the given wide string to a narrow string using the UTF-8
+        -:  186:  // encoding, and streams the result to this Message object.
+        -:  187:  Message& operator <<(const ::std::wstring& wstr);
+        -:  188:#endif  // GTEST_HAS_STD_WSTRING
+        -:  189:
+        -:  190:#if GTEST_HAS_GLOBAL_WSTRING
+        -:  191:  // Converts the given wide string to a narrow string using the UTF-8
+        -:  192:  // encoding, and streams the result to this Message object.
+        -:  193:  Message& operator <<(const ::wstring& wstr);
+        -:  194:#endif  // GTEST_HAS_GLOBAL_WSTRING
+        -:  195:
+        -:  196:  // Gets the text streamed to this object so far as an std::string.
+        -:  197:  // Each '\0' character in the buffer is replaced with "\\0".
+        -:  198:  //
+        -:  199:  // INTERNAL IMPLEMENTATION - DO NOT USE IN A USER PROGRAM.
+        -:  200:  std::string GetString() const;
+        -:  201:
+        -:  202: private:
+        -:  203:#if GTEST_OS_SYMBIAN
+        -:  204:  // These are needed as the Nokia Symbian Compiler cannot decide between
+        -:  205:  // const T& and const T* in a function template. The Nokia compiler _can_
+        -:  206:  // decide between class template specializations for T and T*, so a
+        -:  207:  // tr1::type_traits-like is_pointer works, and we can overload on that.
+        -:  208:  template <typename T>
+        -:  209:  inline void StreamHelper(internal::true_type /*is_pointer*/, T* pointer) {
+        -:  210:    if (pointer == NULL) {
+        -:  211:      *ss_ << "(null)";
+        -:  212:    } else {
+        -:  213:      *ss_ << pointer;
+        -:  214:    }
+        -:  215:  }
+        -:  216:  template <typename T>
+        -:  217:  inline void StreamHelper(internal::false_type /*is_pointer*/,
+        -:  218:                           const T& value) {
+        -:  219:    // See the comments in Message& operator <<(const T&) above for why
+        -:  220:    // we need this using statement.
+        -:  221:    using ::operator <<;
+        -:  222:    *ss_ << value;
+        -:  223:  }
+        -:  224:#endif  // GTEST_OS_SYMBIAN
+        -:  225:
+        -:  226:  // We'll hold the text streamed to this object here.
+        -:  227:  const internal::scoped_ptr< ::std::stringstream> ss_;
+        -:  228:
+        -:  229:  // We declare (but don't implement) this to prevent the compiler
+        -:  230:  // from implementing the assignment operator.
+        -:  231:  void operator=(const Message&);
+        -:  232:};
+        -:  233:
+        -:  234:// Streams a Message to an ostream.
+function _ZN7testinglsERSoRKNS_7MessageE called 0 returned 0% blocks executed 0%
+    #####:  235:inline std::ostream& operator <<(std::ostream& os, const Message& sb) {
+    #####:  236:  return os << sb.GetString();
+    %%%%%:  236-block  0
+call    0 never executed
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+    %%%%%:  236-block  1
+call    4 never executed
+    %%%%%:  236-block  2
+    $$$$$:  236-block  3
+call    5 never executed
+        -:  237:}
+        -:  238:
+        -:  239:namespace internal {
+        -:  240:
+        -:  241:// Converts a streamable value to an std::string.  A NULL pointer is
+        -:  242:// converted to "(null)".  When the input value is a ::string,
+        -:  243:// ::std::string, ::wstring, or ::std::wstring object, each NUL
+        -:  244:// character in it is replaced with "\\0".
+        -:  245:template <typename T>
+      19*:  246:std::string StreamableToString(const T& streamable) {
+      38*:  247:  return (Message() << streamable).GetString();
+        -:  248:}
+        -:  249:
+        -:  250:}  // namespace internal
+        -:  251:}  // namespace testing
+        -:  252:
+        -:  253:GTEST_DISABLE_MSC_WARNINGS_POP_()  //  4251
+        -:  254:
+        -:  255:#endif  // GTEST_INCLUDE_GTEST_GTEST_MESSAGE_H_

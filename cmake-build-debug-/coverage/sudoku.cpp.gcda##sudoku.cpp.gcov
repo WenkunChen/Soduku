@@ -1,0 +1,1655 @@
+        -:    0:Source:D:/IDE/CLion 2023.1.4/workspace/sudoku/sudoku.cpp
+        -:    0:Graph:D:\IDE\CLion 2023.1.4\workspace\sudoku\cmake-build-debug-\CMakeFiles\MyTest.dir\sudoku.cpp.gcno
+        -:    0:Data:D:\IDE\CLion 2023.1.4\workspace\sudoku\cmake-build-debug-\CMakeFiles\MyTest.dir\sudoku.cpp.gcda
+        -:    0:Runs:1
+        -:    1:#include "sudoku.h"
+        -:    2:using namespace std;
+        -:    3:
+        -:    4:static vector<int> origin_line = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };//生成终局初始行
+        -:    5:random_device rd;
+        -:    6:default_random_engine e(rd());
+        -:    7:
+        -:    8:// 检查数字tmp放在(row, col)位置是否合法
+function _Z7IsLegaliRSt6vectorIS_IiSaIiEESaIS1_EEii called 272027 returned 100% blocks executed 100%
+   272027:    9:bool IsLegal(int tmp, vector<vector<int>>& board, int row, int col) {
+        -:   10:    // 检查行是否有重复数字
+  1750039:   11:    for (int j = 0; j < BOARD_SIZE; j++) {
+   272027:   11-block  0
+  1478012:   11-block  1
+  1750039:   11-block  2
+branch  0 taken 1637667
+branch  1 taken 112372 (fallthrough)
+  1637667:   12:        if (board[row][j] == tmp) {
+  1637667:   12-block  0
+call    0 returned 1637667
+call    1 returned 1637667
+branch  2 taken 159655 (fallthrough)
+branch  3 taken 1478012
+   159655:   13:            return false;
+   159655:   13-block  0
+        -:   14:        }
+        -:   15:    }
+        -:   16:    // 检查列是否有重复数字
+   739353:   17:    for (int i = 0; i < BOARD_SIZE; i++) {
+   112372:   17-block  0
+   626981:   17-block  1
+   739353:   17-block  2
+branch  0 taken 685459
+branch  1 taken 53894 (fallthrough)
+   685459:   18:        if (board[i][col] == tmp) {
+   685459:   18-block  0
+call    0 returned 685459
+call    1 returned 685459
+branch  2 taken 58478 (fallthrough)
+branch  3 taken 626981
+    58478:   19:            return false;
+    58478:   19-block  0
+        -:   20:        }
+        -:   21:    }
+        -:   22:    // 检查3x3子块内是否有重复数字
+    53894:   23:    int blockRow = (row / 3) * 3;
+    53894:   24:    int blockCol = (col / 3) * 3;
+   161435:   25:    for (int i = 0; i < 3; i++) {
+    53894:   25-block  0
+   107541:   25-block  1
+   161435:   25-block  2
+branch  0 taken 129394
+branch  1 taken 32041 (fallthrough)
+   468545:   26:        for (int j = 0; j < 3; j++) {
+   129394:   26-block  0
+   339151:   26-block  1
+   468545:   26-block  2
+branch  0 taken 361004
+branch  1 taken 107541 (fallthrough)
+   361004:   27:            if (board[blockRow + i][blockCol + j] == tmp) {
+   361004:   27-block  0
+call    0 returned 361004
+call    1 returned 361004
+branch  2 taken 21853 (fallthrough)
+branch  3 taken 339151
+    21853:   28:                return false;
+    21853:   28-block  0
+        -:   29:            }
+        -:   30:        }
+        -:   31:    }
+    32041:   32:    return true;
+    32041:   32-block  0
+        -:   33:}
+        -:   34:
+        -:   35:// 递归生成一轮数独终局
+function _Z13GenerateFinalRSt6vectorIS_IiSaIiEESaIS1_EEii called 37213 returned 100% blocks executed 94%
+    37213:   36:bool GenerateFinal(vector<vector<int>>& board, int row, int col) {
+        -:   37:    //按行生成
+    37213:   38:    if (col == BOARD_SIZE) {
+    37213:   38-block  0
+branch  0 taken 3474 (fallthrough)
+branch  1 taken 33739
+     3474:   39:        col = 0;
+     3474:   40:        row++;
+     3474:   41:        if (row == BOARD_SIZE) {
+     3474:   41-block  0
+branch  0 taken 58 (fallthrough)
+branch  1 taken 3416
+       58:   42:            return true;  // 数独终局生成完成
+       58:   42-block  0
+        -:   43:        }
+        -:   44:    }
+        -:   45:
+    37155:   46:    if (board[row][col] != 0) {
+    37155:   46-block  0
+call    0 returned 37155
+call    1 returned 37155
+branch  2 taken 10875 (fallthrough)
+branch  3 taken 26280
+    10875:   47:        return GenerateFinal(board, row, col + 1);
+    10875:   47-block  0
+call    0 returned 10875
+        -:   48:    }
+        -:   49:
+    26280:   50:    shuffle(origin_line.begin(), origin_line.end(), std::mt19937(std::random_device()()));//随机打乱1~9的顺序排列
+    26280:   50-block  0
+call    0 returned 26280
+call    1 returned 26280
+branch  2 taken 26280 (fallthrough)
+branch  3 taken 0 (throw)
+    26280:   50-block  1
+call    4 returned 26280
+branch  5 taken 26280 (fallthrough)
+branch  6 taken 0 (throw)
+    26280:   50-block  2
+call    7 returned 26280
+call    8 returned 26280
+call    9 returned 26280
+branch 10 taken 26280 (fallthrough)
+branch 11 taken 0 (throw)
+    $$$$$:   50-block  3
+    $$$$$:   50-block  4
+call   12 never executed
+        -:   51:
+   245129:   52:    for (int num : origin_line) {
+    26280:   52-block  0
+call    0 returned 26280
+call    1 returned 26280
+   221695:   52-block  1
+call    2 returned 221695
+   218849:   52-block  2
+call    3 returned 218849
+   245129:   52-block  3
+call    4 returned 245129
+branch  5 taken 221695
+branch  6 taken 23434 (fallthrough)
+   221695:   53:        if (IsLegal(num, board, row, col)) {
+call    0 returned 221695
+branch  1 taken 26280 (fallthrough)
+branch  2 taken 195415
+    26280:   54:            board[row][col] = num;
+    26280:   54-block  0
+call    0 returned 26280
+call    1 returned 26280
+    26280:   55:            if (GenerateFinal(board, row, col + 1)) {
+call    0 returned 26280
+branch  1 taken 26280 (fallthrough)
+branch  2 taken 0 (throw)
+    26280:   55-block  0
+branch  3 taken 2846 (fallthrough)
+branch  4 taken 23434
+     2846:   56:                return true;
+     2846:   56-block  0
+        -:   57:            }
+    23434:   58:            board[row][col] = 0;
+    23434:   58-block  0
+call    0 returned 23434
+call    1 returned 23434
+        -:   59:        }
+        -:   60:    }
+        -:   61:
+    23434:   62:    return false;
+    23434:   62-block  0
+        -:   63:}
+        -:   64:
+        -:   65:// 打印数独终局
+function _Z10PrintBoardRKSt6vectorIS_IiSaIiEESaIS1_EERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE called 30 returned 100% blocks executed 92%
+       30:   66:void PrintBoard(const vector<vector<int>>& board, const string& output_path) {
+       30:   67:    ofstream fout;
+       30:   67-block  0
+call    0 returned 30
+branch  1 taken 30 (fallthrough)
+branch  2 taken 0 (throw)
+       30:   68:    fout.open(output_path, ios::app);
+       30:   68-block  0
+call    0 returned 30
+branch  1 taken 30 (fallthrough)
+branch  2 taken 0 (throw)
+      300:   69:    for (int row = 0; row < BOARD_SIZE; row++) {
+       30:   69-block  0
+      270:   69-block  1
+      300:   69-block  2
+branch  0 taken 270
+branch  1 taken 30 (fallthrough)
+     2700:   70:        for (int col = 0; col < BOARD_SIZE; col++) {
+      270:   70-block  0
+     2430:   70-block  1
+     2700:   70-block  2
+branch  0 taken 2430
+branch  1 taken 270 (fallthrough)
+     2430:   71:            if (board[row][col] == 0)
+     2430:   71-block  0
+call    0 returned 2430
+call    1 returned 2430
+branch  2 taken 705 (fallthrough)
+branch  3 taken 1725
+      705:   72:                fout << "$" << " "; //空格用$表示
+      705:   72-block  0
+call    0 returned 705
+branch  1 taken 705 (fallthrough)
+branch  2 taken 0 (throw)
+      705:   72-block  1
+call    3 returned 705
+branch  4 taken 705 (fallthrough)
+branch  5 taken 0 (throw)
+        -:   73:            else
+     1725:   74:                fout << board[row][col] << " ";
+     1725:   74-block  0
+call    0 returned 1725
+call    1 returned 1725
+call    2 returned 1725
+branch  3 taken 1725 (fallthrough)
+branch  4 taken 0 (throw)
+     1725:   74-block  1
+call    5 returned 1725
+branch  6 taken 1725 (fallthrough)
+branch  7 taken 0 (throw)
+        -:   75:        }
+      270:   76:        fout << endl;
+      270:   76-block  0
+call    0 returned 270
+branch  1 taken 270 (fallthrough)
+branch  2 taken 0 (throw)
+        -:   77:    }
+       30:   78:    fout.close();
+       30:   78-block  0
+call    0 returned 30
+branch  1 taken 30 (fallthrough)
+branch  2 taken 0 (throw)
+       30:   79:}
+       30:   79-block  0
+call    0 returned 30
+    $$$$$:   79-block  1
+call    1 never executed
+        -:   80:
+        -:   81://根据传入的参数num,生成num轮数独终局
+function _Z14GenerateFinalsRSt6vectorIS_IiSaIiEESaIS1_EEiRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE called 1 returned 100% blocks executed 60%
+        1:   82:void GenerateFinals(vector<vector<int>>& board, int num, const string& output_path) {
+        2:   83:    vector<vector<int>> initial(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+        1:   83-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:   83-block  1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+call    8 returned 1
+call    9 returned 1
+    $$$$$:   83-block  2
+    $$$$$:   83-block  3
+    $$$$$:   83-block  4
+    $$$$$:   83-block  5
+        1:   84:    ofstream fout;
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   85:    fout.open(output_path, ios::app);
+        1:   85-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       11:   86:    for (int i = 0; i < num; i++) {
+        1:   86-block  0
+       10:   86-block  1
+       11:   86-block  2
+branch  0 taken 10
+branch  1 taken 1 (fallthrough)
+       10:   87:        if (GenerateFinal(board, 0, 0)) {
+       10:   87-block  0
+call    0 returned 10
+branch  1 taken 10 (fallthrough)
+branch  2 taken 0 (throw)
+       10:   87-block  1
+branch  3 taken 10 (fallthrough)
+branch  4 taken 0
+       10:   88:            fout << "[" << i + 1 << "]" << endl;
+       10:   88-block  0
+call    0 returned 10
+branch  1 taken 10 (fallthrough)
+branch  2 taken 0 (throw)
+       10:   88-block  1
+call    3 returned 10
+branch  4 taken 10 (fallthrough)
+branch  5 taken 0 (throw)
+       10:   88-block  2
+call    6 returned 10
+branch  7 taken 10 (fallthrough)
+branch  8 taken 0 (throw)
+       10:   88-block  3
+call    9 returned 10
+branch 10 taken 10 (fallthrough)
+branch 11 taken 0 (throw)
+       10:   89:            PrintBoard(board, output_path);
+       10:   89-block  0
+call    0 returned 10
+branch  1 taken 10 (fallthrough)
+branch  2 taken 0 (throw)
+       10:   90:            board = initial;
+       10:   90-block  0
+call    0 returned 10
+branch  1 taken 10 (fallthrough)
+branch  2 taken 0 (throw)
+        -:   91:        }
+        -:   92:        else {
+    #####:   93:            fout << "generate sudoku finals failed!!!" << endl;
+    %%%%%:   93-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:   93-block  1
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+        -:   94:        }
+        -:   95:    }
+        1:   96:    fout.close();
+        1:   96-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   97:}
+        1:   97-block  0
+call    0 returned 1
+call    1 returned 1
+    $$$$$:   97-block  1
+call    2 never executed
+    $$$$$:   97-block  2
+call    3 never executed
+        -:   98:
+        -:   99:// 随机挖掉blank_num个空生成数独游戏
+function _Z9DigBlanksRSt6vectorIS_IiSaIiEESaIS1_EEi called 22 returned 100% blocks executed 100%
+       22:  100:void DigBlanks(vector<vector<int>>& board, int blank_num) {
+      787:  101:    for (int i = 0; i < blank_num; i++) {
+       22:  101-block  0
+      787:  101-block  1
+branch  0 taken 765
+branch  1 taken 22 (fallthrough)
+      765:  102:        int row = (int)e() % BOARD_SIZE;
+      765:  102-block  0
+call    0 returned 765
+      765:  103:        int col = (int)e() % BOARD_SIZE;
+call    0 returned 765
+     1066:  104:        while (board[row][col] == 0) {
+     1066:  104-block  0
+call    0 returned 1066
+call    1 returned 1066
+branch  2 taken 301
+branch  3 taken 765 (fallthrough)
+      301:  105:            row = (int)e() % BOARD_SIZE;
+      301:  105-block  0
+call    0 returned 301
+      301:  106:            col = (int)e() % BOARD_SIZE;
+call    0 returned 301
+        -:  107:        }
+      765:  108:        board[row][col] = 0;
+      765:  108-block  0
+call    0 returned 765
+call    1 returned 765
+        -:  109:    }
+       22:  110:}
+        -:  111:
+        -:  112:// 递归解数独,计算它有多少个解
+function _Z13CountSolutionRSt6vectorIS_IiSaIiEESaIS1_EEiiRi called 2534 returned 100% blocks executed 100%
+     2534:  113:void CountSolution(vector<vector<int>>& board, int row, int col, int& solution) {
+     2534:  114:    if (col == BOARD_SIZE) {
+     2534:  114-block  0
+branch  0 taken 277 (fallthrough)
+branch  1 taken 2257
+      277:  115:        col = 0;
+      277:  116:        row++;
+      277:  117:        if (row == BOARD_SIZE) {
+      277:  117-block  0
+branch  0 taken 30 (fallthrough)
+branch  1 taken 247
+       30:  118:            solution++; // 解的个数
+       30:  119:            return;
+       30:  119-block  0
+        -:  120:        }
+        -:  121:    }
+     2504:  122:    if (board[row][col] != 0) {
+     2504:  122-block  0
+call    0 returned 2504
+call    1 returned 2504
+branch  2 taken 2399 (fallthrough)
+branch  3 taken 105
+     2399:  123:        CountSolution(board, row, col + 1, solution);
+     2399:  123-block  0
+call    0 returned 2399
+     2399:  124:        return;
+        -:  125:    }
+     1050:  126:    for (int num = 1; num <= BOARD_SIZE; num++) {
+      105:  126-block  0
+      945:  126-block  1
+     1050:  126-block  2
+branch  0 taken 945
+branch  1 taken 105 (fallthrough)
+      945:  127:        if (IsLegal(num, board, row, col)) {
+      945:  127-block  0
+call    0 returned 945
+branch  1 taken 106 (fallthrough)
+branch  2 taken 839
+      106:  128:            board[row][col] = num;
+      106:  128-block  0
+call    0 returned 106
+call    1 returned 106
+      106:  129:            CountSolution(board, row, col + 1, solution);
+call    0 returned 106
+      106:  130:            board[row][col] = 0;
+call    0 returned 106
+call    1 returned 106
+        -:  131:        }
+        -:  132:    }
+        -:  133:}
+        -:  134:
+function _Z14SearchUnsolvedSt6vectorIS_IiSaIiEESaIS1_EERiS4_ called 5668 returned 100% blocks executed 100%
+     5668:  135:bool SearchUnsolved(vector<vector<int>> board, int& row, int& col) {
+    26490:  136:    for (row = 0; row < BOARD_SIZE; row++) {
+     5668:  136-block  0
+    20822:  136-block  1
+    26490:  136-block  2
+branch  0 taken 26477
+branch  1 taken 13 (fallthrough)
+   244263:  137:        for (col = 0; col < BOARD_SIZE; col++) {
+    26477:  137-block  0
+   217786:  137-block  1
+   244263:  137-block  2
+branch  0 taken 223441
+branch  1 taken 20822 (fallthrough)
+   223441:  138:            if (board[row][col] == 0) {
+   223441:  138-block  0
+call    0 returned 223441
+call    1 returned 223441
+branch  2 taken 5655 (fallthrough)
+branch  3 taken 217786
+     5655:  139:                return true;
+     5655:  139-block  0
+        -:  140:            }
+        -:  141:        }
+        -:  142:    }
+       13:  143:    return false;
+       13:  143-block  0
+        -:  144:}
+function _Z11SolveSudokuRSt6vectorIS_IiSaIiEESaIS1_EE called 5666 returned 100% blocks executed 100%
+     5666:  145:bool SolveSudoku(vector<vector<int>>& board) {
+        -:  146:    int row, col;
+     5666:  147:    if (!SearchUnsolved(board, row, col)) {
+     5666:  147-block  0
+call    0 returned 5666
+branch  1 taken 5666 (fallthrough)
+branch  2 taken 0 (throw)
+     5666:  147-block  1
+call    3 returned 5666
+call    4 returned 5666
+branch  5 taken 12 (fallthrough)
+branch  6 taken 5654
+       12:  148:        return true; // 数独已解决
+       12:  148-block  0
+        -:  149:    }
+        -:  150:
+    54661:  151:    for (int num = 1; num <= BOARD_SIZE; num++) {
+     5654:  151-block  0
+    49007:  151-block  1
+    54661:  151-block  2
+branch  0 taken 49383
+branch  1 taken 5278 (fallthrough)
+    49383:  152:        if (IsLegal(num, board, row, col)) {
+    49383:  152-block  0
+call    0 returned 49383
+branch  1 taken 5654 (fallthrough)
+branch  2 taken 43729
+     5654:  153:            board[row][col] = num;
+     5654:  153-block  0
+call    0 returned 5654
+call    1 returned 5654
+        -:  154:
+     5654:  155:            if (SolveSudoku(board)) {
+call    0 returned 5654
+branch  1 taken 5654 (fallthrough)
+branch  2 taken 0 (throw)
+     5654:  155-block  0
+branch  3 taken 376 (fallthrough)
+branch  4 taken 5278
+      376:  156:                return true;
+      376:  156-block  0
+        -:  157:            }
+     5278:  158:            board[row][col] = 0; // 回溯
+     5278:  158-block  0
+call    0 returned 5278
+call    1 returned 5278
+        -:  159:
+        -:  160:        }
+        -:  161:    }
+     5278:  162:    return false; // 无解
+     5278:  162-block  0
+        -:  163:}
+        -:  164:
+        -:  165://生成唯一解数独游戏
+function _Z13DigBlanksOnlyRSt6vectorIS_IiSaIiEESaIS1_EEi called 2 returned 100% blocks executed 82%
+        2:  166:void DigBlanksOnly(vector<vector<int>>& board, int blank_num) {
+       27:  167:    for (int i = 0; i < blank_num; i++) {
+        2:  167-block  0
+       27:  167-block  1
+branch  0 taken 25
+branch  1 taken 2 (fallthrough)
+       25:  168:        int row = (int)e() % BOARD_SIZE;
+       25:  168-block  0
+call    0 returned 25
+branch  1 taken 25 (fallthrough)
+branch  2 taken 0 (throw)
+       25:  169:        int col = (int)e() % BOARD_SIZE;
+       25:  169-block  0
+call    0 returned 25
+branch  1 taken 25 (fallthrough)
+branch  2 taken 0 (throw)
+       34:  170:        while (board[row][col] == 0) {
+       25:  170-block  0
+       34:  170-block  1
+call    0 returned 34
+call    1 returned 34
+branch  2 taken 9
+branch  3 taken 25 (fallthrough)
+        9:  171:            row = (int)e() % BOARD_SIZE;
+        9:  171-block  0
+call    0 returned 9
+branch  1 taken 9 (fallthrough)
+branch  2 taken 0 (throw)
+        9:  172:            col = (int)e() % BOARD_SIZE;
+        9:  172-block  0
+call    0 returned 9
+branch  1 taken 9 (fallthrough)
+branch  2 taken 0 (throw)
+        9:  172-block  1
+        -:  173:        }
+       25:  174:        int temp = board[row][col];
+       25:  174-block  0
+call    0 returned 25
+call    1 returned 25
+       25:  175:        board[row][col] = 0;
+call    0 returned 25
+call    1 returned 25
+        -:  176:
+        -:  177:        // 检查唯一解
+       25:  178:        int count = 0;
+       25:  179:        vector<vector<int>> tempBoard = board;
+call    0 returned 25
+branch  1 taken 25 (fallthrough)
+branch  2 taken 0 (throw)
+       25:  180:        GenerateFinal(tempBoard, 0, 0);
+       25:  180-block  0
+call    0 returned 25
+branch  1 taken 25 (fallthrough)
+branch  2 taken 0 (throw)
+       25:  181:        CountSolution(tempBoard, 0, 0, count);
+       25:  181-block  0
+call    0 returned 25
+branch  1 taken 25 (fallthrough)
+branch  2 taken 0 (throw)
+       25:  182:        if (count != 1) {
+       25:  182-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 25
+    #####:  183:            board[row][col] = temp;
+    %%%%%:  183-block  0
+call    0 never executed
+call    1 never executed
+        -:  184:        }
+       25:  185:    }
+       25:  185-block  0
+call    0 returned 25
+    $$$$$:  185-block  1
+call    1 never executed
+        2:  186:}
+        2:  186-block  0
+        -:  187:
+        -:  188://从指定文件路径中读入数独，求解，再写回到存储求解结果的文件
+function _Z12LoadAndSolveRSt6vectorIS_IiSaIiEESaIS1_EEPcRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE called 2 returned 100% blocks executed 84%
+        2:  189:void LoadAndSolve(vector<vector<int>>& board,char* input_path, const string& output_path) {
+        2:  190:    ifstream in_file(input_path);
+        2:  190-block  0
+call    0 returned 2
+branch  1 taken 2 (fallthrough)
+branch  2 taken 0 (throw)
+        2:  191:    ofstream out_file(output_path);
+        2:  191-block  0
+call    0 returned 2
+branch  1 taken 2 (fallthrough)
+branch  2 taken 0 (throw)
+        2:  192:    if (!in_file) {
+        2:  192-block  0
+call    0 returned 2
+branch  1 taken 2 (fallthrough)
+branch  2 taken 0 (throw)
+        2:  192-block  1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 1
+        1:  193:        cerr << "Failed to open input file!" << endl;
+        1:  193-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  193-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:  194:        return;
+        1:  194-block  0
+        -:  195:    }
+        1:  196:    if (!out_file) {
+        1:  196-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  196-block  1
+branch  3 taken 0 (fallthrough)
+branch  4 taken 1
+    #####:  197:        cerr << "Failed to open output file！" << endl;
+    %%%%%:  197-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  197-block  1
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+    #####:  198:        return;
+    %%%%%:  198-block  0
+        -:  199:    }
+        1:  200:    string str, temp;
+        1:  200-block  0
+call    0 returned 1
+call    1 returned 1
+        -:  201:    int no;
+       11:  202:    while (in_file >> str) {
+       11:  202-block  0
+call    0 returned 11
+branch  1 taken 11 (fallthrough)
+branch  2 taken 0 (throw)
+       11:  202-block  1
+call    3 returned 11
+branch  4 taken 11 (fallthrough)
+branch  5 taken 0 (throw)
+       11:  202-block  2
+branch  6 taken 10
+branch  7 taken 1 (fallthrough)
+       10:  203:        str = str.substr(1, str.length() - 2);
+       10:  203-block  0
+call    0 returned 10
+call    1 returned 10
+branch  2 taken 10 (fallthrough)
+branch  3 taken 0 (throw)
+       10:  203-block  1
+call    4 returned 10
+call    5 returned 10
+       10:  204:        no = stoi(str);
+call    0 returned 10
+branch  1 taken 10 (fallthrough)
+branch  2 taken 0 (throw)
+      100:  205:        for (int i = 0; i < BOARD_SIZE; i++) {
+       10:  205-block  0
+       90:  205-block  1
+      100:  205-block  2
+branch  0 taken 90
+branch  1 taken 10 (fallthrough)
+      900:  206:            for (int j = 0; j < BOARD_SIZE; j++) {
+       90:  206-block  0
+      810:  206-block  1
+      900:  206-block  2
+branch  0 taken 810
+branch  1 taken 90 (fallthrough)
+      810:  207:                in_file >> temp;
+      810:  207-block  0
+call    0 returned 810
+branch  1 taken 810 (fallthrough)
+branch  2 taken 0 (throw)
+      810:  208:                if (temp == "$")board[i][j] = 0;
+      810:  208-block  0
+call    0 returned 810
+branch  1 taken 303 (fallthrough)
+branch  2 taken 507
+      303:  208-block  1
+call    3 returned 303
+call    4 returned 303
+      507:  209:                else board[i][j] = stoi(temp);
+      507:  209-block  0
+call    0 returned 507
+branch  1 taken 507 (fallthrough)
+branch  2 taken 0 (throw)
+      507:  209-block  1
+call    3 returned 507
+call    4 returned 507
+        -:  210:            }
+        -:  211:        }
+       10:  212:        if (SolveSudoku(board)) {
+       10:  212-block  0
+call    0 returned 10
+branch  1 taken 10 (fallthrough)
+branch  2 taken 0 (throw)
+       10:  212-block  1
+branch  3 taken 10 (fallthrough)
+branch  4 taken 0
+       10:  213:            out_file << "[" << no << "]" << endl;
+       10:  213-block  0
+call    0 returned 10
+branch  1 taken 10 (fallthrough)
+branch  2 taken 0 (throw)
+       10:  213-block  1
+call    3 returned 10
+branch  4 taken 10 (fallthrough)
+branch  5 taken 0 (throw)
+       10:  213-block  2
+call    6 returned 10
+branch  7 taken 10 (fallthrough)
+branch  8 taken 0 (throw)
+       10:  213-block  3
+call    9 returned 10
+branch 10 taken 10 (fallthrough)
+branch 11 taken 0 (throw)
+      100:  214:            for (int i = 0; i < BOARD_SIZE; i++) {
+       10:  214-block  0
+       90:  214-block  1
+      100:  214-block  2
+branch  0 taken 90
+branch  1 taken 10
+      900:  215:                for (int j = 0; j < BOARD_SIZE; j++) {
+       90:  215-block  0
+      810:  215-block  1
+      900:  215-block  2
+branch  0 taken 810
+branch  1 taken 90 (fallthrough)
+      810:  216:                    out_file << board[i][j] << " ";
+      810:  216-block  0
+call    0 returned 810
+call    1 returned 810
+call    2 returned 810
+branch  3 taken 810 (fallthrough)
+branch  4 taken 0 (throw)
+      810:  216-block  1
+call    5 returned 810
+branch  6 taken 810 (fallthrough)
+branch  7 taken 0 (throw)
+        -:  217:                }
+       90:  218:                out_file << endl;
+       90:  218-block  0
+call    0 returned 90
+branch  1 taken 90 (fallthrough)
+branch  2 taken 0 (throw)
+        -:  219:            }
+        -:  220:        }
+        -:  221:        else {
+    #####:  222:            out_file << "No solution!!!" << endl;
+    %%%%%:  222-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  222-block  1
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+        -:  223:        }
+        -:  224:    }
+        1:  225:    in_file.close();
+        1:  225-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  226:    out_file.close();
+        1:  226-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        3:  227:}
+        1:  227-block  0
+call    0 returned 1
+call    1 returned 1
+        2:  227-block  1
+call    2 returned 2
+branch  3 taken 1 (fallthrough)
+branch  4 taken 1
+        1:  227-block  2
+        2:  227-block  3
+call    5 returned 2
+branch  6 taken 1 (fallthrough)
+branch  7 taken 1
+    $$$$$:  227-block  4
+call    8 never executed
+    $$$$$:  227-block  5
+call    9 never executed
+    $$$$$:  227-block  6
+call   10 never executed
+    $$$$$:  227-block  7
+call   11 never executed
+        -:  228:
+        -:  229://判断范围是否在[lower，higher]
+function _Z10JudgeRangeiii called 17 returned 100% blocks executed 100%
+       17:  230:bool JudgeRange(int lower, int higher,int num) {
+       17:  231:    if (num < lower || num > higher || lower > higher) {
+       17:  231-block  0
+branch  0 taken 15 (fallthrough)
+branch  1 taken 2
+       15:  231-block  1
+branch  2 taken 10 (fallthrough)
+branch  3 taken 5
+       10:  231-block  2
+branch  4 taken 0 (fallthrough)
+branch  5 taken 10
+        7:  232:        return true;
+        7:  232-block  0
+        -:  233:    }
+       10:  234:    return false;
+       10:  234-block  0
+        -:  235:}
+        -:  236:
+        -:  237:// 检查输入参数
+function _Z16ParameterHandlerPPc called 18 returned 100% blocks executed 49%
+       18:  238:bool ParameterHandler(char* argv[]) {
+       18:  239:    const char* final_file = "./finals.txt";//存终局的文件
+       18:  240:    const char* puzzle_file = "./puzzle.txt";//存游戏的文件
+       18:  241:    const char* answer = "./sudoku.txt";//存解答的文件
+        -:  242:
+       36:  243:    vector<vector<int>> board(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+       18:  243-block  0
+call    0 returned 18
+call    1 returned 18
+call    2 returned 18
+branch  3 taken 18 (fallthrough)
+branch  4 taken 0 (throw)
+       18:  243-block  1
+call    5 returned 18
+branch  6 taken 18 (fallthrough)
+branch  7 taken 0 (throw)
+call    8 returned 18
+call    9 returned 18
+    $$$$$:  243-block  2
+    $$$$$:  243-block  3
+    $$$$$:  243-block  4
+    $$$$$:  243-block  5
+       36:  244:    vector<vector<int>> zero(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+call    0 returned 18
+call    1 returned 18
+call    2 returned 18
+branch  3 taken 18 (fallthrough)
+branch  4 taken 0 (throw)
+       18:  244-block  0
+call    5 returned 18
+branch  6 taken 18 (fallthrough)
+branch  7 taken 0 (throw)
+call    8 returned 18
+call    9 returned 18
+    $$$$$:  244-block  1
+    $$$$$:  244-block  2
+    $$$$$:  244-block  3
+    $$$$$:  244-block  4
+        -:  245:    FILE* stream;
+       18:  246:    if (argv[1] == nullptr) {
+branch  0 taken 1 (fallthrough)
+branch  1 taken 17
+        1:  247:        cout << "Please enter parameters......" << endl;
+        1:  247-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  247-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:  248:        return false;
+        1:  248-block  0
+        -:  249:    }
+       17:  250:    else if (strcmp(argv[1], "-c") == 0){
+       17:  250-block  0
+branch  0 taken 3 (fallthrough)
+branch  1 taken 14
+        3:  251:        if (argv[2] == nullptr) {
+        3:  251-block  0
+branch  0 taken 1 (fallthrough)
+branch  1 taken 2
+        1:  252:            cout << "Please enter the final rounds after parameter <-c> " << endl;
+        1:  252-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  252-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:  253:            return false;
+        1:  253-block  0
+        -:  254:        }
+        2:  255:        int final_round = strtol(argv[2], nullptr, 10);
+        2:  255-block  0
+call    0 returned 2
+        2:  256:        if (JudgeRange(1,1000000,final_round)) {
+call    0 returned 2
+branch  1 taken 1 (fallthrough)
+branch  2 taken 1
+        1:  257:            cout << "Parameter <-c> out of boundary!!! Recommended boundary:1~1000000" << endl;
+        1:  257-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  257-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:  258:            return false;
+        1:  258-block  0
+        -:  259:        }
+        1:  260:        GenerateFinals(board, final_round, final_file);
+        1:  260-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:  260-block  1
+call    4 returned 1
+branch  5 taken 1 (fallthrough)
+branch  6 taken 0 (throw)
+        1:  260-block  2
+call    7 returned 1
+call    8 returned 1
+    $$$$$:  260-block  3
+call    9 never executed
+    $$$$$:  260-block  4
+    $$$$$:  260-block  5
+call   10 never executed
+    $$$$$:  260-block  6
+        -:  261:    }
+       14:  262:    else if (strcmp(argv[1], "-s") == 0) {
+       14:  262-block  0
+branch  0 taken 3 (fallthrough)
+branch  1 taken 11
+        3:  263:        if (argv[2] == nullptr) {
+        3:  263-block  0
+branch  0 taken 1 (fallthrough)
+branch  1 taken 2
+        1:  264:            cout << "Please enter the file path after parameter <-s>" << endl;
+        1:  264-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  264-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:  265:            return false;
+        1:  265-block  0
+        -:  266:        }
+        2:  267:        char* input_path = argv[2];
+        2:  268:        LoadAndSolve(board, input_path, answer);
+        2:  268-block  0
+call    0 returned 2
+call    1 returned 2
+branch  2 taken 2 (fallthrough)
+branch  3 taken 0 (throw)
+        2:  268-block  1
+call    4 returned 2
+branch  5 taken 2 (fallthrough)
+branch  6 taken 0 (throw)
+        2:  268-block  2
+call    7 returned 2
+call    8 returned 2
+    $$$$$:  268-block  3
+call    9 never executed
+    $$$$$:  268-block  4
+    $$$$$:  268-block  5
+call   10 never executed
+    $$$$$:  268-block  6
+        -:  269:    }
+       11:  270:    else if (strcmp(argv[1], "-n") == 0) {
+       11:  270-block  0
+branch  0 taken 10 (fallthrough)
+branch  1 taken 1
+       10:  271:        if (argv[2] == nullptr) {
+       10:  271-block  0
+branch  0 taken 1 (fallthrough)
+branch  1 taken 9
+        1:  272:            cout << "Please enter the game rounds you want to generate after parameter <-n>" << endl;
+        1:  272-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  272-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:  273:            return false;
+        1:  273-block  0
+        -:  274:        }
+        9:  275:        int game_round = strtol(argv[2], nullptr, 10);
+        9:  275-block  0
+call    0 returned 9
+        9:  276:        if (JudgeRange(1,10000,game_round)) {
+call    0 returned 9
+branch  1 taken 2 (fallthrough)
+branch  2 taken 7
+        2:  277:            cout << "Parameter <-n> out of boundary!!! Recommended boundary:1~10000" << endl;
+        2:  277-block  0
+call    0 returned 2
+branch  1 taken 2 (fallthrough)
+branch  2 taken 0 (throw)
+        2:  277-block  1
+call    3 returned 2
+branch  4 taken 2 (fallthrough)
+branch  5 taken 0 (throw)
+        2:  278:            return false;
+        2:  278-block  0
+        -:  279:        }
+        7:  280:        if (strcmp(argv[3], "-m") == 0) {
+        7:  280-block  0
+branch  0 taken 3 (fallthrough)
+branch  1 taken 4
+        3:  281:            if (argv[4] == nullptr) {
+        3:  281-block  0
+branch  0 taken 1 (fallthrough)
+branch  1 taken 2
+        1:  282:                cout << "Please enter the difficulty level after parameter <-m>" << endl;
+        1:  282-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  282-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        2:  283:                return false;
+        1:  283-block  0
+        2:  283-block  1
+        -:  284:            }
+        2:  285:            int level = strtol(argv[4], nullptr, 10);
+        2:  285-block  0
+call    0 returned 2
+        2:  286:            if (JudgeRange(1,3,level)) {
+call    0 returned 2
+branch  1 taken 1 (fallthrough)
+branch  2 taken 1
+        1:  287:                cout << "Parameter <-m> out of boundary!!! Recommended boundary:1~3" << endl;
+        1:  287-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  287-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:  288:                return false;
+        1:  288-block  0
+        -:  289:            }
+        -:  290:            //数独难度这里用挖空数量的多少来简单区分，我们简单认为挖空越多难度就越高
+        -:  291:            //比如这里我们认为挖[10,29]是简单，[30,49]是中等，[50,59]是困难
+        1:  292:            ofstream fclear;
+        1:  292-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  293:            fclear.open(puzzle_file, ios::trunc);
+        1:  293-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  294:            fclear.close();
+        1:  294-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  295:            ofstream fout;
+        1:  295-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  296:            fout.open(puzzle_file, ios::app);
+        1:  296-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       11:  297:            for (int i = 0; i < game_round; i++) {
+        1:  297-block  0
+       10:  297-block  1
+       11:  297-block  2
+branch  0 taken 10
+branch  1 taken 1 (fallthrough)
+       10:  298:                int rand_num = 0;
+       10:  299:                switch (level) {
+       10:  299-block  0
+branch  0 taken 0
+branch  1 taken 10
+branch  2 taken 0
+branch  3 taken 0
+    #####:  300:                    case 1:
+    #####:  301:                        rand_num = 10 + (int)e() % 20;
+    %%%%%:  301-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  302:                        break;
+    %%%%%:  302-block  0
+       10:  303:                    case 2:
+       10:  304:                        rand_num = 30 + (int)e() % 20;
+       10:  304-block  0
+call    0 returned 10
+branch  1 taken 10 (fallthrough)
+branch  2 taken 0 (throw)
+       10:  305:                        break;
+       10:  305-block  0
+    #####:  306:                    case 3:
+    #####:  307:                        rand_num = 50 + (int)e() % 10;
+    %%%%%:  307-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  308:                        break;
+    %%%%%:  308-block  0
+       10:  309:                    default:;
+        -:  310:                }
+       10:  311:                if (GenerateFinal(board, 0, 0)) {
+       10:  311-block  0
+call    0 returned 10
+branch  1 taken 10 (fallthrough)
+branch  2 taken 0 (throw)
+       10:  311-block  1
+branch  3 taken 10 (fallthrough)
+branch  4 taken 0
+       10:  312:                    fout << "[" << i + 1 << "]" << endl;
+       10:  312-block  0
+call    0 returned 10
+branch  1 taken 10 (fallthrough)
+branch  2 taken 0 (throw)
+       10:  312-block  1
+call    3 returned 10
+branch  4 taken 10 (fallthrough)
+branch  5 taken 0 (throw)
+       10:  312-block  2
+call    6 returned 10
+branch  7 taken 10 (fallthrough)
+branch  8 taken 0 (throw)
+       10:  312-block  3
+call    9 returned 10
+branch 10 taken 10 (fallthrough)
+branch 11 taken 0 (throw)
+       10:  313:                    DigBlanks(board, rand_num); //随机挖去seed个空格
+       10:  313-block  0
+call    0 returned 10
+branch  1 taken 10 (fallthrough)
+branch  2 taken 0 (throw)
+       10:  314:                    PrintBoard(board, puzzle_file);
+       10:  314-block  0
+call    0 returned 10
+call    1 returned 10
+branch  2 taken 10 (fallthrough)
+branch  3 taken 0 (throw)
+       10:  314-block  1
+call    4 returned 10
+branch  5 taken 10 (fallthrough)
+branch  6 taken 0 (throw)
+       10:  314-block  2
+call    7 returned 10
+call    8 returned 10
+    $$$$$:  314-block  3
+call    9 never executed
+    $$$$$:  314-block  4
+    $$$$$:  314-block  5
+call   10 never executed
+    $$$$$:  314-block  6
+       10:  315:                    board = zero;
+call    0 returned 10
+branch  1 taken 10 (fallthrough)
+branch  2 taken 0 (throw)
+        -:  316:                }
+        -:  317:                else {
+    #####:  318:                    fout << "Generate failed!" << endl;
+    %%%%%:  318-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  318-block  1
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+        -:  319:                }
+        -:  320:            }
+        1:  321:            fout.close();
+        1:  321-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  322:        }
+        1:  322-block  0
+call    0 returned 1
+call    1 returned 1
+    $$$$$:  322-block  1
+call    2 never executed
+    $$$$$:  322-block  2
+call    3 never executed
+        4:  323:        else if (strcmp(argv[3], "-r") == 0) {
+        4:  323-block  0
+branch  0 taken 4 (fallthrough)
+branch  1 taken 0
+        4:  324:            if (argv[4] == nullptr) {
+        4:  324-block  0
+branch  0 taken 1 (fallthrough)
+branch  1 taken 3
+        1:  325:                cout << "Please enter a boundary after parameter <-r>" << endl;
+        1:  325-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  325-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        3:  326:                return false;
+        1:  326-block  0
+        3:  326-block  1
+        -:  327:            }
+        -:  328:            // 拆分字符串
+        -:  329:            char range[6];
+        3:  330:            strcpy(range, argv[4]);
+        3:  331:            char* p = strtok(range, "~");
+        3:  331-block  0
+call    0 returned 3
+        3:  332:            int min_num = 0, max_num = 0;
+        3:  333:            sscanf_s(p, "%d", &min_num);
+call    0 returned 3
+branch  1 taken 3 (fallthrough)
+branch  2 taken 0 (throw)
+        3:  334:            p = strtok(nullptr, "~");
+        3:  334-block  0
+call    0 returned 3
+        3:  335:            sscanf_s(p, "%d", &max_num);
+call    0 returned 3
+branch  1 taken 3 (fallthrough)
+branch  2 taken 0 (throw)
+        3:  336:            if (min_num < 20 || max_num > 55 || max_num < min_num) {
+        3:  336-block  0
+branch  0 taken 2 (fallthrough)
+branch  1 taken 1
+        2:  336-block  1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 1
+        1:  336-block  2
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+        2:  337:                cout << "Parameter <-r> out of boundary!!! Recommended boundary:20~55" << endl;
+        2:  337-block  0
+call    0 returned 2
+branch  1 taken 2 (fallthrough)
+branch  2 taken 0 (throw)
+        2:  337-block  1
+call    3 returned 2
+branch  4 taken 2 (fallthrough)
+branch  5 taken 0 (throw)
+        2:  338:                return false;
+        2:  338-block  0
+        -:  339:            }
+        1:  340:            ofstream fclear;
+        1:  340-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  341:            fclear.open(puzzle_file, ios::trunc);
+        1:  341-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  342:            fclear.close();
+        1:  342-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  343:            ofstream fout;
+        1:  343-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  344:            fout.open(puzzle_file, ios::app);
+        1:  344-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       11:  345:            for (int i = 0; i < game_round; i++) {
+        1:  345-block  0
+       10:  345-block  1
+       11:  345-block  2
+branch  0 taken 10
+branch  1 taken 1 (fallthrough)
+       10:  346:                int seed = min_num + (int)e() % (max_num - min_num + 1);
+       10:  346-block  0
+call    0 returned 10
+branch  1 taken 10 (fallthrough)
+branch  2 taken 0 (throw)
+       10:  347:                if (GenerateFinal(board, 0, 0)) {
+       10:  347-block  0
+call    0 returned 10
+branch  1 taken 10 (fallthrough)
+branch  2 taken 0 (throw)
+       10:  347-block  1
+branch  3 taken 10 (fallthrough)
+branch  4 taken 0
+       10:  348:                    fout << "[" << i + 1 << "]" << endl;
+       10:  348-block  0
+call    0 returned 10
+branch  1 taken 10 (fallthrough)
+branch  2 taken 0 (throw)
+       10:  348-block  1
+call    3 returned 10
+branch  4 taken 10 (fallthrough)
+branch  5 taken 0 (throw)
+       10:  348-block  2
+call    6 returned 10
+branch  7 taken 10 (fallthrough)
+branch  8 taken 0 (throw)
+       10:  348-block  3
+call    9 returned 10
+branch 10 taken 10 (fallthrough)
+branch 11 taken 0 (throw)
+       10:  349:                    DigBlanks(board, seed);
+       10:  349-block  0
+call    0 returned 10
+branch  1 taken 10 (fallthrough)
+branch  2 taken 0 (throw)
+       10:  350:                    PrintBoard(board, puzzle_file);
+       10:  350-block  0
+call    0 returned 10
+call    1 returned 10
+branch  2 taken 10 (fallthrough)
+branch  3 taken 0 (throw)
+       10:  350-block  1
+call    4 returned 10
+branch  5 taken 10 (fallthrough)
+branch  6 taken 0 (throw)
+       10:  350-block  2
+call    7 returned 10
+call    8 returned 10
+    $$$$$:  350-block  3
+call    9 never executed
+    $$$$$:  350-block  4
+    $$$$$:  350-block  5
+call   10 never executed
+    $$$$$:  350-block  6
+       10:  351:                    board = zero;
+call    0 returned 10
+branch  1 taken 10 (fallthrough)
+branch  2 taken 0 (throw)
+        -:  352:                }
+        -:  353:                else {
+    #####:  354:                    fout << "Generate failed!" << endl;
+    %%%%%:  354-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  354-block  1
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+        -:  355:                }
+        -:  356:            }
+        1:  357:            fout.close();
+        1:  357-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  358:        }
+        1:  358-block  0
+call    0 returned 1
+call    1 returned 1
+    $$$$$:  358-block  1
+call    2 never executed
+    $$$$$:  358-block  2
+call    3 never executed
+    #####:  359:        else if (strcmp(argv[3], "-u") == 0) {
+    %%%%%:  359-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  360:            ofstream fclear;
+    %%%%%:  360-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  361:            fclear.open(puzzle_file, ios::trunc);
+    %%%%%:  361-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  362:            fclear.close();
+    %%%%%:  362-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  363:            ofstream fout;
+    %%%%%:  363-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  364:            fout.open(puzzle_file, ios::app);
+    %%%%%:  364-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  365:            for (int i = 0; i < game_round; i++) {
+    %%%%%:  365-block  0
+    %%%%%:  365-block  1
+    %%%%%:  365-block  2
+branch  0 never executed
+branch  1 never executed
+    #####:  366:                int random_num = 1 + (int)e() % 20;
+    %%%%%:  366-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  367:                if (GenerateFinal(board, 0, 0)) {
+    %%%%%:  367-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  367-block  1
+branch  3 never executed
+branch  4 never executed
+    #####:  368:                    fout << "[" << i + 1 << "]" << endl;
+    %%%%%:  368-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  368-block  1
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+    %%%%%:  368-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  368-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    #####:  369:                    DigBlanksOnly(board, random_num); //这里少挖一点空，挖的少唯一解概率高，随机挖去1~20个空格, 若没有唯一解则回填
+    %%%%%:  369-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  370:                    PrintBoard(board, puzzle_file);
+    %%%%%:  370-block  0
+call    0 never executed
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+    %%%%%:  370-block  1
+call    4 never executed
+branch  5 never executed
+branch  6 never executed
+    %%%%%:  370-block  2
+call    7 never executed
+call    8 never executed
+    $$$$$:  370-block  3
+call    9 never executed
+    $$$$$:  370-block  4
+    $$$$$:  370-block  5
+call   10 never executed
+    $$$$$:  370-block  6
+    #####:  371:                    board = zero;
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:  372:                }
+        -:  373:                else {
+    #####:  374:                    fout << "Generate failed!" << endl;
+    %%%%%:  374-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  374-block  1
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+        -:  375:                }
+        -:  376:            }
+    #####:  377:            fout.close();
+    %%%%%:  377-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  378:        }
+    %%%%%:  378-block  0
+call    0 never executed
+call    1 never executed
+    $$$$$:  378-block  1
+call    2 never executed
+    $$$$$:  378-block  2
+call    3 never executed
+    #####:  379:        else if (argv[3] != nullptr) {
+    %%%%%:  379-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  380:            cout << "Invalid command!!! Please follow the guidelines to input!!!" << endl;
+    %%%%%:  380-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  380-block  1
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+    #####:  381:            return false;
+    %%%%%:  381-block  0
+        -:  382:        }
+        -:  383:        else {//命令中只包含-n和轮数，没用到其他参数
+    #####:  384:            ofstream fclear;
+    %%%%%:  384-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  385:            fclear.open(puzzle_file, ios::trunc);
+    %%%%%:  385-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  386:            fclear.close();
+    %%%%%:  386-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  387:            ofstream fout;
+    %%%%%:  387-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  388:            fout.open(puzzle_file, ios::app);
+    %%%%%:  388-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  389:            for (int i = 0; i < game_round; i++) {
+    %%%%%:  389-block  0
+    %%%%%:  389-block  1
+    %%%%%:  389-block  2
+branch  0 never executed
+branch  1 never executed
+    #####:  390:                if (GenerateFinal(board, 0, 0)) {
+    %%%%%:  390-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  390-block  1
+branch  3 never executed
+branch  4 never executed
+    #####:  391:                    fout << "[" << i + 1 << "]" << endl;
+    %%%%%:  391-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  391-block  1
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+    %%%%%:  391-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  391-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    #####:  392:                    int rand_blank = 20 + (int)e() % 36;
+    %%%%%:  392-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  393:                    DigBlanks(board, rand_blank); //随机挖去20-55个空格
+    %%%%%:  393-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  394:                    PrintBoard(board, puzzle_file);
+    %%%%%:  394-block  0
+call    0 never executed
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+    %%%%%:  394-block  1
+call    4 never executed
+branch  5 never executed
+branch  6 never executed
+    %%%%%:  394-block  2
+call    7 never executed
+call    8 never executed
+    $$$$$:  394-block  3
+call    9 never executed
+    $$$$$:  394-block  4
+    $$$$$:  394-block  5
+call   10 never executed
+    $$$$$:  394-block  6
+    #####:  395:                    board = zero;
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:  396:                }
+        -:  397:                else {
+    #####:  398:                    fout << "Failed to generate" << endl;
+    %%%%%:  398-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  398-block  1
+call    3 never executed
+branch  4 never executed
+branch  5 never executed
+        -:  399:                }
+        -:  400:            }
+    #####:  401:            fout.close();
+    %%%%%:  401-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  402:        }
+    %%%%%:  402-block  0
+call    0 never executed
+call    1 never executed
+    $$$$$:  402-block  1
+call    2 never executed
+    $$$$$:  402-block  2
+call    3 never executed
+        -:  403:    }
+        -:  404:    else {
+        1:  405:        cout << "Invalid command!!! Please follow the guidelines to input!!!" << endl;
+        1:  405-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  405-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:  406:        return false;
+        1:  406-block  0
+        -:  407:    }
+        5:  408:    return true;
+        5:  408-block  0
+       18:  409:}
+       18:  409-block  0
+call    0 returned 18
+call    1 returned 18
+    $$$$$:  409-block  1
+call    2 never executed
+    $$$$$:  409-block  2
+call    3 never executed
+        -:  410:
+        -:  411://int main([[maybe_unused]] int argc, char* argv[]) {
+        -:  412://    ParameterHandler(argv);
+        -:  413://    return 0;
+        -:  414://}

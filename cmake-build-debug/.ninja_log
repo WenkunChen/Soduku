@@ -1,0 +1,15 @@
+# ninja log v5
+6	1129	7097337596324324	CMakeFiles/sudoku.dir/sudoku.cpp.obj	29910342ed381acf
+25	3482	7097445299163421	googletest/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.obj	606b5ebb71a09b83
+1130	1496	7097337599956796	sudoku.exe	4e662db15aa05bf6
+48	1873	7097445283091027	googletest/googlemock/gtest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.obj	450a2c22208c92d3
+1	454	7097451155266533	build.ninja	b9111bfe362c34
+7	1148	7097449011067458	CMakeFiles/MyTest.dir/sudoku.cpp.obj	ade4399d47930ba1
+10	1313	7097447342274271	CMakeFiles/MyTest.dir/test.cpp.obj	293f86a49d5e3927
+36	2400	7097445288368626	googletest/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.obj	8abaf69225218978
+60	6390	7097445328198268	googletest/googlemock/gtest/CMakeFiles/gtest.dir/src/gtest-all.cc.obj	cc485906790375c5
+6395	8193	7097445346322542	googletest/googlemock/gtest/libgtestd.a	48ff8b7aa7e4a374
+8198	8372	7097445348122482	googletest/googlemock/gtest/libgtest_maind.a	4a86dabcf0a3ffde
+8193	8560	7097445349998856	googletest/googlemock/libgmockd.a	d4fbacc1fbe288e1
+8560	8736	7097445351759346	googletest/googlemock/libgmock_maind.a	d37ab6ff1d3557f8
+1149	2636	7097449025918935	MyTest.exe	cf93d7bbcb82fada

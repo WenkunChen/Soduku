@@ -1,0 +1,4189 @@
+        -:    0:Source:D:/IDE/CLion 2023.1.4/workspace/sudoku/test.cpp
+        -:    0:Graph:D:\IDE\CLion 2023.1.4\workspace\sudoku\cmake-build-debug-\CMakeFiles\MyTest.dir\test.cpp.gcno
+        -:    0:Data:D:\IDE\CLion 2023.1.4\workspace\sudoku\cmake-build-debug-\CMakeFiles\MyTest.dir\test.cpp.gcda
+        -:    0:Runs:1
+        -:    1:#include <gtest/gtest.h>
+        -:    2:#include "sudoku.h"
+        -:    3:#include <fstream>
+        -:    4:#include <string>
+        -:    5:
+function _Z12isValidFinalRSt6vectorIS_IiSaIiEESaIS1_EE called 3 returned 100% blocks executed 89%
+        3:    6:bool isValidFinal(vector<vector<int>>& board) {
+        3:    7:    int checkbox[9] = {0};
+        -:    8:    // 按行检查
+       21:    9:    for (int row = 0; row < BOARD_SIZE; row++) {
+        3:    9-block  0
+       21:    9-block  1
+branch  0 taken 19
+branch  1 taken 2 (fallthrough)
+      189:   10:        for (int col = 0; col < BOARD_SIZE; col++) {
+       19:   10-block  0
+      189:   10-block  1
+branch  0 taken 171
+branch  1 taken 18 (fallthrough)
+      171:   11:            int num = board[row][col];
+      171:   11-block  0
+call    0 returned 171
+call    1 returned 171
+        -:   12:            // 出现空位
+      171:   13:            if(num == 0) {
+branch  0 taken 0 (fallthrough)
+branch  1 taken 171
+    #####:   14:                return false;
+    %%%%%:   14-block  0
+        -:   15:            }
+        -:   16:            // 同一行内出现重复数字
+      171:   17:            if(checkbox[num - 1] == 1) {
+      171:   17-block  0
+branch  0 taken 1 (fallthrough)
+branch  1 taken 170
+        1:   18:                return false;
+        1:   18-block  0
+        -:   19:            }
+      170:   20:            checkbox[num - 1] = 1;
+      170:   20-block  0
+        -:   21:        }
+       18:   22:        memset(&checkbox, 0, sizeof(checkbox));
+       18:   22-block  0
+        -:   23:    }
+        -:   24:    // 按列检查
+       20:   25:    for (int col = 0; col < BOARD_SIZE; col++) {
+        2:   25-block  0
+       20:   25-block  1
+branch  0 taken 18
+branch  1 taken 2 (fallthrough)
+      180:   26:        for (int row = 0; row < BOARD_SIZE; row++) {
+       18:   26-block  0
+      180:   26-block  1
+branch  0 taken 162
+branch  1 taken 18 (fallthrough)
+      162:   27:            int num = board[row][col];
+      162:   27-block  0
+call    0 returned 162
+call    1 returned 162
+        -:   28:            // 出现空位
+      162:   29:            if(num == 0) {
+branch  0 taken 0 (fallthrough)
+branch  1 taken 162
+    #####:   30:                return false;
+    %%%%%:   30-block  0
+        -:   31:            }
+        -:   32:            // 同一列内出现重复数字
+      162:   33:            if(checkbox[num - 1] == 1) {
+      162:   33-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 162
+    #####:   34:                return false;
+    %%%%%:   34-block  0
+        -:   35:            }
+      162:   36:            checkbox[num - 1] = 1;
+      162:   36-block  0
+        -:   37:        }
+       18:   38:        memset(&checkbox, 0, sizeof(checkbox));
+       18:   38-block  0
+        -:   39:    }
+        -:   40:    // 按宫格检查
+        8:   41:    for (int blockRow = 0; blockRow < 3; blockRow++) {
+        2:   41-block  0
+        6:   41-block  1
+        8:   41-block  2
+branch  0 taken 6
+branch  1 taken 2 (fallthrough)
+       24:   42:        for (int blockCol = 0; blockCol < 3; blockCol++) {
+        6:   42-block  0
+       24:   42-block  1
+branch  0 taken 18
+branch  1 taken 6 (fallthrough)
+       72:   43:            for (int row = 0; row < 3; row++) {
+       18:   43-block  0
+       54:   43-block  1
+       72:   43-block  2
+branch  0 taken 54
+branch  1 taken 18 (fallthrough)
+      216:   44:                for (int col = 0; col < 3; col++) {
+       54:   44-block  0
+      216:   44-block  1
+branch  0 taken 162
+branch  1 taken 54 (fallthrough)
+      162:   45:                    int num = board[blockRow * 3 + row][blockCol * 3 + col];
+      162:   45-block  0
+call    0 returned 162
+call    1 returned 162
+        -:   46:                    // 出现空位
+      162:   47:                    if(num == 0) {
+branch  0 taken 0 (fallthrough)
+branch  1 taken 162
+    #####:   48:                        return false;
+    %%%%%:   48-block  0
+        -:   49:                    }
+        -:   50:                    // 同一宫内出现重复数字
+      162:   51:                    if(checkbox[num - 1] == 1) {
+      162:   51-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 162
+    #####:   52:                        return false;
+    %%%%%:   52-block  0
+        -:   53:                    }
+      162:   54:                    checkbox[num - 1] = 1;
+      162:   54-block  0
+        -:   55:                }
+        -:   56:            }
+       18:   57:            memset(&checkbox, 0, sizeof(checkbox));
+       18:   57-block  0
+        -:   58:        }
+        -:   59:    }
+        2:   60:    return true;
+        2:   60-block  0
+        -:   61:}
+        -:   62:
+        2:   63:TEST(TestCase, testIsLegal) {
+        2:   64:    vector<vector<int>> board(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+       11:   65:    board = {{0,2,0,8,0,1,7,9,0},
+        -:   66:             {0,0,0,0,0,0,0,0,0},
+        -:   67:             {7,0,5,0,0,0,4,0,0},
+        -:   68:             {0,3,0,0,0,0,0,0,0},
+        -:   69:             {0,0,0,0,0,5,0,6,0},
+        -:   70:             {8,0,7,0,0,9,0,0,2},
+        -:   71:             {0,0,0,0,2,0,0,5,0},
+        -:   72:             {0,0,0,0,0,3,0,8,0},
+        -:   73:             {3,0,2,0,0,0,0,0,9}
+       10:   74:             };
+       1*:   75:    ASSERT_EQ(IsLegal(4, board, 0, 0), true);
+       1*:   76:    ASSERT_EQ(IsLegal(8, board, 0, 0), false);
+       1*:   77:    ASSERT_EQ(IsLegal(3, board, 0, 0), false);
+       1*:   78:    ASSERT_EQ(IsLegal(5, board, 0, 0), false);
+        1:   79:}
+------------------
+_ZN25TestCase_testIsLegal_Test8TestBodyEv:
+function _ZN25TestCase_testIsLegal_Test8TestBodyEv called 1 returned 100% blocks executed 36%
+        1:   63:TEST(TestCase, testIsLegal) {
+        2:   64:    vector<vector<int>> board(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+        1:   64-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:   64-block  1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+call    8 returned 1
+call    9 returned 1
+    $$$$$:   64-block  2
+    $$$$$:   64-block  3
+    $$$$$:   64-block  4
+    $$$$$:   64-block  5
+       11:   65:    board = {{0,2,0,8,0,1,7,9,0},
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   65-block  0
+call    4 returned 1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+        1:   65-block  1
+call    8 returned 1
+call    9 returned 1
+branch 10 taken 1 (fallthrough)
+branch 11 taken 0 (throw)
+        1:   65-block  2
+call   12 returned 1
+call   13 returned 1
+branch 14 taken 1 (fallthrough)
+branch 15 taken 0 (throw)
+        1:   65-block  3
+call   16 returned 1
+call   17 returned 1
+branch 18 taken 1 (fallthrough)
+branch 19 taken 0 (throw)
+        1:   65-block  4
+call   20 returned 1
+call   21 returned 1
+branch 22 taken 1 (fallthrough)
+branch 23 taken 0 (throw)
+        1:   65-block  5
+call   24 returned 1
+call   25 returned 1
+branch 26 taken 1 (fallthrough)
+branch 27 taken 0 (throw)
+        1:   65-block  6
+call   28 returned 1
+call   29 returned 1
+branch 30 taken 1 (fallthrough)
+branch 31 taken 0 (throw)
+        1:   65-block  7
+call   32 returned 1
+call   33 returned 1
+branch 34 taken 1 (fallthrough)
+branch 35 taken 0 (throw)
+       10:   65-block  8
+branch 36 taken 9 (fallthrough)
+branch 37 taken 1
+        1:   65-block  9
+call   38 returned 1
+call   39 returned 1
+call   40 returned 1
+call   41 returned 1
+call   42 returned 1
+call   43 returned 1
+call   44 returned 1
+call   45 returned 1
+call   46 returned 1
+    $$$$$:   65-block 10
+branch 47 never executed
+branch 48 never executed
+    $$$$$:   65-block 11
+    $$$$$:   65-block 12
+call   49 never executed
+    $$$$$:   65-block 13
+    $$$$$:   65-block 14
+    $$$$$:   65-block 15
+call   50 never executed
+    $$$$$:   65-block 16
+    $$$$$:   65-block 17
+    $$$$$:   65-block 18
+call   51 never executed
+    $$$$$:   65-block 19
+    $$$$$:   65-block 20
+    $$$$$:   65-block 21
+call   52 never executed
+    $$$$$:   65-block 22
+    $$$$$:   65-block 23
+    $$$$$:   65-block 24
+call   53 never executed
+    $$$$$:   65-block 25
+    $$$$$:   65-block 26
+    $$$$$:   65-block 27
+call   54 never executed
+    $$$$$:   65-block 28
+    $$$$$:   65-block 29
+    $$$$$:   65-block 30
+call   55 never executed
+    $$$$$:   65-block 31
+    $$$$$:   65-block 32
+    $$$$$:   65-block 33
+call   56 never executed
+    $$$$$:   65-block 34
+    $$$$$:   65-block 35
+    $$$$$:   65-block 36
+call   57 never executed
+    $$$$$:   65-block 37
+    $$$$$:   65-block 38
+        -:   66:             {0,0,0,0,0,0,0,0,0},
+        -:   67:             {7,0,5,0,0,0,4,0,0},
+        -:   68:             {0,3,0,0,0,0,0,0,0},
+        -:   69:             {0,0,0,0,0,5,0,6,0},
+        -:   70:             {8,0,7,0,0,9,0,0,2},
+        -:   71:             {0,0,0,0,2,0,0,5,0},
+        -:   72:             {0,0,0,0,0,3,0,8,0},
+        -:   73:             {3,0,2,0,0,0,0,0,9}
+       10:   74:             };
+        1:   74-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   74-block  1
+        9:   74-block  2
+call    3 returned 9
+    $$$$$:   74-block  3
+    $$$$$:   74-block  4
+call    4 never executed
+       1*:   75:    ASSERT_EQ(IsLegal(4, board, 0, 0), true);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   75-block  0
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:   75-block  1
+call    6 returned 1
+branch  7 taken 0 (fallthrough)
+branch  8 taken 1
+    %%%%%:   75-block  2
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:   75-block  3
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:   75-block  4
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:   75-block  5
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+    %%%%%:   75-block  6
+call   21 never executed
+call   22 never executed
+        1:   75-block  7
+        1:   75-block  8
+call   23 returned 1
+branch 24 taken 1 (fallthrough)
+branch 25 taken 0
+    $$$$$:   75-block  9
+    $$$$$:   75-block 10
+    $$$$$:   75-block 11
+call   26 never executed
+    $$$$$:   75-block 12
+    $$$$$:   75-block 13
+call   27 never executed
+    $$$$$:   75-block 14
+    $$$$$:   75-block 15
+call   28 never executed
+       1*:   76:    ASSERT_EQ(IsLegal(8, board, 0, 0), false);
+        1:   76-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   76-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:   76-block  2
+call    6 returned 1
+branch  7 taken 0 (fallthrough)
+branch  8 taken 1
+    %%%%%:   76-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:   76-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:   76-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:   76-block  6
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+    %%%%%:   76-block  7
+call   21 never executed
+call   22 never executed
+        1:   76-block  8
+        1:   76-block  9
+call   23 returned 1
+branch 24 taken 1 (fallthrough)
+branch 25 taken 0
+    $$$$$:   76-block 10
+    $$$$$:   76-block 11
+    $$$$$:   76-block 12
+call   26 never executed
+    $$$$$:   76-block 13
+    $$$$$:   76-block 14
+call   27 never executed
+    $$$$$:   76-block 15
+    $$$$$:   76-block 16
+call   28 never executed
+       1*:   77:    ASSERT_EQ(IsLegal(3, board, 0, 0), false);
+        1:   77-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   77-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:   77-block  2
+call    6 returned 1
+branch  7 taken 0 (fallthrough)
+branch  8 taken 1
+    %%%%%:   77-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:   77-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:   77-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:   77-block  6
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+    %%%%%:   77-block  7
+call   21 never executed
+call   22 never executed
+        1:   77-block  8
+        1:   77-block  9
+call   23 returned 1
+branch 24 taken 1 (fallthrough)
+branch 25 taken 0
+    $$$$$:   77-block 10
+    $$$$$:   77-block 11
+    $$$$$:   77-block 12
+call   26 never executed
+    $$$$$:   77-block 13
+    $$$$$:   77-block 14
+call   27 never executed
+    $$$$$:   77-block 15
+    $$$$$:   77-block 16
+call   28 never executed
+       1*:   78:    ASSERT_EQ(IsLegal(5, board, 0, 0), false);
+        1:   78-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   78-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:   78-block  2
+call    6 returned 1
+branch  7 taken 0 (fallthrough)
+branch  8 taken 1
+    %%%%%:   78-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:   78-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:   78-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:   78-block  6
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+    %%%%%:   78-block  7
+call   21 never executed
+call   22 never executed
+        1:   78-block  8
+        1:   78-block  9
+call   23 returned 1
+branch 24 taken 1 (fallthrough)
+branch 25 taken 0
+    $$$$$:   78-block 10
+    $$$$$:   78-block 11
+    $$$$$:   78-block 12
+call   26 never executed
+    $$$$$:   78-block 13
+    $$$$$:   78-block 14
+call   27 never executed
+    $$$$$:   78-block 15
+    $$$$$:   78-block 16
+call   28 never executed
+        1:   79:}
+        1:   79-block  0
+        1:   79-block  1
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0
+    $$$$$:   79-block  2
+call    3 never executed
+------------------
+_ZN25TestCase_testIsLegal_TestC1Ev:
+function _ZN25TestCase_testIsLegal_TestC1Ev called 1 returned 100% blocks executed 100%
+        1:   63:TEST(TestCase, testIsLegal) {
+        1:   63-block  0
+call    0 returned 1
+------------------
+        -:   80:
+        2:   81:TEST(TestCase, testGenerateFinal) {
+        2:   82:    vector<vector<int>> board1(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+        1:   83:    GenerateFinal(board1, 0, 0);
+       1*:   84:    ASSERT_EQ(isValidFinal(board1), true);
+        -:   85:
+        2:   86:    vector<vector<int>> board2(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+       11:   87:    board2 = {{0,2,3,8,5,1,7,9,6},
+        -:   88:              {1,0,8,4,9,7,3,2,5},
+        -:   89:              {7,9,0,2,3,6,4,1,8},
+        -:   90:              {5,3,6,0,8,2,9,4,7},
+        -:   91:              {2,4,9,3,0,5,8,6,1},
+        -:   92:              {8,1,7,6,4,0,5,3,2},
+        -:   93:              {6,7,4,9,2,8,0,5,3},
+        -:   94:              {9,5,1,7,6,3,2,0,4},
+        -:   95:              {3,8,2,5,1,4,6,7,0}
+       10:   96:    };
+        1:   97:    GenerateFinal(board2, 0, 0);
+       1*:   98:    ASSERT_EQ(isValidFinal(board2), true);
+        -:   99:
+        -:  100:
+        2:  101:    vector<vector<int>> board3(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+       11:  102:    board3 = {{0,2,3,9,5,6,7,8,9},
+        -:  103:              {1,6,8,4,9,7,3,2,5},
+        -:  104:              {7,9,5,2,3,6,4,1,8},
+        -:  105:              {5,3,6,1,8,2,9,4,7},
+        -:  106:              {2,4,9,3,7,5,8,6,1},
+        -:  107:              {8,1,7,6,4,9,5,3,2},
+        -:  108:              {6,7,4,9,2,8,1,5,3},
+        -:  109:              {9,5,1,7,6,3,2,8,4},
+        -:  110:              {3,8,2,5,1,4,6,7,9}
+       10:  111:    };
+        1:  112:    GenerateFinal(board3, 0, 0);
+       1*:  113:    ASSERT_EQ(isValidFinal(board3), false);
+        1:  114:}
+------------------
+_ZN31TestCase_testGenerateFinal_Test8TestBodyEv:
+function _ZN31TestCase_testGenerateFinal_Test8TestBodyEv called 1 returned 100% blocks executed 40%
+        1:   81:TEST(TestCase, testGenerateFinal) {
+        2:   82:    vector<vector<int>> board1(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+        1:   82-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:   82-block  1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+call    8 returned 1
+call    9 returned 1
+    $$$$$:   82-block  2
+    $$$$$:   82-block  3
+    $$$$$:   82-block  4
+    $$$$$:   82-block  5
+        1:   83:    GenerateFinal(board1, 0, 0);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       1*:   84:    ASSERT_EQ(isValidFinal(board1), true);
+        1:   84-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   84-block  1
+call    4 returned 1
+branch  5 taken 0 (fallthrough)
+branch  6 taken 1
+    %%%%%:   84-block  2
+call    7 never executed
+branch  8 never executed
+branch  9 never executed
+    %%%%%:   84-block  3
+call   10 never executed
+branch 11 never executed
+branch 12 never executed
+    %%%%%:   84-block  4
+call   13 never executed
+branch 14 never executed
+branch 15 never executed
+    %%%%%:   84-block  5
+call   16 never executed
+branch 17 never executed
+branch 18 never executed
+    %%%%%:   84-block  6
+call   19 never executed
+call   20 never executed
+        1:   84-block  7
+        1:   84-block  8
+call   21 returned 1
+branch 22 taken 1 (fallthrough)
+branch 23 taken 0
+    $$$$$:   84-block  9
+    $$$$$:   84-block 10
+    $$$$$:   84-block 11
+call   24 never executed
+    $$$$$:   84-block 12
+    $$$$$:   84-block 13
+call   25 never executed
+    $$$$$:   84-block 14
+    $$$$$:   84-block 15
+call   26 never executed
+        -:   85:
+        2:   86:    vector<vector<int>> board2(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+        1:   86-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:   86-block  1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+call    8 returned 1
+call    9 returned 1
+    $$$$$:   86-block  2
+    $$$$$:   86-block  3
+    $$$$$:   86-block  4
+    $$$$$:   86-block  5
+    $$$$$:   86-block  6
+call   10 never executed
+       11:   87:    board2 = {{0,2,3,8,5,1,7,9,6},
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   87-block  0
+call    4 returned 1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+        1:   87-block  1
+call    8 returned 1
+call    9 returned 1
+branch 10 taken 1 (fallthrough)
+branch 11 taken 0 (throw)
+        1:   87-block  2
+call   12 returned 1
+call   13 returned 1
+branch 14 taken 1 (fallthrough)
+branch 15 taken 0 (throw)
+        1:   87-block  3
+call   16 returned 1
+call   17 returned 1
+branch 18 taken 1 (fallthrough)
+branch 19 taken 0 (throw)
+        1:   87-block  4
+call   20 returned 1
+call   21 returned 1
+branch 22 taken 1 (fallthrough)
+branch 23 taken 0 (throw)
+        1:   87-block  5
+call   24 returned 1
+call   25 returned 1
+branch 26 taken 1 (fallthrough)
+branch 27 taken 0 (throw)
+        1:   87-block  6
+call   28 returned 1
+call   29 returned 1
+branch 30 taken 1 (fallthrough)
+branch 31 taken 0 (throw)
+        1:   87-block  7
+call   32 returned 1
+call   33 returned 1
+branch 34 taken 1 (fallthrough)
+branch 35 taken 0 (throw)
+       10:   87-block  8
+branch 36 taken 9 (fallthrough)
+branch 37 taken 1
+        1:   87-block  9
+call   38 returned 1
+call   39 returned 1
+call   40 returned 1
+call   41 returned 1
+call   42 returned 1
+call   43 returned 1
+call   44 returned 1
+call   45 returned 1
+call   46 returned 1
+    $$$$$:   87-block 10
+branch 47 never executed
+branch 48 never executed
+    $$$$$:   87-block 11
+    $$$$$:   87-block 12
+call   49 never executed
+    $$$$$:   87-block 13
+    $$$$$:   87-block 14
+    $$$$$:   87-block 15
+call   50 never executed
+    $$$$$:   87-block 16
+    $$$$$:   87-block 17
+    $$$$$:   87-block 18
+call   51 never executed
+    $$$$$:   87-block 19
+    $$$$$:   87-block 20
+    $$$$$:   87-block 21
+call   52 never executed
+    $$$$$:   87-block 22
+    $$$$$:   87-block 23
+    $$$$$:   87-block 24
+call   53 never executed
+    $$$$$:   87-block 25
+    $$$$$:   87-block 26
+    $$$$$:   87-block 27
+call   54 never executed
+    $$$$$:   87-block 28
+    $$$$$:   87-block 29
+    $$$$$:   87-block 30
+call   55 never executed
+    $$$$$:   87-block 31
+    $$$$$:   87-block 32
+    $$$$$:   87-block 33
+call   56 never executed
+    $$$$$:   87-block 34
+    $$$$$:   87-block 35
+    $$$$$:   87-block 36
+call   57 never executed
+    $$$$$:   87-block 37
+    $$$$$:   87-block 38
+        -:   88:              {1,0,8,4,9,7,3,2,5},
+        -:   89:              {7,9,0,2,3,6,4,1,8},
+        -:   90:              {5,3,6,0,8,2,9,4,7},
+        -:   91:              {2,4,9,3,0,5,8,6,1},
+        -:   92:              {8,1,7,6,4,0,5,3,2},
+        -:   93:              {6,7,4,9,2,8,0,5,3},
+        -:   94:              {9,5,1,7,6,3,2,0,4},
+        -:   95:              {3,8,2,5,1,4,6,7,0}
+       10:   96:    };
+        1:   96-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   96-block  1
+        9:   96-block  2
+call    3 returned 9
+    $$$$$:   96-block  3
+    $$$$$:   96-block  4
+call    4 never executed
+        1:   97:    GenerateFinal(board2, 0, 0);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       1*:   98:    ASSERT_EQ(isValidFinal(board2), true);
+        1:   98-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   98-block  1
+call    4 returned 1
+branch  5 taken 0 (fallthrough)
+branch  6 taken 1
+    %%%%%:   98-block  2
+call    7 never executed
+branch  8 never executed
+branch  9 never executed
+    %%%%%:   98-block  3
+call   10 never executed
+branch 11 never executed
+branch 12 never executed
+    %%%%%:   98-block  4
+call   13 never executed
+branch 14 never executed
+branch 15 never executed
+    %%%%%:   98-block  5
+call   16 never executed
+branch 17 never executed
+branch 18 never executed
+    %%%%%:   98-block  6
+call   19 never executed
+call   20 never executed
+        1:   98-block  7
+        1:   98-block  8
+call   21 returned 1
+branch 22 taken 1 (fallthrough)
+branch 23 taken 0
+    $$$$$:   98-block  9
+    $$$$$:   98-block 10
+    $$$$$:   98-block 11
+call   24 never executed
+    $$$$$:   98-block 12
+    $$$$$:   98-block 13
+call   25 never executed
+    $$$$$:   98-block 14
+    $$$$$:   98-block 15
+call   26 never executed
+        -:   99:
+        -:  100:
+        2:  101:    vector<vector<int>> board3(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+        1:  101-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:  101-block  1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+call    8 returned 1
+call    9 returned 1
+    $$$$$:  101-block  2
+    $$$$$:  101-block  3
+    $$$$$:  101-block  4
+    $$$$$:  101-block  5
+    $$$$$:  101-block  6
+call   10 never executed
+       11:  102:    board3 = {{0,2,3,9,5,6,7,8,9},
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:  102-block  0
+call    4 returned 1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+        1:  102-block  1
+call    8 returned 1
+call    9 returned 1
+branch 10 taken 1 (fallthrough)
+branch 11 taken 0 (throw)
+        1:  102-block  2
+call   12 returned 1
+call   13 returned 1
+branch 14 taken 1 (fallthrough)
+branch 15 taken 0 (throw)
+        1:  102-block  3
+call   16 returned 1
+call   17 returned 1
+branch 18 taken 1 (fallthrough)
+branch 19 taken 0 (throw)
+        1:  102-block  4
+call   20 returned 1
+call   21 returned 1
+branch 22 taken 1 (fallthrough)
+branch 23 taken 0 (throw)
+        1:  102-block  5
+call   24 returned 1
+call   25 returned 1
+branch 26 taken 1 (fallthrough)
+branch 27 taken 0 (throw)
+        1:  102-block  6
+call   28 returned 1
+call   29 returned 1
+branch 30 taken 1 (fallthrough)
+branch 31 taken 0 (throw)
+        1:  102-block  7
+call   32 returned 1
+call   33 returned 1
+branch 34 taken 1 (fallthrough)
+branch 35 taken 0 (throw)
+       10:  102-block  8
+branch 36 taken 9 (fallthrough)
+branch 37 taken 1
+        1:  102-block  9
+call   38 returned 1
+call   39 returned 1
+call   40 returned 1
+call   41 returned 1
+call   42 returned 1
+call   43 returned 1
+call   44 returned 1
+call   45 returned 1
+call   46 returned 1
+    $$$$$:  102-block 10
+branch 47 never executed
+branch 48 never executed
+    $$$$$:  102-block 11
+    $$$$$:  102-block 12
+call   49 never executed
+    $$$$$:  102-block 13
+    $$$$$:  102-block 14
+    $$$$$:  102-block 15
+call   50 never executed
+    $$$$$:  102-block 16
+    $$$$$:  102-block 17
+    $$$$$:  102-block 18
+call   51 never executed
+    $$$$$:  102-block 19
+    $$$$$:  102-block 20
+    $$$$$:  102-block 21
+call   52 never executed
+    $$$$$:  102-block 22
+    $$$$$:  102-block 23
+    $$$$$:  102-block 24
+call   53 never executed
+    $$$$$:  102-block 25
+    $$$$$:  102-block 26
+    $$$$$:  102-block 27
+call   54 never executed
+    $$$$$:  102-block 28
+    $$$$$:  102-block 29
+    $$$$$:  102-block 30
+call   55 never executed
+    $$$$$:  102-block 31
+    $$$$$:  102-block 32
+    $$$$$:  102-block 33
+call   56 never executed
+    $$$$$:  102-block 34
+    $$$$$:  102-block 35
+    $$$$$:  102-block 36
+call   57 never executed
+    $$$$$:  102-block 37
+    $$$$$:  102-block 38
+        -:  103:              {1,6,8,4,9,7,3,2,5},
+        -:  104:              {7,9,5,2,3,6,4,1,8},
+        -:  105:              {5,3,6,1,8,2,9,4,7},
+        -:  106:              {2,4,9,3,7,5,8,6,1},
+        -:  107:              {8,1,7,6,4,9,5,3,2},
+        -:  108:              {6,7,4,9,2,8,1,5,3},
+        -:  109:              {9,5,1,7,6,3,2,8,4},
+        -:  110:              {3,8,2,5,1,4,6,7,9}
+       10:  111:    };
+        1:  111-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  111-block  1
+        9:  111-block  2
+call    3 returned 9
+    $$$$$:  111-block  3
+    $$$$$:  111-block  4
+call    4 never executed
+        1:  112:    GenerateFinal(board3, 0, 0);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       1*:  113:    ASSERT_EQ(isValidFinal(board3), false);
+        1:  113-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:  113-block  1
+call    4 returned 1
+branch  5 taken 0 (fallthrough)
+branch  6 taken 1
+    %%%%%:  113-block  2
+call    7 never executed
+branch  8 never executed
+branch  9 never executed
+    %%%%%:  113-block  3
+call   10 never executed
+branch 11 never executed
+branch 12 never executed
+    %%%%%:  113-block  4
+call   13 never executed
+branch 14 never executed
+branch 15 never executed
+    %%%%%:  113-block  5
+call   16 never executed
+branch 17 never executed
+branch 18 never executed
+    %%%%%:  113-block  6
+call   19 never executed
+call   20 never executed
+        1:  113-block  7
+        1:  113-block  8
+call   21 returned 1
+branch 22 taken 1 (fallthrough)
+branch 23 taken 0
+    $$$$$:  113-block  9
+    $$$$$:  113-block 10
+    $$$$$:  113-block 11
+call   24 never executed
+    $$$$$:  113-block 12
+    $$$$$:  113-block 13
+call   25 never executed
+    $$$$$:  113-block 14
+    $$$$$:  113-block 15
+call   26 never executed
+        1:  114:}
+        1:  114-block  0
+        1:  114-block  1
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0
+    $$$$$:  114-block  2
+call    3 never executed
+------------------
+_ZN31TestCase_testGenerateFinal_TestC1Ev:
+function _ZN31TestCase_testGenerateFinal_TestC1Ev called 1 returned 100% blocks executed 100%
+        1:   81:TEST(TestCase, testGenerateFinal) {
+        1:   81-block  0
+call    0 returned 1
+------------------
+        -:  115:
+        2:  116:TEST(TestCase, testDigBlanks) {
+        2:  117:    vector<vector<int>> board(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+       11:  118:    board = {{4,2,3,8,5,1,7,9,6},
+        -:  119:             {1,6,8,4,9,7,3,2,5},
+        -:  120:             {7,9,5,2,3,6,4,1,8},
+        -:  121:             {5,3,6,1,8,2,9,4,7},
+        -:  122:             {2,4,9,3,7,5,8,6,1},
+        -:  123:             {8,1,7,6,4,9,5,3,2},
+        -:  124:             {6,7,4,9,2,8,1,5,3},
+        -:  125:             {9,5,1,7,6,3,2,8,4},
+        -:  126:             {3,8,2,5,1,4,6,7,9}
+       10:  127:    };
+        1:  128:    int blank_num = 0;
+        1:  129:    DigBlanks(board, 30);
+       10:  130:    for(int row = 0; row < BOARD_SIZE; row++){
+       90:  131:        for(int col = 0; col < BOARD_SIZE; col++){
+       81:  132:            if(board[row][col] == 0){
+       30:  133:                blank_num++;
+        -:  134:            }
+        -:  135:        }
+        -:  136:    }
+       1*:  137:    ASSERT_EQ(blank_num, 30);
+        -:  138:
+        1:  139:    blank_num = 0;
+        1:  140:    DigBlanks(board, 30);
+       10:  141:    for(int row = 0; row < BOARD_SIZE; row++){
+       90:  142:        for(int col = 0; col < BOARD_SIZE; col++){
+       81:  143:            if(board[row][col] == 0){
+       60:  144:                blank_num++;
+        -:  145:            }
+        -:  146:        }
+        -:  147:    }
+       1*:  148:    ASSERT_EQ(blank_num, 60);
+        1:  149:}
+------------------
+_ZN27TestCase_testDigBlanks_Test8TestBodyEv:
+function _ZN27TestCase_testDigBlanks_Test8TestBodyEv called 1 returned 100% blocks executed 47%
+        1:  116:TEST(TestCase, testDigBlanks) {
+        2:  117:    vector<vector<int>> board(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+        1:  117-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:  117-block  1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+call    8 returned 1
+call    9 returned 1
+    $$$$$:  117-block  2
+    $$$$$:  117-block  3
+    $$$$$:  117-block  4
+    $$$$$:  117-block  5
+       11:  118:    board = {{4,2,3,8,5,1,7,9,6},
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:  118-block  0
+call    4 returned 1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+        1:  118-block  1
+call    8 returned 1
+call    9 returned 1
+branch 10 taken 1 (fallthrough)
+branch 11 taken 0 (throw)
+        1:  118-block  2
+call   12 returned 1
+call   13 returned 1
+branch 14 taken 1 (fallthrough)
+branch 15 taken 0 (throw)
+        1:  118-block  3
+call   16 returned 1
+call   17 returned 1
+branch 18 taken 1 (fallthrough)
+branch 19 taken 0 (throw)
+        1:  118-block  4
+call   20 returned 1
+call   21 returned 1
+branch 22 taken 1 (fallthrough)
+branch 23 taken 0 (throw)
+        1:  118-block  5
+call   24 returned 1
+call   25 returned 1
+branch 26 taken 1 (fallthrough)
+branch 27 taken 0 (throw)
+        1:  118-block  6
+call   28 returned 1
+call   29 returned 1
+branch 30 taken 1 (fallthrough)
+branch 31 taken 0 (throw)
+        1:  118-block  7
+call   32 returned 1
+call   33 returned 1
+branch 34 taken 1 (fallthrough)
+branch 35 taken 0 (throw)
+       10:  118-block  8
+branch 36 taken 9 (fallthrough)
+branch 37 taken 1
+        1:  118-block  9
+call   38 returned 1
+call   39 returned 1
+call   40 returned 1
+call   41 returned 1
+call   42 returned 1
+call   43 returned 1
+call   44 returned 1
+call   45 returned 1
+call   46 returned 1
+    $$$$$:  118-block 10
+branch 47 never executed
+branch 48 never executed
+    $$$$$:  118-block 11
+    $$$$$:  118-block 12
+call   49 never executed
+    $$$$$:  118-block 13
+    $$$$$:  118-block 14
+    $$$$$:  118-block 15
+call   50 never executed
+    $$$$$:  118-block 16
+    $$$$$:  118-block 17
+    $$$$$:  118-block 18
+call   51 never executed
+    $$$$$:  118-block 19
+    $$$$$:  118-block 20
+    $$$$$:  118-block 21
+call   52 never executed
+    $$$$$:  118-block 22
+    $$$$$:  118-block 23
+    $$$$$:  118-block 24
+call   53 never executed
+    $$$$$:  118-block 25
+    $$$$$:  118-block 26
+    $$$$$:  118-block 27
+call   54 never executed
+    $$$$$:  118-block 28
+    $$$$$:  118-block 29
+    $$$$$:  118-block 30
+call   55 never executed
+    $$$$$:  118-block 31
+    $$$$$:  118-block 32
+    $$$$$:  118-block 33
+call   56 never executed
+    $$$$$:  118-block 34
+    $$$$$:  118-block 35
+    $$$$$:  118-block 36
+call   57 never executed
+    $$$$$:  118-block 37
+    $$$$$:  118-block 38
+        -:  119:             {1,6,8,4,9,7,3,2,5},
+        -:  120:             {7,9,5,2,3,6,4,1,8},
+        -:  121:             {5,3,6,1,8,2,9,4,7},
+        -:  122:             {2,4,9,3,7,5,8,6,1},
+        -:  123:             {8,1,7,6,4,9,5,3,2},
+        -:  124:             {6,7,4,9,2,8,1,5,3},
+        -:  125:             {9,5,1,7,6,3,2,8,4},
+        -:  126:             {3,8,2,5,1,4,6,7,9}
+       10:  127:    };
+        1:  127-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  127-block  1
+        9:  127-block  2
+call    3 returned 9
+    $$$$$:  127-block  3
+    $$$$$:  127-block  4
+call    4 never executed
+        1:  128:    int blank_num = 0;
+        1:  129:    DigBlanks(board, 30);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       10:  130:    for(int row = 0; row < BOARD_SIZE; row++){
+        1:  130-block  0
+        9:  130-block  1
+       10:  130-block  2
+branch  0 taken 9
+branch  1 taken 1 (fallthrough)
+       90:  131:        for(int col = 0; col < BOARD_SIZE; col++){
+        9:  131-block  0
+       81:  131-block  1
+       90:  131-block  2
+branch  0 taken 81
+branch  1 taken 9 (fallthrough)
+       81:  132:            if(board[row][col] == 0){
+       81:  132-block  0
+call    0 returned 81
+call    1 returned 81
+branch  2 taken 30 (fallthrough)
+branch  3 taken 51
+       30:  133:                blank_num++;
+       30:  133-block  0
+        -:  134:            }
+        -:  135:        }
+        -:  136:    }
+       1*:  137:    ASSERT_EQ(blank_num, 30);
+        1:  137-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  137-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  137-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  137-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  137-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  137-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  137-block  6
+call   18 never executed
+call   19 never executed
+        1:  137-block  7
+        1:  137-block  8
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+    $$$$$:  137-block  9
+    $$$$$:  137-block 10
+call   23 never executed
+    $$$$$:  137-block 11
+    $$$$$:  137-block 12
+call   24 never executed
+    $$$$$:  137-block 13
+    $$$$$:  137-block 14
+call   25 never executed
+        -:  138:
+        1:  139:    blank_num = 0;
+        1:  140:    DigBlanks(board, 30);
+        1:  140-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       10:  141:    for(int row = 0; row < BOARD_SIZE; row++){
+        1:  141-block  0
+        9:  141-block  1
+       10:  141-block  2
+branch  0 taken 9
+branch  1 taken 1 (fallthrough)
+       90:  142:        for(int col = 0; col < BOARD_SIZE; col++){
+        9:  142-block  0
+       81:  142-block  1
+       90:  142-block  2
+branch  0 taken 81
+branch  1 taken 9 (fallthrough)
+       81:  143:            if(board[row][col] == 0){
+       81:  143-block  0
+call    0 returned 81
+call    1 returned 81
+branch  2 taken 60 (fallthrough)
+branch  3 taken 21
+       60:  144:                blank_num++;
+       60:  144-block  0
+        -:  145:            }
+        -:  146:        }
+        -:  147:    }
+       1*:  148:    ASSERT_EQ(blank_num, 60);
+        1:  148-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  148-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  148-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  148-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  148-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  148-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  148-block  6
+call   18 never executed
+call   19 never executed
+        1:  148-block  7
+        1:  148-block  8
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+    $$$$$:  148-block  9
+    $$$$$:  148-block 10
+call   23 never executed
+    $$$$$:  148-block 11
+    $$$$$:  148-block 12
+call   24 never executed
+    $$$$$:  148-block 13
+    $$$$$:  148-block 14
+call   25 never executed
+        1:  149:}
+        1:  149-block  0
+        1:  149-block  1
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0
+    $$$$$:  149-block  2
+call    3 never executed
+------------------
+_ZN27TestCase_testDigBlanks_TestC1Ev:
+function _ZN27TestCase_testDigBlanks_TestC1Ev called 1 returned 100% blocks executed 100%
+        1:  116:TEST(TestCase, testDigBlanks) {
+        1:  116-block  0
+call    0 returned 1
+------------------
+        -:  150:
+        2:  151:TEST(TestCase, testCountSolution) {
+        2:  152:    vector<vector<int>> board1(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+       11:  153:    board1 = {{5,1,0,2,0,0,3,0,9},
+        -:  154:              {4,2,7,0,9,3,8,0,1},
+        -:  155:              {9,3,6,7,0,8,0,4,2},
+        -:  156:              {0,4,2,3,5,1,9,8,0},
+        -:  157:              {6,9,0,8,7,2,4,5,3},
+        -:  158:              {3,8,5,6,4,9,1,2,7},
+        -:  159:              {1,6,4,9,8,7,2,3,0},
+        -:  160:              {8,7,3,1,2,5,6,9,4},
+        -:  161:              {2,5,9,4,3,0,7,1,0}
+       10:  162:    };
+        1:  163:    int count = 0;
+        1:  164:    CountSolution(board1, 0, 0, count);
+       1*:  165:    ASSERT_EQ(count, 1);
+        -:  166:
+        2:  167:    vector<vector<int>> board2(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+       11:  168:    board2 = {{7,8,9,1,2,3,4,6,5},
+        -:  169:              {6,1,2,4,0,0,3,7,8},
+        -:  170:              {3,4,5,8,7,6,1,9,2},
+        -:  171:              {8,5,6,9,4,2,7,1,3},
+        -:  172:              {2,3,1,5,6,7,8,4,9},
+        -:  173:              {9,7,4,3,8,1,5,2,6},
+        -:  174:              {1,6,3,7,0,0,2,8,4},
+        -:  175:              {5,2,8,6,1,4,9,3,7},
+        -:  176:              {4,9,7,2,3,8,6,5,1}
+       10:  177:    };
+        1:  178:    count = 0;
+        1:  179:    CountSolution(board2, 0, 0, count);
+       1*:  180:    ASSERT_EQ(count, 2);
+        1:  181:}
+------------------
+_ZN31TestCase_testCountSolution_Test8TestBodyEv:
+function _ZN31TestCase_testCountSolution_Test8TestBodyEv called 1 returned 100% blocks executed 41%
+        1:  151:TEST(TestCase, testCountSolution) {
+        2:  152:    vector<vector<int>> board1(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+        1:  152-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:  152-block  1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+call    8 returned 1
+call    9 returned 1
+    $$$$$:  152-block  2
+    $$$$$:  152-block  3
+    $$$$$:  152-block  4
+    $$$$$:  152-block  5
+       11:  153:    board1 = {{5,1,0,2,0,0,3,0,9},
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:  153-block  0
+call    4 returned 1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+        1:  153-block  1
+call    8 returned 1
+call    9 returned 1
+branch 10 taken 1 (fallthrough)
+branch 11 taken 0 (throw)
+        1:  153-block  2
+call   12 returned 1
+call   13 returned 1
+branch 14 taken 1 (fallthrough)
+branch 15 taken 0 (throw)
+        1:  153-block  3
+call   16 returned 1
+call   17 returned 1
+branch 18 taken 1 (fallthrough)
+branch 19 taken 0 (throw)
+        1:  153-block  4
+call   20 returned 1
+call   21 returned 1
+branch 22 taken 1 (fallthrough)
+branch 23 taken 0 (throw)
+        1:  153-block  5
+call   24 returned 1
+call   25 returned 1
+branch 26 taken 1 (fallthrough)
+branch 27 taken 0 (throw)
+        1:  153-block  6
+call   28 returned 1
+call   29 returned 1
+branch 30 taken 1 (fallthrough)
+branch 31 taken 0 (throw)
+        1:  153-block  7
+call   32 returned 1
+call   33 returned 1
+branch 34 taken 1 (fallthrough)
+branch 35 taken 0 (throw)
+       10:  153-block  8
+branch 36 taken 9 (fallthrough)
+branch 37 taken 1
+        1:  153-block  9
+call   38 returned 1
+call   39 returned 1
+call   40 returned 1
+call   41 returned 1
+call   42 returned 1
+call   43 returned 1
+call   44 returned 1
+call   45 returned 1
+call   46 returned 1
+    $$$$$:  153-block 10
+branch 47 never executed
+branch 48 never executed
+    $$$$$:  153-block 11
+    $$$$$:  153-block 12
+call   49 never executed
+    $$$$$:  153-block 13
+    $$$$$:  153-block 14
+    $$$$$:  153-block 15
+call   50 never executed
+    $$$$$:  153-block 16
+    $$$$$:  153-block 17
+    $$$$$:  153-block 18
+call   51 never executed
+    $$$$$:  153-block 19
+    $$$$$:  153-block 20
+    $$$$$:  153-block 21
+call   52 never executed
+    $$$$$:  153-block 22
+    $$$$$:  153-block 23
+    $$$$$:  153-block 24
+call   53 never executed
+    $$$$$:  153-block 25
+    $$$$$:  153-block 26
+    $$$$$:  153-block 27
+call   54 never executed
+    $$$$$:  153-block 28
+    $$$$$:  153-block 29
+    $$$$$:  153-block 30
+call   55 never executed
+    $$$$$:  153-block 31
+    $$$$$:  153-block 32
+    $$$$$:  153-block 33
+call   56 never executed
+    $$$$$:  153-block 34
+    $$$$$:  153-block 35
+    $$$$$:  153-block 36
+call   57 never executed
+    $$$$$:  153-block 37
+    $$$$$:  153-block 38
+        -:  154:              {4,2,7,0,9,3,8,0,1},
+        -:  155:              {9,3,6,7,0,8,0,4,2},
+        -:  156:              {0,4,2,3,5,1,9,8,0},
+        -:  157:              {6,9,0,8,7,2,4,5,3},
+        -:  158:              {3,8,5,6,4,9,1,2,7},
+        -:  159:              {1,6,4,9,8,7,2,3,0},
+        -:  160:              {8,7,3,1,2,5,6,9,4},
+        -:  161:              {2,5,9,4,3,0,7,1,0}
+       10:  162:    };
+        1:  162-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  162-block  1
+        9:  162-block  2
+call    3 returned 9
+    $$$$$:  162-block  3
+    $$$$$:  162-block  4
+call    4 never executed
+        1:  163:    int count = 0;
+        1:  164:    CountSolution(board1, 0, 0, count);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       1*:  165:    ASSERT_EQ(count, 1);
+        1:  165-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  165-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  165-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  165-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  165-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  165-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  165-block  6
+call   18 never executed
+call   19 never executed
+        1:  165-block  7
+        1:  165-block  8
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+    $$$$$:  165-block  9
+    $$$$$:  165-block 10
+call   23 never executed
+    $$$$$:  165-block 11
+    $$$$$:  165-block 12
+call   24 never executed
+    $$$$$:  165-block 13
+    $$$$$:  165-block 14
+call   25 never executed
+        -:  166:
+        2:  167:    vector<vector<int>> board2(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+        1:  167-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:  167-block  1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+call    8 returned 1
+call    9 returned 1
+    $$$$$:  167-block  2
+    $$$$$:  167-block  3
+    $$$$$:  167-block  4
+    $$$$$:  167-block  5
+    $$$$$:  167-block  6
+call   10 never executed
+       11:  168:    board2 = {{7,8,9,1,2,3,4,6,5},
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:  168-block  0
+call    4 returned 1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+        1:  168-block  1
+call    8 returned 1
+call    9 returned 1
+branch 10 taken 1 (fallthrough)
+branch 11 taken 0 (throw)
+        1:  168-block  2
+call   12 returned 1
+call   13 returned 1
+branch 14 taken 1 (fallthrough)
+branch 15 taken 0 (throw)
+        1:  168-block  3
+call   16 returned 1
+call   17 returned 1
+branch 18 taken 1 (fallthrough)
+branch 19 taken 0 (throw)
+        1:  168-block  4
+call   20 returned 1
+call   21 returned 1
+branch 22 taken 1 (fallthrough)
+branch 23 taken 0 (throw)
+        1:  168-block  5
+call   24 returned 1
+call   25 returned 1
+branch 26 taken 1 (fallthrough)
+branch 27 taken 0 (throw)
+        1:  168-block  6
+call   28 returned 1
+call   29 returned 1
+branch 30 taken 1 (fallthrough)
+branch 31 taken 0 (throw)
+        1:  168-block  7
+call   32 returned 1
+call   33 returned 1
+branch 34 taken 1 (fallthrough)
+branch 35 taken 0 (throw)
+       10:  168-block  8
+branch 36 taken 9 (fallthrough)
+branch 37 taken 1
+        1:  168-block  9
+call   38 returned 1
+call   39 returned 1
+call   40 returned 1
+call   41 returned 1
+call   42 returned 1
+call   43 returned 1
+call   44 returned 1
+call   45 returned 1
+call   46 returned 1
+    $$$$$:  168-block 10
+branch 47 never executed
+branch 48 never executed
+    $$$$$:  168-block 11
+    $$$$$:  168-block 12
+call   49 never executed
+    $$$$$:  168-block 13
+    $$$$$:  168-block 14
+    $$$$$:  168-block 15
+call   50 never executed
+    $$$$$:  168-block 16
+    $$$$$:  168-block 17
+    $$$$$:  168-block 18
+call   51 never executed
+    $$$$$:  168-block 19
+    $$$$$:  168-block 20
+    $$$$$:  168-block 21
+call   52 never executed
+    $$$$$:  168-block 22
+    $$$$$:  168-block 23
+    $$$$$:  168-block 24
+call   53 never executed
+    $$$$$:  168-block 25
+    $$$$$:  168-block 26
+    $$$$$:  168-block 27
+call   54 never executed
+    $$$$$:  168-block 28
+    $$$$$:  168-block 29
+    $$$$$:  168-block 30
+call   55 never executed
+    $$$$$:  168-block 31
+    $$$$$:  168-block 32
+    $$$$$:  168-block 33
+call   56 never executed
+    $$$$$:  168-block 34
+    $$$$$:  168-block 35
+    $$$$$:  168-block 36
+call   57 never executed
+    $$$$$:  168-block 37
+    $$$$$:  168-block 38
+        -:  169:              {6,1,2,4,0,0,3,7,8},
+        -:  170:              {3,4,5,8,7,6,1,9,2},
+        -:  171:              {8,5,6,9,4,2,7,1,3},
+        -:  172:              {2,3,1,5,6,7,8,4,9},
+        -:  173:              {9,7,4,3,8,1,5,2,6},
+        -:  174:              {1,6,3,7,0,0,2,8,4},
+        -:  175:              {5,2,8,6,1,4,9,3,7},
+        -:  176:              {4,9,7,2,3,8,6,5,1}
+       10:  177:    };
+        1:  177-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  177-block  1
+        9:  177-block  2
+call    3 returned 9
+    $$$$$:  177-block  3
+    $$$$$:  177-block  4
+call    4 never executed
+        1:  178:    count = 0;
+        1:  179:    CountSolution(board2, 0, 0, count);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       1*:  180:    ASSERT_EQ(count, 2);
+        1:  180-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  180-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  180-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  180-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  180-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  180-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  180-block  6
+call   18 never executed
+call   19 never executed
+        1:  180-block  7
+        1:  180-block  8
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+    $$$$$:  180-block  9
+    $$$$$:  180-block 10
+call   23 never executed
+    $$$$$:  180-block 11
+    $$$$$:  180-block 12
+call   24 never executed
+    $$$$$:  180-block 13
+    $$$$$:  180-block 14
+call   25 never executed
+        1:  181:}
+        1:  181-block  0
+        1:  181-block  1
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0
+    $$$$$:  181-block  2
+call    3 never executed
+------------------
+_ZN31TestCase_testCountSolution_TestC1Ev:
+function _ZN31TestCase_testCountSolution_TestC1Ev called 1 returned 100% blocks executed 100%
+        1:  151:TEST(TestCase, testCountSolution) {
+        1:  151-block  0
+call    0 returned 1
+------------------
+        -:  182:
+        2:  183:TEST(TestCase, testSearchUnsolved) {
+        2:  184:    vector<vector<int>> board1(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+       11:  185:    board1 = {{4,2,3,8,5,1,7,9,6},
+        -:  186:              {1,6,8,4,9,7,3,2,5},
+        -:  187:              {7,9,5,2,3,6,4,1,8},
+        -:  188:              {5,3,6,1,8,2,9,4,7},
+        -:  189:              {2,4,9,3,7,5,8,6,1},
+        -:  190:              {8,1,7,6,4,9,5,3,2},
+        -:  191:              {6,7,4,9,2,8,1,5,3},
+        -:  192:              {9,5,1,7,6,3,2,8,4},
+        -:  193:              {3,8,2,5,1,4,6,7,9}
+       10:  194:    };
+        -:  195:    int row, col;
+       1*:  196:    ASSERT_EQ(SearchUnsolved(board1, row, col), false);
+       1*:  197:    ASSERT_EQ(row, 9);
+       1*:  198:    ASSERT_EQ(col, 9);
+        -:  199:
+        2:  200:    vector<vector<int>> board2(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+       11:  201:    board2 = {{4,2,3,8,5,1,7,9,6},
+        -:  202:              {1,6,8,4,9,7,3,2,5},
+        -:  203:              {7,9,5,2,3,6,4,1,8},
+        -:  204:              {5,3,6,1,8,2,9,4,7},
+        -:  205:              {2,4,9,3,0,5,8,6,1},
+        -:  206:              {8,1,7,6,4,9,5,3,2},
+        -:  207:              {6,7,4,9,2,8,1,5,3},
+        -:  208:              {9,5,1,7,6,3,2,8,4},
+        -:  209:              {3,8,2,5,1,4,6,7,9}
+       10:  210:    };
+        1:  211:    row = col = 0;
+       1*:  212:    ASSERT_EQ(SearchUnsolved(board2, row, col), true);
+       1*:  213:    ASSERT_EQ(row, 4);
+       1*:  214:    ASSERT_EQ(col, 4);
+        1:  215:}
+------------------
+_ZN32TestCase_testSearchUnsolved_Test8TestBodyEv:
+function _ZN32TestCase_testSearchUnsolved_Test8TestBodyEv called 1 returned 100% blocks executed 37%
+        1:  183:TEST(TestCase, testSearchUnsolved) {
+        2:  184:    vector<vector<int>> board1(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+        1:  184-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:  184-block  1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+call    8 returned 1
+call    9 returned 1
+    $$$$$:  184-block  2
+    $$$$$:  184-block  3
+    $$$$$:  184-block  4
+    $$$$$:  184-block  5
+       11:  185:    board1 = {{4,2,3,8,5,1,7,9,6},
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:  185-block  0
+call    4 returned 1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+        1:  185-block  1
+call    8 returned 1
+call    9 returned 1
+branch 10 taken 1 (fallthrough)
+branch 11 taken 0 (throw)
+        1:  185-block  2
+call   12 returned 1
+call   13 returned 1
+branch 14 taken 1 (fallthrough)
+branch 15 taken 0 (throw)
+        1:  185-block  3
+call   16 returned 1
+call   17 returned 1
+branch 18 taken 1 (fallthrough)
+branch 19 taken 0 (throw)
+        1:  185-block  4
+call   20 returned 1
+call   21 returned 1
+branch 22 taken 1 (fallthrough)
+branch 23 taken 0 (throw)
+        1:  185-block  5
+call   24 returned 1
+call   25 returned 1
+branch 26 taken 1 (fallthrough)
+branch 27 taken 0 (throw)
+        1:  185-block  6
+call   28 returned 1
+call   29 returned 1
+branch 30 taken 1 (fallthrough)
+branch 31 taken 0 (throw)
+        1:  185-block  7
+call   32 returned 1
+call   33 returned 1
+branch 34 taken 1 (fallthrough)
+branch 35 taken 0 (throw)
+       10:  185-block  8
+branch 36 taken 9 (fallthrough)
+branch 37 taken 1
+        1:  185-block  9
+call   38 returned 1
+call   39 returned 1
+call   40 returned 1
+call   41 returned 1
+call   42 returned 1
+call   43 returned 1
+call   44 returned 1
+call   45 returned 1
+call   46 returned 1
+    $$$$$:  185-block 10
+branch 47 never executed
+branch 48 never executed
+    $$$$$:  185-block 11
+    $$$$$:  185-block 12
+call   49 never executed
+    $$$$$:  185-block 13
+    $$$$$:  185-block 14
+    $$$$$:  185-block 15
+call   50 never executed
+    $$$$$:  185-block 16
+    $$$$$:  185-block 17
+    $$$$$:  185-block 18
+call   51 never executed
+    $$$$$:  185-block 19
+    $$$$$:  185-block 20
+    $$$$$:  185-block 21
+call   52 never executed
+    $$$$$:  185-block 22
+    $$$$$:  185-block 23
+    $$$$$:  185-block 24
+call   53 never executed
+    $$$$$:  185-block 25
+    $$$$$:  185-block 26
+    $$$$$:  185-block 27
+call   54 never executed
+    $$$$$:  185-block 28
+    $$$$$:  185-block 29
+    $$$$$:  185-block 30
+call   55 never executed
+    $$$$$:  185-block 31
+    $$$$$:  185-block 32
+    $$$$$:  185-block 33
+call   56 never executed
+    $$$$$:  185-block 34
+    $$$$$:  185-block 35
+    $$$$$:  185-block 36
+call   57 never executed
+    $$$$$:  185-block 37
+    $$$$$:  185-block 38
+        -:  186:              {1,6,8,4,9,7,3,2,5},
+        -:  187:              {7,9,5,2,3,6,4,1,8},
+        -:  188:              {5,3,6,1,8,2,9,4,7},
+        -:  189:              {2,4,9,3,7,5,8,6,1},
+        -:  190:              {8,1,7,6,4,9,5,3,2},
+        -:  191:              {6,7,4,9,2,8,1,5,3},
+        -:  192:              {9,5,1,7,6,3,2,8,4},
+        -:  193:              {3,8,2,5,1,4,6,7,9}
+       10:  194:    };
+        1:  194-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  194-block  1
+        9:  194-block  2
+call    3 returned 9
+    $$$$$:  194-block  3
+    $$$$$:  194-block  4
+call    4 never executed
+        -:  195:    int row, col;
+       1*:  196:    ASSERT_EQ(SearchUnsolved(board1, row, col), false);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  196-block  0
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:  196-block  1
+call    6 returned 1
+branch  7 taken 1 (fallthrough)
+branch  8 taken 0 (throw)
+        1:  196-block  2
+call    9 returned 1
+call   10 returned 1
+branch 11 taken 0 (fallthrough)
+branch 12 taken 1
+    %%%%%:  196-block  3
+call   13 never executed
+branch 14 never executed
+branch 15 never executed
+    %%%%%:  196-block  4
+call   16 never executed
+branch 17 never executed
+branch 18 never executed
+    %%%%%:  196-block  5
+call   19 never executed
+branch 20 never executed
+branch 21 never executed
+    %%%%%:  196-block  6
+call   22 never executed
+branch 23 never executed
+branch 24 never executed
+    %%%%%:  196-block  7
+call   25 never executed
+call   26 never executed
+        1:  196-block  8
+        1:  196-block  9
+call   27 returned 1
+branch 28 taken 1 (fallthrough)
+branch 29 taken 0
+    $$$$$:  196-block 10
+    $$$$$:  196-block 11
+    $$$$$:  196-block 12
+    $$$$$:  196-block 13
+call   30 never executed
+    $$$$$:  196-block 14
+    $$$$$:  196-block 15
+call   31 never executed
+    $$$$$:  196-block 16
+    $$$$$:  196-block 17
+call   32 never executed
+       1*:  197:    ASSERT_EQ(row, 9);
+        1:  197-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  197-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  197-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  197-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  197-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  197-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  197-block  6
+call   18 never executed
+call   19 never executed
+        1:  197-block  7
+        1:  197-block  8
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+    $$$$$:  197-block  9
+    $$$$$:  197-block 10
+call   23 never executed
+    $$$$$:  197-block 11
+    $$$$$:  197-block 12
+call   24 never executed
+    $$$$$:  197-block 13
+    $$$$$:  197-block 14
+call   25 never executed
+       1*:  198:    ASSERT_EQ(col, 9);
+        1:  198-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  198-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  198-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  198-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  198-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  198-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  198-block  6
+call   18 never executed
+call   19 never executed
+        1:  198-block  7
+        1:  198-block  8
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+    $$$$$:  198-block  9
+    $$$$$:  198-block 10
+call   23 never executed
+    $$$$$:  198-block 11
+    $$$$$:  198-block 12
+call   24 never executed
+    $$$$$:  198-block 13
+    $$$$$:  198-block 14
+call   25 never executed
+        -:  199:
+        2:  200:    vector<vector<int>> board2(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+        1:  200-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:  200-block  1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+call    8 returned 1
+call    9 returned 1
+    $$$$$:  200-block  2
+    $$$$$:  200-block  3
+    $$$$$:  200-block  4
+    $$$$$:  200-block  5
+    $$$$$:  200-block  6
+call   10 never executed
+       11:  201:    board2 = {{4,2,3,8,5,1,7,9,6},
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:  201-block  0
+call    4 returned 1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+        1:  201-block  1
+call    8 returned 1
+call    9 returned 1
+branch 10 taken 1 (fallthrough)
+branch 11 taken 0 (throw)
+        1:  201-block  2
+call   12 returned 1
+call   13 returned 1
+branch 14 taken 1 (fallthrough)
+branch 15 taken 0 (throw)
+        1:  201-block  3
+call   16 returned 1
+call   17 returned 1
+branch 18 taken 1 (fallthrough)
+branch 19 taken 0 (throw)
+        1:  201-block  4
+call   20 returned 1
+call   21 returned 1
+branch 22 taken 1 (fallthrough)
+branch 23 taken 0 (throw)
+        1:  201-block  5
+call   24 returned 1
+call   25 returned 1
+branch 26 taken 1 (fallthrough)
+branch 27 taken 0 (throw)
+        1:  201-block  6
+call   28 returned 1
+call   29 returned 1
+branch 30 taken 1 (fallthrough)
+branch 31 taken 0 (throw)
+        1:  201-block  7
+call   32 returned 1
+call   33 returned 1
+branch 34 taken 1 (fallthrough)
+branch 35 taken 0 (throw)
+       10:  201-block  8
+branch 36 taken 9 (fallthrough)
+branch 37 taken 1
+        1:  201-block  9
+call   38 returned 1
+call   39 returned 1
+call   40 returned 1
+call   41 returned 1
+call   42 returned 1
+call   43 returned 1
+call   44 returned 1
+call   45 returned 1
+call   46 returned 1
+    $$$$$:  201-block 10
+branch 47 never executed
+branch 48 never executed
+    $$$$$:  201-block 11
+    $$$$$:  201-block 12
+call   49 never executed
+    $$$$$:  201-block 13
+    $$$$$:  201-block 14
+    $$$$$:  201-block 15
+call   50 never executed
+    $$$$$:  201-block 16
+    $$$$$:  201-block 17
+    $$$$$:  201-block 18
+call   51 never executed
+    $$$$$:  201-block 19
+    $$$$$:  201-block 20
+    $$$$$:  201-block 21
+call   52 never executed
+    $$$$$:  201-block 22
+    $$$$$:  201-block 23
+    $$$$$:  201-block 24
+call   53 never executed
+    $$$$$:  201-block 25
+    $$$$$:  201-block 26
+    $$$$$:  201-block 27
+call   54 never executed
+    $$$$$:  201-block 28
+    $$$$$:  201-block 29
+    $$$$$:  201-block 30
+call   55 never executed
+    $$$$$:  201-block 31
+    $$$$$:  201-block 32
+    $$$$$:  201-block 33
+call   56 never executed
+    $$$$$:  201-block 34
+    $$$$$:  201-block 35
+    $$$$$:  201-block 36
+call   57 never executed
+    $$$$$:  201-block 37
+    $$$$$:  201-block 38
+        -:  202:              {1,6,8,4,9,7,3,2,5},
+        -:  203:              {7,9,5,2,3,6,4,1,8},
+        -:  204:              {5,3,6,1,8,2,9,4,7},
+        -:  205:              {2,4,9,3,0,5,8,6,1},
+        -:  206:              {8,1,7,6,4,9,5,3,2},
+        -:  207:              {6,7,4,9,2,8,1,5,3},
+        -:  208:              {9,5,1,7,6,3,2,8,4},
+        -:  209:              {3,8,2,5,1,4,6,7,9}
+       10:  210:    };
+        1:  210-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  210-block  1
+        9:  210-block  2
+call    3 returned 9
+    $$$$$:  210-block  3
+    $$$$$:  210-block  4
+call    4 never executed
+        1:  211:    row = col = 0;
+       1*:  212:    ASSERT_EQ(SearchUnsolved(board2, row, col), true);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  212-block  0
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:  212-block  1
+call    6 returned 1
+branch  7 taken 1 (fallthrough)
+branch  8 taken 0 (throw)
+        1:  212-block  2
+call    9 returned 1
+call   10 returned 1
+branch 11 taken 0 (fallthrough)
+branch 12 taken 1
+    %%%%%:  212-block  3
+call   13 never executed
+branch 14 never executed
+branch 15 never executed
+    %%%%%:  212-block  4
+call   16 never executed
+branch 17 never executed
+branch 18 never executed
+    %%%%%:  212-block  5
+call   19 never executed
+branch 20 never executed
+branch 21 never executed
+    %%%%%:  212-block  6
+call   22 never executed
+branch 23 never executed
+branch 24 never executed
+    %%%%%:  212-block  7
+call   25 never executed
+call   26 never executed
+        1:  212-block  8
+        1:  212-block  9
+call   27 returned 1
+branch 28 taken 1 (fallthrough)
+branch 29 taken 0
+    $$$$$:  212-block 10
+    $$$$$:  212-block 11
+    $$$$$:  212-block 12
+    $$$$$:  212-block 13
+call   30 never executed
+    $$$$$:  212-block 14
+    $$$$$:  212-block 15
+call   31 never executed
+    $$$$$:  212-block 16
+    $$$$$:  212-block 17
+call   32 never executed
+       1*:  213:    ASSERT_EQ(row, 4);
+        1:  213-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  213-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  213-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  213-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  213-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  213-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  213-block  6
+call   18 never executed
+call   19 never executed
+        1:  213-block  7
+        1:  213-block  8
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+    $$$$$:  213-block  9
+    $$$$$:  213-block 10
+call   23 never executed
+    $$$$$:  213-block 11
+    $$$$$:  213-block 12
+call   24 never executed
+    $$$$$:  213-block 13
+    $$$$$:  213-block 14
+call   25 never executed
+       1*:  214:    ASSERT_EQ(col, 4);
+        1:  214-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  214-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  214-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  214-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  214-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  214-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  214-block  6
+call   18 never executed
+call   19 never executed
+        1:  214-block  7
+        1:  214-block  8
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+    $$$$$:  214-block  9
+    $$$$$:  214-block 10
+call   23 never executed
+    $$$$$:  214-block 11
+    $$$$$:  214-block 12
+call   24 never executed
+    $$$$$:  214-block 13
+    $$$$$:  214-block 14
+call   25 never executed
+        1:  215:}
+        1:  215-block  0
+        1:  215-block  1
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0
+    $$$$$:  215-block  2
+call    3 never executed
+------------------
+_ZN32TestCase_testSearchUnsolved_TestC1Ev:
+function _ZN32TestCase_testSearchUnsolved_TestC1Ev called 1 returned 100% blocks executed 100%
+        1:  183:TEST(TestCase, testSearchUnsolved) {
+        1:  183-block  0
+call    0 returned 1
+------------------
+        -:  216:
+        2:  217:TEST(TestCase, testSolveSoduku) {
+        2:  218:    vector<vector<int>> board1(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+       11:  219:    board1 = {{5,1,0,2,0,0,3,0,9},
+        -:  220:              {4,2,7,0,9,3,8,0,1},
+        -:  221:              {9,3,6,7,0,8,0,4,2},
+        -:  222:              {0,4,2,3,5,1,9,8,0},
+        -:  223:              {6,9,0,8,7,2,4,5,3},
+        -:  224:              {3,8,5,6,4,9,1,2,7},
+        -:  225:              {1,6,4,9,8,7,2,3,0},
+        -:  226:              {8,7,3,1,2,5,6,9,4},
+        -:  227:              {2,5,9,4,3,0,7,1,0}
+       10:  228:    };
+       1*:  229:    ASSERT_EQ(SolveSudoku(board1), true);
+        -:  230:
+        2:  231:    vector<vector<int>> board2(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+       11:  232:    board2 = {{0,2,0,8,0,1,7,9,0},
+        -:  233:              {0,0,0,0,0,0,0,0,0},
+        -:  234:              {7,0,5,0,0,0,4,0,0},
+        -:  235:              {0,3,0,0,0,0,0,0,0},
+        -:  236:              {0,0,0,0,0,5,0,6,0},
+        -:  237:              {8,0,7,0,0,9,0,0,2},
+        -:  238:              {0,0,0,0,2,0,0,5,0},
+        -:  239:              {0,0,0,0,0,3,0,8,0},
+        -:  240:              {3,0,2,0,0,0,0,0,9}
+       10:  241:    };
+       1*:  242:    ASSERT_EQ(SolveSudoku(board2), true);
+        1:  243:}
+------------------
+_ZN29TestCase_testSolveSoduku_Test8TestBodyEv:
+function _ZN29TestCase_testSolveSoduku_Test8TestBodyEv called 1 returned 100% blocks executed 40%
+        1:  217:TEST(TestCase, testSolveSoduku) {
+        2:  218:    vector<vector<int>> board1(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+        1:  218-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:  218-block  1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+call    8 returned 1
+call    9 returned 1
+    $$$$$:  218-block  2
+    $$$$$:  218-block  3
+    $$$$$:  218-block  4
+    $$$$$:  218-block  5
+       11:  219:    board1 = {{5,1,0,2,0,0,3,0,9},
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:  219-block  0
+call    4 returned 1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+        1:  219-block  1
+call    8 returned 1
+call    9 returned 1
+branch 10 taken 1 (fallthrough)
+branch 11 taken 0 (throw)
+        1:  219-block  2
+call   12 returned 1
+call   13 returned 1
+branch 14 taken 1 (fallthrough)
+branch 15 taken 0 (throw)
+        1:  219-block  3
+call   16 returned 1
+call   17 returned 1
+branch 18 taken 1 (fallthrough)
+branch 19 taken 0 (throw)
+        1:  219-block  4
+call   20 returned 1
+call   21 returned 1
+branch 22 taken 1 (fallthrough)
+branch 23 taken 0 (throw)
+        1:  219-block  5
+call   24 returned 1
+call   25 returned 1
+branch 26 taken 1 (fallthrough)
+branch 27 taken 0 (throw)
+        1:  219-block  6
+call   28 returned 1
+call   29 returned 1
+branch 30 taken 1 (fallthrough)
+branch 31 taken 0 (throw)
+        1:  219-block  7
+call   32 returned 1
+call   33 returned 1
+branch 34 taken 1 (fallthrough)
+branch 35 taken 0 (throw)
+       10:  219-block  8
+branch 36 taken 9 (fallthrough)
+branch 37 taken 1
+        1:  219-block  9
+call   38 returned 1
+call   39 returned 1
+call   40 returned 1
+call   41 returned 1
+call   42 returned 1
+call   43 returned 1
+call   44 returned 1
+call   45 returned 1
+call   46 returned 1
+    $$$$$:  219-block 10
+branch 47 never executed
+branch 48 never executed
+    $$$$$:  219-block 11
+    $$$$$:  219-block 12
+call   49 never executed
+    $$$$$:  219-block 13
+    $$$$$:  219-block 14
+    $$$$$:  219-block 15
+call   50 never executed
+    $$$$$:  219-block 16
+    $$$$$:  219-block 17
+    $$$$$:  219-block 18
+call   51 never executed
+    $$$$$:  219-block 19
+    $$$$$:  219-block 20
+    $$$$$:  219-block 21
+call   52 never executed
+    $$$$$:  219-block 22
+    $$$$$:  219-block 23
+    $$$$$:  219-block 24
+call   53 never executed
+    $$$$$:  219-block 25
+    $$$$$:  219-block 26
+    $$$$$:  219-block 27
+call   54 never executed
+    $$$$$:  219-block 28
+    $$$$$:  219-block 29
+    $$$$$:  219-block 30
+call   55 never executed
+    $$$$$:  219-block 31
+    $$$$$:  219-block 32
+    $$$$$:  219-block 33
+call   56 never executed
+    $$$$$:  219-block 34
+    $$$$$:  219-block 35
+    $$$$$:  219-block 36
+call   57 never executed
+    $$$$$:  219-block 37
+    $$$$$:  219-block 38
+        -:  220:              {4,2,7,0,9,3,8,0,1},
+        -:  221:              {9,3,6,7,0,8,0,4,2},
+        -:  222:              {0,4,2,3,5,1,9,8,0},
+        -:  223:              {6,9,0,8,7,2,4,5,3},
+        -:  224:              {3,8,5,6,4,9,1,2,7},
+        -:  225:              {1,6,4,9,8,7,2,3,0},
+        -:  226:              {8,7,3,1,2,5,6,9,4},
+        -:  227:              {2,5,9,4,3,0,7,1,0}
+       10:  228:    };
+        1:  228-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  228-block  1
+        9:  228-block  2
+call    3 returned 9
+    $$$$$:  228-block  3
+    $$$$$:  228-block  4
+call    4 never executed
+       1*:  229:    ASSERT_EQ(SolveSudoku(board1), true);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  229-block  0
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:  229-block  1
+call    6 returned 1
+branch  7 taken 0 (fallthrough)
+branch  8 taken 1
+    %%%%%:  229-block  2
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  229-block  3
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  229-block  4
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  229-block  5
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+    %%%%%:  229-block  6
+call   21 never executed
+call   22 never executed
+        1:  229-block  7
+        1:  229-block  8
+call   23 returned 1
+branch 24 taken 1 (fallthrough)
+branch 25 taken 0
+    $$$$$:  229-block  9
+    $$$$$:  229-block 10
+    $$$$$:  229-block 11
+call   26 never executed
+    $$$$$:  229-block 12
+    $$$$$:  229-block 13
+call   27 never executed
+    $$$$$:  229-block 14
+    $$$$$:  229-block 15
+call   28 never executed
+        -:  230:
+        2:  231:    vector<vector<int>> board2(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+        1:  231-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:  231-block  1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+call    8 returned 1
+call    9 returned 1
+    $$$$$:  231-block  2
+    $$$$$:  231-block  3
+    $$$$$:  231-block  4
+    $$$$$:  231-block  5
+    $$$$$:  231-block  6
+call   10 never executed
+       11:  232:    board2 = {{0,2,0,8,0,1,7,9,0},
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:  232-block  0
+call    4 returned 1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+        1:  232-block  1
+call    8 returned 1
+call    9 returned 1
+branch 10 taken 1 (fallthrough)
+branch 11 taken 0 (throw)
+        1:  232-block  2
+call   12 returned 1
+call   13 returned 1
+branch 14 taken 1 (fallthrough)
+branch 15 taken 0 (throw)
+        1:  232-block  3
+call   16 returned 1
+call   17 returned 1
+branch 18 taken 1 (fallthrough)
+branch 19 taken 0 (throw)
+        1:  232-block  4
+call   20 returned 1
+call   21 returned 1
+branch 22 taken 1 (fallthrough)
+branch 23 taken 0 (throw)
+        1:  232-block  5
+call   24 returned 1
+call   25 returned 1
+branch 26 taken 1 (fallthrough)
+branch 27 taken 0 (throw)
+        1:  232-block  6
+call   28 returned 1
+call   29 returned 1
+branch 30 taken 1 (fallthrough)
+branch 31 taken 0 (throw)
+        1:  232-block  7
+call   32 returned 1
+call   33 returned 1
+branch 34 taken 1 (fallthrough)
+branch 35 taken 0 (throw)
+       10:  232-block  8
+branch 36 taken 9 (fallthrough)
+branch 37 taken 1
+        1:  232-block  9
+call   38 returned 1
+call   39 returned 1
+call   40 returned 1
+call   41 returned 1
+call   42 returned 1
+call   43 returned 1
+call   44 returned 1
+call   45 returned 1
+call   46 returned 1
+    $$$$$:  232-block 10
+branch 47 never executed
+branch 48 never executed
+    $$$$$:  232-block 11
+    $$$$$:  232-block 12
+call   49 never executed
+    $$$$$:  232-block 13
+    $$$$$:  232-block 14
+    $$$$$:  232-block 15
+call   50 never executed
+    $$$$$:  232-block 16
+    $$$$$:  232-block 17
+    $$$$$:  232-block 18
+call   51 never executed
+    $$$$$:  232-block 19
+    $$$$$:  232-block 20
+    $$$$$:  232-block 21
+call   52 never executed
+    $$$$$:  232-block 22
+    $$$$$:  232-block 23
+    $$$$$:  232-block 24
+call   53 never executed
+    $$$$$:  232-block 25
+    $$$$$:  232-block 26
+    $$$$$:  232-block 27
+call   54 never executed
+    $$$$$:  232-block 28
+    $$$$$:  232-block 29
+    $$$$$:  232-block 30
+call   55 never executed
+    $$$$$:  232-block 31
+    $$$$$:  232-block 32
+    $$$$$:  232-block 33
+call   56 never executed
+    $$$$$:  232-block 34
+    $$$$$:  232-block 35
+    $$$$$:  232-block 36
+call   57 never executed
+    $$$$$:  232-block 37
+    $$$$$:  232-block 38
+        -:  233:              {0,0,0,0,0,0,0,0,0},
+        -:  234:              {7,0,5,0,0,0,4,0,0},
+        -:  235:              {0,3,0,0,0,0,0,0,0},
+        -:  236:              {0,0,0,0,0,5,0,6,0},
+        -:  237:              {8,0,7,0,0,9,0,0,2},
+        -:  238:              {0,0,0,0,2,0,0,5,0},
+        -:  239:              {0,0,0,0,0,3,0,8,0},
+        -:  240:              {3,0,2,0,0,0,0,0,9}
+       10:  241:    };
+        1:  241-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  241-block  1
+        9:  241-block  2
+call    3 returned 9
+    $$$$$:  241-block  3
+    $$$$$:  241-block  4
+call    4 never executed
+       1*:  242:    ASSERT_EQ(SolveSudoku(board2), true);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  242-block  0
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:  242-block  1
+call    6 returned 1
+branch  7 taken 0 (fallthrough)
+branch  8 taken 1
+    %%%%%:  242-block  2
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  242-block  3
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  242-block  4
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  242-block  5
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+    %%%%%:  242-block  6
+call   21 never executed
+call   22 never executed
+        1:  242-block  7
+        1:  242-block  8
+call   23 returned 1
+branch 24 taken 1 (fallthrough)
+branch 25 taken 0
+    $$$$$:  242-block  9
+    $$$$$:  242-block 10
+    $$$$$:  242-block 11
+call   26 never executed
+    $$$$$:  242-block 12
+    $$$$$:  242-block 13
+call   27 never executed
+    $$$$$:  242-block 14
+    $$$$$:  242-block 15
+call   28 never executed
+        1:  243:}
+        1:  243-block  0
+        1:  243-block  1
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0
+    $$$$$:  243-block  2
+call    3 never executed
+------------------
+_ZN29TestCase_testSolveSoduku_TestC1Ev:
+function _ZN29TestCase_testSolveSoduku_TestC1Ev called 1 returned 100% blocks executed 100%
+        1:  217:TEST(TestCase, testSolveSoduku) {
+        1:  217-block  0
+call    0 returned 1
+------------------
+        -:  244:
+        2:  245:TEST(TestCase, testDigBlanksOnly) {
+        2:  246:    vector<vector<int>> board(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+       11:  247:    board = {{4,2,3,8,5,1,7,9,6},
+        -:  248:             {1,6,8,4,9,7,3,2,5},
+        -:  249:             {7,9,5,2,3,6,4,1,8},
+        -:  250:             {5,3,6,1,8,2,9,4,7},
+        -:  251:             {2,4,9,3,7,5,8,6,1},
+        -:  252:             {8,1,7,6,4,9,5,3,2},
+        -:  253:             {6,7,4,9,2,8,1,5,3},
+        -:  254:             {9,5,1,7,6,3,2,8,4},
+        -:  255:             {3,8,2,5,1,4,6,7,9}
+       10:  256:    };
+        1:  257:    DigBlanksOnly(board, 20);
+        1:  258:    int solution_count = 0;
+        1:  259:    CountSolution(board, 0, 0, solution_count);
+       1*:  260:    ASSERT_EQ(solution_count, 1);
+        -:  261:
+        1:  262:    DigBlanksOnly(board, 5);
+        1:  263:    solution_count = 0;
+        1:  264:    CountSolution(board, 0, 0, solution_count);
+       1*:  265:    ASSERT_EQ(solution_count, 1);
+        1:  266:}
+------------------
+_ZN31TestCase_testDigBlanksOnly_Test8TestBodyEv:
+function _ZN31TestCase_testDigBlanksOnly_Test8TestBodyEv called 1 returned 100% blocks executed 41%
+        1:  245:TEST(TestCase, testDigBlanksOnly) {
+        2:  246:    vector<vector<int>> board(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+        1:  246-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:  246-block  1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+call    8 returned 1
+call    9 returned 1
+    $$$$$:  246-block  2
+    $$$$$:  246-block  3
+    $$$$$:  246-block  4
+    $$$$$:  246-block  5
+       11:  247:    board = {{4,2,3,8,5,1,7,9,6},
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:  247-block  0
+call    4 returned 1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+        1:  247-block  1
+call    8 returned 1
+call    9 returned 1
+branch 10 taken 1 (fallthrough)
+branch 11 taken 0 (throw)
+        1:  247-block  2
+call   12 returned 1
+call   13 returned 1
+branch 14 taken 1 (fallthrough)
+branch 15 taken 0 (throw)
+        1:  247-block  3
+call   16 returned 1
+call   17 returned 1
+branch 18 taken 1 (fallthrough)
+branch 19 taken 0 (throw)
+        1:  247-block  4
+call   20 returned 1
+call   21 returned 1
+branch 22 taken 1 (fallthrough)
+branch 23 taken 0 (throw)
+        1:  247-block  5
+call   24 returned 1
+call   25 returned 1
+branch 26 taken 1 (fallthrough)
+branch 27 taken 0 (throw)
+        1:  247-block  6
+call   28 returned 1
+call   29 returned 1
+branch 30 taken 1 (fallthrough)
+branch 31 taken 0 (throw)
+        1:  247-block  7
+call   32 returned 1
+call   33 returned 1
+branch 34 taken 1 (fallthrough)
+branch 35 taken 0 (throw)
+       10:  247-block  8
+branch 36 taken 9 (fallthrough)
+branch 37 taken 1
+        1:  247-block  9
+call   38 returned 1
+call   39 returned 1
+call   40 returned 1
+call   41 returned 1
+call   42 returned 1
+call   43 returned 1
+call   44 returned 1
+call   45 returned 1
+call   46 returned 1
+    $$$$$:  247-block 10
+branch 47 never executed
+branch 48 never executed
+    $$$$$:  247-block 11
+    $$$$$:  247-block 12
+call   49 never executed
+    $$$$$:  247-block 13
+    $$$$$:  247-block 14
+    $$$$$:  247-block 15
+call   50 never executed
+    $$$$$:  247-block 16
+    $$$$$:  247-block 17
+    $$$$$:  247-block 18
+call   51 never executed
+    $$$$$:  247-block 19
+    $$$$$:  247-block 20
+    $$$$$:  247-block 21
+call   52 never executed
+    $$$$$:  247-block 22
+    $$$$$:  247-block 23
+    $$$$$:  247-block 24
+call   53 never executed
+    $$$$$:  247-block 25
+    $$$$$:  247-block 26
+    $$$$$:  247-block 27
+call   54 never executed
+    $$$$$:  247-block 28
+    $$$$$:  247-block 29
+    $$$$$:  247-block 30
+call   55 never executed
+    $$$$$:  247-block 31
+    $$$$$:  247-block 32
+    $$$$$:  247-block 33
+call   56 never executed
+    $$$$$:  247-block 34
+    $$$$$:  247-block 35
+    $$$$$:  247-block 36
+call   57 never executed
+    $$$$$:  247-block 37
+    $$$$$:  247-block 38
+        -:  248:             {1,6,8,4,9,7,3,2,5},
+        -:  249:             {7,9,5,2,3,6,4,1,8},
+        -:  250:             {5,3,6,1,8,2,9,4,7},
+        -:  251:             {2,4,9,3,7,5,8,6,1},
+        -:  252:             {8,1,7,6,4,9,5,3,2},
+        -:  253:             {6,7,4,9,2,8,1,5,3},
+        -:  254:             {9,5,1,7,6,3,2,8,4},
+        -:  255:             {3,8,2,5,1,4,6,7,9}
+       10:  256:    };
+        1:  256-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  256-block  1
+        9:  256-block  2
+call    3 returned 9
+    $$$$$:  256-block  3
+    $$$$$:  256-block  4
+call    4 never executed
+        1:  257:    DigBlanksOnly(board, 20);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  258:    int solution_count = 0;
+        1:  259:    CountSolution(board, 0, 0, solution_count);
+        1:  259-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       1*:  260:    ASSERT_EQ(solution_count, 1);
+        1:  260-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  260-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  260-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  260-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  260-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  260-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  260-block  6
+call   18 never executed
+call   19 never executed
+        1:  260-block  7
+        1:  260-block  8
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+    $$$$$:  260-block  9
+    $$$$$:  260-block 10
+call   23 never executed
+    $$$$$:  260-block 11
+    $$$$$:  260-block 12
+call   24 never executed
+    $$$$$:  260-block 13
+    $$$$$:  260-block 14
+call   25 never executed
+        -:  261:
+        1:  262:    DigBlanksOnly(board, 5);
+        1:  262-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  263:    solution_count = 0;
+        1:  264:    CountSolution(board, 0, 0, solution_count);
+        1:  264-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       1*:  265:    ASSERT_EQ(solution_count, 1);
+        1:  265-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  265-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  265-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  265-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  265-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  265-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  265-block  6
+call   18 never executed
+call   19 never executed
+        1:  265-block  7
+        1:  265-block  8
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+    $$$$$:  265-block  9
+    $$$$$:  265-block 10
+call   23 never executed
+    $$$$$:  265-block 11
+    $$$$$:  265-block 12
+call   24 never executed
+    $$$$$:  265-block 13
+    $$$$$:  265-block 14
+call   25 never executed
+        1:  266:}
+        1:  266-block  0
+        1:  266-block  1
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0
+    $$$$$:  266-block  2
+call    3 never executed
+------------------
+_ZN31TestCase_testDigBlanksOnly_TestC1Ev:
+function _ZN31TestCase_testDigBlanksOnly_TestC1Ev called 1 returned 100% blocks executed 100%
+        1:  245:TEST(TestCase, testDigBlanksOnly) {
+        1:  245-block  0
+call    0 returned 1
+------------------
+        -:  267:
+        2:  268:TEST(TestCase, testJudgeRange) {
+       1*:  269:    ASSERT_EQ(JudgeRange(3, 7, 5), false);
+       1*:  270:    ASSERT_EQ(JudgeRange(3, 7, 1), true);
+       1*:  271:    ASSERT_EQ(JudgeRange(3, 7, 9), true);
+       1*:  272:    ASSERT_EQ(JudgeRange(7, 3, 5), true);
+        -:  273:}
+------------------
+_ZN28TestCase_testJudgeRange_Test8TestBodyEv:
+function _ZN28TestCase_testJudgeRange_Test8TestBodyEv called 1 returned 100% blocks executed 30%
+        1:  268:TEST(TestCase, testJudgeRange) {
+       1*:  269:    ASSERT_EQ(JudgeRange(3, 7, 5), false);
+        1:  269-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  269-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:  269-block  2
+call    6 returned 1
+branch  7 taken 0 (fallthrough)
+branch  8 taken 1
+    %%%%%:  269-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  269-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  269-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  269-block  6
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+    %%%%%:  269-block  7
+call   21 never executed
+call   22 never executed
+        1:  269-block  8
+        1:  269-block  9
+call   23 returned 1
+branch 24 taken 1 (fallthrough)
+branch 25 taken 0
+    $$$$$:  269-block 10
+    $$$$$:  269-block 11
+    $$$$$:  269-block 12
+call   26 never executed
+    $$$$$:  269-block 13
+    $$$$$:  269-block 14
+call   27 never executed
+    $$$$$:  269-block 15
+    $$$$$:  269-block 16
+call   28 never executed
+       1*:  270:    ASSERT_EQ(JudgeRange(3, 7, 1), true);
+        1:  270-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  270-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:  270-block  2
+call    6 returned 1
+branch  7 taken 0 (fallthrough)
+branch  8 taken 1
+    %%%%%:  270-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  270-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  270-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  270-block  6
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+    %%%%%:  270-block  7
+call   21 never executed
+call   22 never executed
+        1:  270-block  8
+        1:  270-block  9
+call   23 returned 1
+branch 24 taken 1 (fallthrough)
+branch 25 taken 0
+    $$$$$:  270-block 10
+    $$$$$:  270-block 11
+    $$$$$:  270-block 12
+call   26 never executed
+    $$$$$:  270-block 13
+    $$$$$:  270-block 14
+call   27 never executed
+    $$$$$:  270-block 15
+    $$$$$:  270-block 16
+call   28 never executed
+       1*:  271:    ASSERT_EQ(JudgeRange(3, 7, 9), true);
+        1:  271-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  271-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:  271-block  2
+call    6 returned 1
+branch  7 taken 0 (fallthrough)
+branch  8 taken 1
+    %%%%%:  271-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  271-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  271-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  271-block  6
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+    %%%%%:  271-block  7
+call   21 never executed
+call   22 never executed
+        1:  271-block  8
+        1:  271-block  9
+call   23 returned 1
+branch 24 taken 1 (fallthrough)
+branch 25 taken 0
+    $$$$$:  271-block 10
+    $$$$$:  271-block 11
+    $$$$$:  271-block 12
+call   26 never executed
+    $$$$$:  271-block 13
+    $$$$$:  271-block 14
+call   27 never executed
+    $$$$$:  271-block 15
+    $$$$$:  271-block 16
+call   28 never executed
+       1*:  272:    ASSERT_EQ(JudgeRange(7, 3, 5), true);
+        1:  272-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  272-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:  272-block  2
+call    6 returned 1
+branch  7 taken 0 (fallthrough)
+branch  8 taken 1
+    %%%%%:  272-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  272-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  272-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  272-block  6
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+    %%%%%:  272-block  7
+call   21 never executed
+call   22 never executed
+        1:  272-block  8
+        1:  272-block  9
+call   23 returned 1
+branch 24 taken 1 (fallthrough)
+branch 25 taken 0
+    $$$$$:  272-block 10
+    $$$$$:  272-block 11
+    $$$$$:  272-block 12
+call   26 never executed
+    $$$$$:  272-block 13
+    $$$$$:  272-block 14
+call   27 never executed
+    $$$$$:  272-block 15
+    $$$$$:  272-block 16
+call   28 never executed
+        -:  273:}
+------------------
+_ZN28TestCase_testJudgeRange_TestC1Ev:
+function _ZN28TestCase_testJudgeRange_TestC1Ev called 1 returned 100% blocks executed 100%
+        1:  268:TEST(TestCase, testJudgeRange) {
+        1:  268-block  0
+call    0 returned 1
+------------------
+        -:  274:
+        2:  275:TEST(TestCase, testParameterHandler) {
+        -:  276:    bool result;
+        -:  277:
+        1:  278:    char* argv_null[] = {nullptr, nullptr};
+        1:  279:    result = ParameterHandler(argv_null);
+       1*:  280:    ASSERT_EQ(result, false);
+        -:  281:
+        1:  282:    char* argv_c_1[] = {nullptr, "-c"};
+        1:  283:    result = ParameterHandler(argv_c_1);
+       1*:  284:    ASSERT_EQ(result, false);
+        1:  285:    char* argv_c_2[] = {nullptr, "-c", "1000001"};
+        1:  286:    result = ParameterHandler(argv_c_2);
+       1*:  287:    ASSERT_EQ(result, false);
+        1:  288:    char* argv_c_3[] = {nullptr, "-c", "10"};
+        1:  289:    result = ParameterHandler(argv_c_3);
+       1*:  290:    ASSERT_EQ(result, true);
+        -:  291:
+        1:  292:    char* argv_s_1[] = {nullptr, "-s"};
+       1*:  293:    ASSERT_EQ(ParameterHandler(argv_s_1), false);
+        1:  294:    char* argv_s_2[] = {nullptr, "-s", "wrong.path"};
+       1*:  295:    ASSERT_EQ(ParameterHandler(argv_s_2), true);
+        1:  296:    char* argv_s_3[] = {nullptr, "-s", "./puzzle.txt"};
+       1*:  297:    ASSERT_EQ(ParameterHandler(argv_s_3), true);
+        -:  298:
+        1:  299:    char* argv_n_1[] = {nullptr, "-n"};
+        1:  300:    result = ParameterHandler(argv_n_1);
+       1*:  301:    ASSERT_EQ(result, false);
+        1:  302:    char* argv_n_2[] = {nullptr, "-n", "10001"};
+        1:  303:    result = ParameterHandler(argv_n_2);
+       1*:  304:    ASSERT_EQ(result, false);
+        -:  305://    char* argv_n_3[] = {nullptr, "-n", "10", nullptr};
+        -:  306://    result = ParameterHandler(argv_n_3);
+        -:  307://    ASSERT_EQ(result, true);
+        1:  308:    char* argv_n_4[] = {nullptr, "-n", "10001", "wrong parameter"};
+        1:  309:    result = ParameterHandler(argv_n_4);
+       1*:  310:    ASSERT_EQ(result, false);
+        -:  311:
+        1:  312:    char* argv_n_m_1[] = {nullptr, "-n", "10", "-m"};
+        1:  313:    result = ParameterHandler(argv_n_m_1);
+       1*:  314:    ASSERT_EQ(result, false);
+        1:  315:    char* argv_n_m_2[] = {nullptr, "-n", "10", "-m", "4"};
+        1:  316:    result = ParameterHandler(argv_n_m_2);
+       1*:  317:    ASSERT_EQ(result, false);
+        1:  318:    char* argv_n_m_3[] = {nullptr, "-n", "10", "-m", "2"};
+        1:  319:    result = ParameterHandler(argv_n_m_3);
+       1*:  320:    ASSERT_EQ(result, true);
+        -:  321:
+        1:  322:    char* argv_n_r_1[] = {nullptr, "-n", "10", "-r"};
+        1:  323:    result = ParameterHandler(argv_n_r_1);
+       1*:  324:    ASSERT_EQ(result, false);
+        1:  325:    char* argv_n_r_2[] = {nullptr, "-n", "10", "-r", "15~35"};
+        1:  326:    result = ParameterHandler(argv_n_r_2);
+       1*:  327:    ASSERT_EQ(result, false);
+        1:  328:    char* argv_n_r_3[] = {nullptr, "-n", "10", "-r", "25~65"};
+        1:  329:    result = ParameterHandler(argv_n_r_3);
+       1*:  330:    ASSERT_EQ(result, false);
+        1:  331:    char* argv_n_r_4[] = {nullptr, "-n", "10", "-r", "25~35"};
+        1:  332:    result = ParameterHandler(argv_n_r_4);
+       1*:  333:    ASSERT_EQ(result, true);
+        -:  334:
+        1:  335:    char* argv_random[] = {nullptr, "Hello World!"};
+        1:  336:    result = ParameterHandler(argv_random);
+       1*:  337:    ASSERT_EQ(result, false);
+        -:  338:}
+------------------
+_ZN34TestCase_testParameterHandler_Test8TestBodyEv:
+function _ZN34TestCase_testParameterHandler_Test8TestBodyEv called 1 returned 100% blocks executed 30%
+        1:  275:TEST(TestCase, testParameterHandler) {
+        -:  276:    bool result;
+        -:  277:
+        1:  278:    char* argv_null[] = {nullptr, nullptr};
+        1:  279:    result = ParameterHandler(argv_null);
+        1:  279-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       1*:  280:    ASSERT_EQ(result, false);
+        1:  280-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  280-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  280-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  280-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  280-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  280-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  280-block  6
+call   18 never executed
+call   19 never executed
+        1:  280-block  7
+        1:  280-block  8
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+    $$$$$:  280-block  9
+    $$$$$:  280-block 10
+call   23 never executed
+    $$$$$:  280-block 11
+    $$$$$:  280-block 12
+call   24 never executed
+    $$$$$:  280-block 13
+    $$$$$:  280-block 14
+call   25 never executed
+        -:  281:
+        1:  282:    char* argv_c_1[] = {nullptr, "-c"};
+        1:  283:    result = ParameterHandler(argv_c_1);
+        1:  283-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       1*:  284:    ASSERT_EQ(result, false);
+        1:  284-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  284-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  284-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  284-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  284-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  284-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  284-block  6
+call   18 never executed
+call   19 never executed
+        1:  284-block  7
+        1:  284-block  8
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+    $$$$$:  284-block  9
+    $$$$$:  284-block 10
+call   23 never executed
+    $$$$$:  284-block 11
+    $$$$$:  284-block 12
+call   24 never executed
+    $$$$$:  284-block 13
+    $$$$$:  284-block 14
+call   25 never executed
+        1:  285:    char* argv_c_2[] = {nullptr, "-c", "1000001"};
+        1:  286:    result = ParameterHandler(argv_c_2);
+        1:  286-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       1*:  287:    ASSERT_EQ(result, false);
+        1:  287-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  287-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  287-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  287-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  287-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  287-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  287-block  6
+call   18 never executed
+call   19 never executed
+        1:  287-block  7
+        1:  287-block  8
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+    $$$$$:  287-block  9
+    $$$$$:  287-block 10
+call   23 never executed
+    $$$$$:  287-block 11
+    $$$$$:  287-block 12
+call   24 never executed
+    $$$$$:  287-block 13
+    $$$$$:  287-block 14
+call   25 never executed
+        1:  288:    char* argv_c_3[] = {nullptr, "-c", "10"};
+        1:  289:    result = ParameterHandler(argv_c_3);
+        1:  289-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       1*:  290:    ASSERT_EQ(result, true);
+        1:  290-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  290-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  290-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  290-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  290-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  290-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  290-block  6
+call   18 never executed
+call   19 never executed
+        1:  290-block  7
+        1:  290-block  8
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+    $$$$$:  290-block  9
+    $$$$$:  290-block 10
+call   23 never executed
+    $$$$$:  290-block 11
+    $$$$$:  290-block 12
+call   24 never executed
+    $$$$$:  290-block 13
+    $$$$$:  290-block 14
+call   25 never executed
+        -:  291:
+        1:  292:    char* argv_s_1[] = {nullptr, "-s"};
+       1*:  293:    ASSERT_EQ(ParameterHandler(argv_s_1), false);
+        1:  293-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  293-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:  293-block  2
+call    6 returned 1
+branch  7 taken 0 (fallthrough)
+branch  8 taken 1
+    %%%%%:  293-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  293-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  293-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  293-block  6
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+    %%%%%:  293-block  7
+call   21 never executed
+call   22 never executed
+        1:  293-block  8
+        1:  293-block  9
+call   23 returned 1
+branch 24 taken 1 (fallthrough)
+branch 25 taken 0
+    $$$$$:  293-block 10
+    $$$$$:  293-block 11
+    $$$$$:  293-block 12
+call   26 never executed
+    $$$$$:  293-block 13
+    $$$$$:  293-block 14
+call   27 never executed
+    $$$$$:  293-block 15
+    $$$$$:  293-block 16
+call   28 never executed
+        1:  294:    char* argv_s_2[] = {nullptr, "-s", "wrong.path"};
+       1*:  295:    ASSERT_EQ(ParameterHandler(argv_s_2), true);
+        1:  295-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  295-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:  295-block  2
+call    6 returned 1
+branch  7 taken 0 (fallthrough)
+branch  8 taken 1
+    %%%%%:  295-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  295-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  295-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  295-block  6
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+    %%%%%:  295-block  7
+call   21 never executed
+call   22 never executed
+        1:  295-block  8
+        1:  295-block  9
+call   23 returned 1
+branch 24 taken 1 (fallthrough)
+branch 25 taken 0
+    $$$$$:  295-block 10
+    $$$$$:  295-block 11
+    $$$$$:  295-block 12
+call   26 never executed
+    $$$$$:  295-block 13
+    $$$$$:  295-block 14
+call   27 never executed
+    $$$$$:  295-block 15
+    $$$$$:  295-block 16
+call   28 never executed
+        1:  296:    char* argv_s_3[] = {nullptr, "-s", "./puzzle.txt"};
+       1*:  297:    ASSERT_EQ(ParameterHandler(argv_s_3), true);
+        1:  297-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  297-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:  297-block  2
+call    6 returned 1
+branch  7 taken 0 (fallthrough)
+branch  8 taken 1
+    %%%%%:  297-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  297-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  297-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  297-block  6
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+    %%%%%:  297-block  7
+call   21 never executed
+call   22 never executed
+        1:  297-block  8
+        1:  297-block  9
+call   23 returned 1
+branch 24 taken 1 (fallthrough)
+branch 25 taken 0
+    $$$$$:  297-block 10
+    $$$$$:  297-block 11
+    $$$$$:  297-block 12
+call   26 never executed
+    $$$$$:  297-block 13
+    $$$$$:  297-block 14
+call   27 never executed
+    $$$$$:  297-block 15
+    $$$$$:  297-block 16
+call   28 never executed
+        -:  298:
+        1:  299:    char* argv_n_1[] = {nullptr, "-n"};
+        1:  300:    result = ParameterHandler(argv_n_1);
+        1:  300-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       1*:  301:    ASSERT_EQ(result, false);
+        1:  301-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  301-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  301-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  301-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  301-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  301-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  301-block  6
+call   18 never executed
+call   19 never executed
+        1:  301-block  7
+        1:  301-block  8
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+    $$$$$:  301-block  9
+    $$$$$:  301-block 10
+call   23 never executed
+    $$$$$:  301-block 11
+    $$$$$:  301-block 12
+call   24 never executed
+    $$$$$:  301-block 13
+    $$$$$:  301-block 14
+call   25 never executed
+        1:  302:    char* argv_n_2[] = {nullptr, "-n", "10001"};
+        1:  303:    result = ParameterHandler(argv_n_2);
+        1:  303-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       1*:  304:    ASSERT_EQ(result, false);
+        1:  304-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  304-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  304-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  304-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  304-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  304-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  304-block  6
+call   18 never executed
+call   19 never executed
+        1:  304-block  7
+        1:  304-block  8
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+    $$$$$:  304-block  9
+    $$$$$:  304-block 10
+call   23 never executed
+    $$$$$:  304-block 11
+    $$$$$:  304-block 12
+call   24 never executed
+    $$$$$:  304-block 13
+    $$$$$:  304-block 14
+call   25 never executed
+        -:  305://    char* argv_n_3[] = {nullptr, "-n", "10", nullptr};
+        -:  306://    result = ParameterHandler(argv_n_3);
+        -:  307://    ASSERT_EQ(result, true);
+        1:  308:    char* argv_n_4[] = {nullptr, "-n", "10001", "wrong parameter"};
+        1:  309:    result = ParameterHandler(argv_n_4);
+        1:  309-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       1*:  310:    ASSERT_EQ(result, false);
+        1:  310-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  310-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  310-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  310-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  310-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  310-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  310-block  6
+call   18 never executed
+call   19 never executed
+        1:  310-block  7
+        1:  310-block  8
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+    $$$$$:  310-block  9
+    $$$$$:  310-block 10
+call   23 never executed
+    $$$$$:  310-block 11
+    $$$$$:  310-block 12
+call   24 never executed
+    $$$$$:  310-block 13
+    $$$$$:  310-block 14
+call   25 never executed
+        -:  311:
+        1:  312:    char* argv_n_m_1[] = {nullptr, "-n", "10", "-m"};
+        1:  313:    result = ParameterHandler(argv_n_m_1);
+        1:  313-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       1*:  314:    ASSERT_EQ(result, false);
+        1:  314-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  314-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  314-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  314-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  314-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  314-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  314-block  6
+call   18 never executed
+call   19 never executed
+        1:  314-block  7
+        1:  314-block  8
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+    $$$$$:  314-block  9
+    $$$$$:  314-block 10
+call   23 never executed
+    $$$$$:  314-block 11
+    $$$$$:  314-block 12
+call   24 never executed
+    $$$$$:  314-block 13
+    $$$$$:  314-block 14
+call   25 never executed
+        1:  315:    char* argv_n_m_2[] = {nullptr, "-n", "10", "-m", "4"};
+        1:  316:    result = ParameterHandler(argv_n_m_2);
+        1:  316-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       1*:  317:    ASSERT_EQ(result, false);
+        1:  317-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  317-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  317-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  317-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  317-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  317-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  317-block  6
+call   18 never executed
+call   19 never executed
+        1:  317-block  7
+        1:  317-block  8
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+    $$$$$:  317-block  9
+    $$$$$:  317-block 10
+call   23 never executed
+    $$$$$:  317-block 11
+    $$$$$:  317-block 12
+call   24 never executed
+    $$$$$:  317-block 13
+    $$$$$:  317-block 14
+call   25 never executed
+        1:  318:    char* argv_n_m_3[] = {nullptr, "-n", "10", "-m", "2"};
+        1:  319:    result = ParameterHandler(argv_n_m_3);
+        1:  319-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       1*:  320:    ASSERT_EQ(result, true);
+        1:  320-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  320-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  320-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  320-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  320-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  320-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  320-block  6
+call   18 never executed
+call   19 never executed
+        1:  320-block  7
+        1:  320-block  8
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+    $$$$$:  320-block  9
+    $$$$$:  320-block 10
+call   23 never executed
+    $$$$$:  320-block 11
+    $$$$$:  320-block 12
+call   24 never executed
+    $$$$$:  320-block 13
+    $$$$$:  320-block 14
+call   25 never executed
+        -:  321:
+        1:  322:    char* argv_n_r_1[] = {nullptr, "-n", "10", "-r"};
+        1:  323:    result = ParameterHandler(argv_n_r_1);
+        1:  323-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       1*:  324:    ASSERT_EQ(result, false);
+        1:  324-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  324-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  324-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  324-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  324-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  324-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  324-block  6
+call   18 never executed
+call   19 never executed
+        1:  324-block  7
+        1:  324-block  8
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+    $$$$$:  324-block  9
+    $$$$$:  324-block 10
+call   23 never executed
+    $$$$$:  324-block 11
+    $$$$$:  324-block 12
+call   24 never executed
+    $$$$$:  324-block 13
+    $$$$$:  324-block 14
+call   25 never executed
+        1:  325:    char* argv_n_r_2[] = {nullptr, "-n", "10", "-r", "15~35"};
+        1:  326:    result = ParameterHandler(argv_n_r_2);
+        1:  326-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       1*:  327:    ASSERT_EQ(result, false);
+        1:  327-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  327-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  327-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  327-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  327-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  327-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  327-block  6
+call   18 never executed
+call   19 never executed
+        1:  327-block  7
+        1:  327-block  8
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+    $$$$$:  327-block  9
+    $$$$$:  327-block 10
+call   23 never executed
+    $$$$$:  327-block 11
+    $$$$$:  327-block 12
+call   24 never executed
+    $$$$$:  327-block 13
+    $$$$$:  327-block 14
+call   25 never executed
+        1:  328:    char* argv_n_r_3[] = {nullptr, "-n", "10", "-r", "25~65"};
+        1:  329:    result = ParameterHandler(argv_n_r_3);
+        1:  329-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       1*:  330:    ASSERT_EQ(result, false);
+        1:  330-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  330-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  330-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  330-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  330-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  330-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  330-block  6
+call   18 never executed
+call   19 never executed
+        1:  330-block  7
+        1:  330-block  8
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+    $$$$$:  330-block  9
+    $$$$$:  330-block 10
+call   23 never executed
+    $$$$$:  330-block 11
+    $$$$$:  330-block 12
+call   24 never executed
+    $$$$$:  330-block 13
+    $$$$$:  330-block 14
+call   25 never executed
+        1:  331:    char* argv_n_r_4[] = {nullptr, "-n", "10", "-r", "25~35"};
+        1:  332:    result = ParameterHandler(argv_n_r_4);
+        1:  332-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       1*:  333:    ASSERT_EQ(result, true);
+        1:  333-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  333-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  333-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  333-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  333-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  333-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  333-block  6
+call   18 never executed
+call   19 never executed
+        1:  333-block  7
+        1:  333-block  8
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+    $$$$$:  333-block  9
+    $$$$$:  333-block 10
+call   23 never executed
+    $$$$$:  333-block 11
+    $$$$$:  333-block 12
+call   24 never executed
+    $$$$$:  333-block 13
+    $$$$$:  333-block 14
+call   25 never executed
+        -:  334:
+        1:  335:    char* argv_random[] = {nullptr, "Hello World!"};
+        1:  336:    result = ParameterHandler(argv_random);
+        1:  336-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       1*:  337:    ASSERT_EQ(result, false);
+        1:  337-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:  337-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:  337-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+    %%%%%:  337-block  3
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+    %%%%%:  337-block  4
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+    %%%%%:  337-block  5
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+    %%%%%:  337-block  6
+call   18 never executed
+call   19 never executed
+        1:  337-block  7
+        1:  337-block  8
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+    $$$$$:  337-block  9
+    $$$$$:  337-block 10
+call   23 never executed
+    $$$$$:  337-block 11
+    $$$$$:  337-block 12
+call   24 never executed
+    $$$$$:  337-block 13
+    $$$$$:  337-block 14
+call   25 never executed
+        -:  338:}
+------------------
+_ZN34TestCase_testParameterHandler_TestC1Ev:
+function _ZN34TestCase_testParameterHandler_TestC1Ev called 1 returned 100% blocks executed 100%
+        1:  275:TEST(TestCase, testParameterHandler) {
+        1:  275-block  0
+call    0 returned 1
+------------------
+        -:  339:
+function main called 1 returned 100% blocks executed 100%
+        1:  340:int main(int argc, char **argv) {
+        1:  341:    testing::InitGoogleTest(&argc, argv);
+        1:  341-block  0
+call    0 returned 1
+        1:  342:    return RUN_ALL_TESTS();
+call    0 returned 1
+        -:  343:}

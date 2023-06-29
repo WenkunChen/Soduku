@@ -1,0 +1,338 @@
+        -:    0:Source:D:/IDE/CLion 2023.1.4/workspace/sudoku/googletest/googletest/include/gtest/internal/gtest-linked_ptr.h
+        -:    0:Graph:D:\IDE\CLion 2023.1.4\workspace\sudoku\cmake-build-debug-\googletest\googlemock\gtest\CMakeFiles\gtest.dir\src\gtest-all.cc.gcno
+        -:    0:Data:D:\IDE\CLion 2023.1.4\workspace\sudoku\cmake-build-debug-\googletest\googlemock\gtest\CMakeFiles\gtest.dir\src\gtest-all.cc.gcda
+        -:    0:Runs:1
+        -:    1:// Copyright 2003 Google Inc.
+        -:    2:// All rights reserved.
+        -:    3://
+        -:    4:// Redistribution and use in source and binary forms, with or without
+        -:    5:// modification, are permitted provided that the following conditions are
+        -:    6:// met:
+        -:    7://
+        -:    8://     * Redistributions of source code must retain the above copyright
+        -:    9:// notice, this list of conditions and the following disclaimer.
+        -:   10://     * Redistributions in binary form must reproduce the above
+        -:   11:// copyright notice, this list of conditions and the following disclaimer
+        -:   12:// in the documentation and/or other materials provided with the
+        -:   13:// distribution.
+        -:   14://     * Neither the name of Google Inc. nor the names of its
+        -:   15:// contributors may be used to endorse or promote products derived from
+        -:   16:// this software without specific prior written permission.
+        -:   17://
+        -:   18:// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+        -:   19:// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+        -:   20:// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+        -:   21:// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+        -:   22:// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+        -:   23:// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+        -:   24:// LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+        -:   25:// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+        -:   26:// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+        -:   27:// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+        -:   28:// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+        -:   29://
+        -:   30:// A "smart" pointer type with reference tracking.  Every pointer to a
+        -:   31:// particular object is kept on a circular linked list.  When the last pointer
+        -:   32:// to an object is destroyed or reassigned, the object is deleted.
+        -:   33://
+        -:   34:// Used properly, this deletes the object when the last reference goes away.
+        -:   35:// There are several caveats:
+        -:   36:// - Like all reference counting schemes, cycles lead to leaks.
+        -:   37:// - Each smart pointer is actually two pointers (8 bytes instead of 4).
+        -:   38:// - Every time a pointer is assigned, the entire list of pointers to that
+        -:   39://   object is traversed.  This class is therefore NOT SUITABLE when there
+        -:   40://   will often be more than two or three pointers to a particular object.
+        -:   41:// - References are only tracked as long as linked_ptr<> objects are copied.
+        -:   42://   If a linked_ptr<> is converted to a raw pointer and back, BAD THINGS
+        -:   43://   will happen (double deletion).
+        -:   44://
+        -:   45:// A good use of this class is storing object references in STL containers.
+        -:   46:// You can safely put linked_ptr<> in a vector<>.
+        -:   47:// Other uses may not be as good.
+        -:   48://
+        -:   49:// Note: If you use an incomplete type with linked_ptr<>, the class
+        -:   50:// *containing* linked_ptr<> must have a constructor and destructor (even
+        -:   51:// if they do nothing!).
+        -:   52://
+        -:   53:// Bill Gibbons suggested we use something like this.
+        -:   54://
+        -:   55:// Thread Safety:
+        -:   56://   Unlike other linked_ptr implementations, in this implementation
+        -:   57://   a linked_ptr object is thread-safe in the sense that:
+        -:   58://     - it's safe to copy linked_ptr objects concurrently,
+        -:   59://     - it's safe to copy *from* a linked_ptr and read its underlying
+        -:   60://       raw pointer (e.g. via get()) concurrently, and
+        -:   61://     - it's safe to write to two linked_ptrs that point to the same
+        -:   62://       shared object concurrently.
+        -:   63:// FIXME: rename this to safe_linked_ptr to avoid
+        -:   64:// confusion with normal linked_ptr.
+        -:   65:
+        -:   66:// GOOGLETEST_CM0001 DO NOT DELETE
+        -:   67:
+        -:   68:#ifndef GTEST_INCLUDE_GTEST_INTERNAL_GTEST_LINKED_PTR_H_
+        -:   69:#define GTEST_INCLUDE_GTEST_INTERNAL_GTEST_LINKED_PTR_H_
+        -:   70:
+        -:   71:#include <stdlib.h>
+        -:   72:#include <assert.h>
+        -:   73:
+        -:   74:#include "gtest/internal/gtest-port.h"
+        -:   75:
+        -:   76:namespace testing {
+        -:   77:namespace internal {
+        -:   78:
+        -:   79:// Protects copying of all linked_ptr objects.
+        -:   80:GTEST_API_ GTEST_DECLARE_STATIC_MUTEX_(g_linked_ptr_mutex);
+        -:   81:
+        -:   82:// This is used internally by all instances of linked_ptr<>.  It needs to be
+        -:   83:// a non-template class because different types of linked_ptr<> can refer to
+        -:   84:// the same object (linked_ptr<Superclass>(obj) vs linked_ptr<Subclass>(obj)).
+        -:   85:// So, it needs to be possible for different types of linked_ptr to participate
+        -:   86:// in the same circular linked list, so we need a single class type here.
+        -:   87://
+        -:   88:// DO NOT USE THIS CLASS DIRECTLY YOURSELF.  Use linked_ptr<T>.
+        -:   89:class linked_ptr_internal {
+        -:   90: public:
+        -:   91:  // Create a new circle that includes only this instance.
+function _ZN7testing8internal19linked_ptr_internal8join_newEv called 0 returned 0% blocks executed 0%
+    #####:   92:  void join_new() {
+    #####:   93:    next_ = this;
+    #####:   94:  }
+        -:   95:
+        -:   96:  // Many linked_ptr operations may change p.link_ for some linked_ptr
+        -:   97:  // variable p in the same circle as this object.  Therefore we need
+        -:   98:  // to prevent two such operations from occurring concurrently.
+        -:   99:  //
+        -:  100:  // Note that different types of linked_ptr objects can coexist in a
+        -:  101:  // circle (e.g. linked_ptr<Base>, linked_ptr<Derived1>, and
+        -:  102:  // linked_ptr<Derived2>).  Therefore we must use a single mutex to
+        -:  103:  // protect all linked_ptr objects.  This can create serious
+        -:  104:  // contention in production code, but is acceptable in a testing
+        -:  105:  // framework.
+        -:  106:
+        -:  107:  // Join an existing circle.
+function _ZN7testing8internal19linked_ptr_internal4joinEPKS1_ called 0 returned 0% blocks executed 0%
+    #####:  108:  void join(linked_ptr_internal const* ptr)
+        -:  109:      GTEST_LOCK_EXCLUDED_(g_linked_ptr_mutex) {
+    #####:  110:    MutexLock lock(&g_linked_ptr_mutex);
+    %%%%%:  110-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:  111:
+    #####:  112:    linked_ptr_internal const* p = ptr;
+    #####:  113:    while (p->next_ != ptr) {
+    %%%%%:  113-block  0
+    %%%%%:  113-block  1
+branch  0 never executed
+branch  1 never executed
+    #####:  114:      assert(p->next_ != this &&
+    %%%%%:  114-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:  114-block  1
+call    2 never executed
+branch  3 never executed
+branch  4 never executed
+    %%%%%:  114-block  2
+    %%%%%:  114-block  3
+        -:  115:             "Trying to join() a linked ring we are already in. "
+        -:  116:             "Is GMock thread safety enabled?");
+    #####:  117:      p = p->next_;
+    %%%%%:  117-block  0
+        -:  118:    }
+    #####:  119:    p->next_ = this;
+    #####:  120:    next_ = ptr;
+    #####:  121:  }
+    %%%%%:  121-block  0
+call    0 never executed
+    $$$$$:  121-block  1
+call    1 never executed
+        -:  122:
+        -:  123:  // Leave whatever circle we're part of.  Returns true if we were the
+        -:  124:  // last member of the circle.  Once this is done, you can join() another.
+function _ZN7testing8internal19linked_ptr_internal6departEv called 0 returned 0% blocks executed 0%
+    #####:  125:  bool depart()
+        -:  126:      GTEST_LOCK_EXCLUDED_(g_linked_ptr_mutex) {
+    #####:  127:    MutexLock lock(&g_linked_ptr_mutex);
+    %%%%%:  127-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:  128:
+    #####:  129:    if (next_ == this) return true;
+    %%%%%:  129-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:  129-block  1
+    #####:  130:    linked_ptr_internal const* p = next_;
+    #####:  131:    while (p->next_ != this) {
+    %%%%%:  131-block  0
+    %%%%%:  131-block  1
+branch  0 never executed
+branch  1 never executed
+    #####:  132:      assert(p->next_ != next_ &&
+    %%%%%:  132-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:  132-block  1
+call    2 never executed
+branch  3 never executed
+branch  4 never executed
+    %%%%%:  132-block  2
+    %%%%%:  132-block  3
+        -:  133:             "Trying to depart() a linked ring we are not in. "
+        -:  134:             "Is GMock thread safety enabled?");
+    #####:  135:      p = p->next_;
+    %%%%%:  135-block  0
+        -:  136:    }
+    #####:  137:    p->next_ = next_;
+    #####:  138:    return false;
+    %%%%%:  138-block  0
+    #####:  139:  }
+    %%%%%:  139-block  0
+call    0 never executed
+    $$$$$:  139-block  1
+call    1 never executed
+        -:  140:
+        -:  141: private:
+        -:  142:  mutable linked_ptr_internal const* next_;
+        -:  143:};
+        -:  144:
+        -:  145:template <typename T>
+        -:  146:class linked_ptr {
+        -:  147: public:
+        -:  148:  typedef T element_type;
+        -:  149:
+        -:  150:  // Take over ownership of a raw pointer.  This should happen as soon as
+        -:  151:  // possible after the object is created.
+function _ZN7testing8internal10linked_ptrINS0_26ThreadLocalValueHolderBaseEEC1EPS2_ called 0 returned 0% blocks executed 0%
+    #####:  152:  explicit linked_ptr(T* ptr = NULL) { capture(ptr); }
+    %%%%%:  152-block  0
+call    0 never executed
+function _ZN7testing8internal10linked_ptrINS0_26ThreadLocalValueHolderBaseEED1Ev called 0 returned 0% blocks executed 0%
+    #####:  153:  ~linked_ptr() { depart(); }
+    %%%%%:  153-block  0
+call    0 never executed
+        -:  154:
+        -:  155:  // Copy an existing linked_ptr<>, adding ourselves to the list of references.
+        -:  156:  template <typename U> linked_ptr(linked_ptr<U> const& ptr) { copy(&ptr); }
+function _ZN7testing8internal10linked_ptrINS0_26ThreadLocalValueHolderBaseEEC1ERKS3_ called 0 returned 0% blocks executed 0%
+    #####:  157:  linked_ptr(linked_ptr const& ptr) {  // NOLINT
+    #####:  158:    assert(&ptr != this);
+    %%%%%:  158-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:  158-block  1
+call    2 never executed
+    %%%%%:  158-block  2
+    #####:  159:    copy(&ptr);
+    %%%%%:  159-block  0
+call    0 never executed
+    #####:  160:  }
+        -:  161:
+        -:  162:  // Assignment releases the old value and acquires the new.
+        -:  163:  template <typename U> linked_ptr& operator=(linked_ptr<U> const& ptr) {
+        -:  164:    depart();
+        -:  165:    copy(&ptr);
+        -:  166:    return *this;
+        -:  167:  }
+        -:  168:
+        -:  169:  linked_ptr& operator=(linked_ptr const& ptr) {
+        -:  170:    if (&ptr != this) {
+        -:  171:      depart();
+        -:  172:      copy(&ptr);
+        -:  173:    }
+        -:  174:    return *this;
+        -:  175:  }
+        -:  176:
+        -:  177:  // Smart pointer members.
+        -:  178:  void reset(T* ptr = NULL) {
+        -:  179:    depart();
+        -:  180:    capture(ptr);
+        -:  181:  }
+function _ZNK7testing8internal10linked_ptrINS0_26ThreadLocalValueHolderBaseEE3getEv called 0 returned 0% blocks executed 0%
+    #####:  182:  T* get() const { return value_; }
+    %%%%%:  182-block  0
+        -:  183:  T* operator->() const { return value_; }
+        -:  184:  T& operator*() const { return *value_; }
+        -:  185:
+        -:  186:  bool operator==(T* p) const { return value_ == p; }
+        -:  187:  bool operator!=(T* p) const { return value_ != p; }
+        -:  188:  template <typename U>
+        -:  189:  bool operator==(linked_ptr<U> const& ptr) const {
+        -:  190:    return value_ == ptr.get();
+        -:  191:  }
+        -:  192:  template <typename U>
+        -:  193:  bool operator!=(linked_ptr<U> const& ptr) const {
+        -:  194:    return value_ != ptr.get();
+        -:  195:  }
+        -:  196:
+        -:  197: private:
+        -:  198:  template <typename U>
+        -:  199:  friend class linked_ptr;
+        -:  200:
+        -:  201:  T* value_;
+        -:  202:  linked_ptr_internal link_;
+        -:  203:
+function _ZN7testing8internal10linked_ptrINS0_26ThreadLocalValueHolderBaseEE6departEv called 0 returned 0% blocks executed 0%
+    #####:  204:  void depart() {
+    #####:  205:    if (link_.depart()) delete value_;
+    %%%%%:  205-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:  205-block  1
+branch  3 never executed
+branch  4 never executed
+    %%%%%:  205-block  2
+call    5 never executed
+    #####:  206:  }
+        -:  207:
+function _ZN7testing8internal10linked_ptrINS0_26ThreadLocalValueHolderBaseEE7captureEPS2_ called 0 returned 0% blocks executed 0%
+    #####:  208:  void capture(T* ptr) {
+    #####:  209:    value_ = ptr;
+    #####:  210:    link_.join_new();
+    %%%%%:  210-block  0
+call    0 never executed
+    #####:  211:  }
+        -:  212:
+function _ZN7testing8internal10linked_ptrINS0_26ThreadLocalValueHolderBaseEE4copyIS2_EEvPKNS1_IT_EE called 0 returned 0% blocks executed 0%
+    #####:  213:  template <typename U> void copy(linked_ptr<U> const* ptr) {
+    #####:  214:    value_ = ptr->get();
+    %%%%%:  214-block  0
+call    0 never executed
+    #####:  215:    if (value_)
+branch  0 never executed
+branch  1 never executed
+    #####:  216:      link_.join(&ptr->link_);
+    %%%%%:  216-block  0
+call    0 never executed
+        -:  217:    else
+    #####:  218:      link_.join_new();
+    %%%%%:  218-block  0
+call    0 never executed
+    #####:  219:  }
+        -:  220:};
+        -:  221:
+        -:  222:template<typename T> inline
+        -:  223:bool operator==(T* ptr, const linked_ptr<T>& x) {
+        -:  224:  return ptr == x.get();
+        -:  225:}
+        -:  226:
+        -:  227:template<typename T> inline
+        -:  228:bool operator!=(T* ptr, const linked_ptr<T>& x) {
+        -:  229:  return ptr != x.get();
+        -:  230:}
+        -:  231:
+        -:  232:// A function to convert T* into linked_ptr<T>
+        -:  233:// Doing e.g. make_linked_ptr(new FooBarBaz<type>(arg)) is a shorter notation
+        -:  234:// for linked_ptr<FooBarBaz<type> >(new FooBarBaz<type>(arg))
+        -:  235:template <typename T>
+        -:  236:linked_ptr<T> make_linked_ptr(T* ptr) {
+        -:  237:  return linked_ptr<T>(ptr);
+        -:  238:}
+        -:  239:
+        -:  240:}  // namespace internal
+        -:  241:}  // namespace testing
+        -:  242:
+        -:  243:#endif  // GTEST_INCLUDE_GTEST_INTERNAL_GTEST_LINKED_PTR_H_
