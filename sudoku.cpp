@@ -1,16 +1,5 @@
-#include <iostream>
-#include <random>
-#include <vector>
-#include <algorithm>
-#include <string>
-#include <cstdlib>
-#include <fstream>
-#include <cstring>
-
-#pragma warning (disable: 4996)
-#define BOARD_SIZE 9
+#include "sudoku.h"
 using namespace std;
-
 
 static vector<int> origin_line = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };//生成终局初始行
 random_device rd;
@@ -74,31 +63,37 @@ bool GenerateFinal(vector<vector<int>>& board, int row, int col) {
 }
 
 // 打印数独终局
-void PrintBoard(const vector<vector<int>>& board) {
+void PrintBoard(const vector<vector<int>>& board, const string& output_path) {
+    ofstream fout;
+    fout.open(output_path, ios::app);
     for (int row = 0; row < BOARD_SIZE; row++) {
         for (int col = 0; col < BOARD_SIZE; col++) {
             if (board[row][col] == 0)
-                cout << "$" << " "; //空格用$表示
+                fout << "$" << " "; //空格用$表示
             else
-                cout << board[row][col] << " ";
+                fout << board[row][col] << " ";
         }
-        cout << endl;
+        fout << endl;
     }
+    fout.close();
 }
 
 //根据传入的参数num,生成num轮数独终局
-void GenerateFinals(vector<vector<int>>& board, int num) {
+void GenerateFinals(vector<vector<int>>& board, int num, const string& output_path) {
     vector<vector<int>> initial(BOARD_SIZE, vector<int>(BOARD_SIZE, 0));
+    ofstream fout;
+    fout.open(output_path, ios::app);
     for (int i = 0; i < num; i++) {
         if (GenerateFinal(board, 0, 0)) {
-            cout << "[" << i + 1 << "]" << endl;
-            PrintBoard(board);
+            fout << "[" << i + 1 << "]" << endl;
+            PrintBoard(board, output_path);
             board = initial;
         }
         else {
-            cout << "generate sudoku finals failed!!!" << endl;
+            fout << "generate sudoku finals failed!!!" << endl;
         }
     }
+    fout.close();
 }
 
 // 随机挖掉blank_num个空生成数独游戏
@@ -147,16 +142,8 @@ bool SearchUnsolved(vector<vector<int>> board, int& row, int& col) {
     }
     return false;
 }
-bool solveSudoku(vector<vector<int>>& board) {
+bool SolveSudoku(vector<vector<int>>& board) {
     int row, col;
-    //bool flag = true;//标志位，判断当前数独盘面是否还有没填进去的数
-    //for (row = 0; row < BOARD_SIZE && flag ==true; row++) {
-    //    for (col = 0; col < BOARD_SIZE && flag == true; col++) {
-    //        if (board[row][col] == 0) {
-    //            flag = false;
-    //        }
-    //    }
-    //}
     if (!SearchUnsolved(board, row, col)) {
         return true; // 数独已解决
     }
@@ -165,7 +152,7 @@ bool solveSudoku(vector<vector<int>>& board) {
         if (IsLegal(num, board, row, col)) {
             board[row][col] = num;
 
-            if (solveSudoku(board)) {
+            if (SolveSudoku(board)) {
                 return true;
             }
             board[row][col] = 0; // 回溯
@@ -222,7 +209,7 @@ void LoadAndSolve(vector<vector<int>>& board,char* input_path, const string& out
                 else board[i][j] = stoi(temp);
             }
         }
-        if (solveSudoku(board)) {
+        if (SolveSudoku(board)) {
             out_file << "[" << no << "]" << endl;
             for (int i = 0; i < BOARD_SIZE; i++) {
                 for (int j = 0; j < BOARD_SIZE; j++) {
@@ -248,8 +235,8 @@ bool JudgeRange(int lower, int higher,int num) {
 }
 
 // 检查输入参数
-void ParameterHandler(char* argv[]) {
-    const char* finalFile = "./finals.txt";//存终局的文件
+bool ParameterHandler(char* argv[]) {
+    const char* final_file = "./finals.txt";//存终局的文件
     const char* puzzle_file = "./puzzle.txt";//存游戏的文件
     const char* answer = "./sudoku.txt";//存解答的文件
 
@@ -258,69 +245,55 @@ void ParameterHandler(char* argv[]) {
     FILE* stream;
     if (argv[1] == nullptr) {
         cout << "Please enter parameters......" << endl;
+        return false;
     }
     else if (strcmp(argv[1], "-c") == 0){
         if (argv[2] == nullptr) {
             cout << "Please enter the final rounds after parameter <-c> " << endl;
-            return;
+            return false;
         }
         int final_round = strtol(argv[2], nullptr, 10);
         if (JudgeRange(1,1000000,final_round)) {
             cout << "Parameter <-c> out of boundary!!! Recommended boundary:1~1000000" << endl;
-            return;
+            return false;
         }
-        freopen_s(&stream, finalFile, "w", stdout);
-        GenerateFinals(board, final_round);
-        fclose(stdout);
+        GenerateFinals(board, final_round, final_file);
     }
     else if (strcmp(argv[1], "-s") == 0) {
         if (argv[2] == nullptr) {
             cout << "Please enter the file path after parameter <-s>" << endl;
-            return;
+            return false;
         }
         char* input_path = argv[2];
         LoadAndSolve(board, input_path, answer);
-
     }
     else if (strcmp(argv[1], "-n") == 0) {
         if (argv[2] == nullptr) {
             cout << "Please enter the game rounds you want to generate after parameter <-n>" << endl;
-            return;
+            return false;
         }
         int game_round = strtol(argv[2], nullptr, 10);
         if (JudgeRange(1,10000,game_round)) {
             cout << "Parameter <-n> out of boundary!!! Recommended boundary:1~10000" << endl;
-            return;
+            return false;
         }
-        if (argv[3] == nullptr) {//命令中只包含-n和轮数，没用到其他参数
-            freopen_s(&stream, puzzle_file, "w", stdout);
-            for (int i = 0; i < game_round; i++) {
-                if (GenerateFinal(board, 0, 0)) {
-                    cout << "[" << i + 1 << "]" << endl;
-                    int rand_blank = 20 + (int)e() % 36;
-                    DigBlanks(board, rand_blank); //随机挖去20-55个空格
-                    PrintBoard(board);
-                    board = zero;
-                }
-                else {
-                    cout << "Failed to generate" << endl;
-                }
-            }
-            fclose(stdout);
-        }
-        else if (strcmp(argv[3], "-m") == 0) {
+        if (strcmp(argv[3], "-m") == 0) {
             if (argv[4] == nullptr) {
                 cout << "Please enter the difficulty level after parameter <-m>" << endl;
-                return;
+                return false;
             }
             int level = strtol(argv[4], nullptr, 10);
             if (JudgeRange(1,3,level)) {
                 cout << "Parameter <-m> out of boundary!!! Recommended boundary:1~3" << endl;
-                return;
+                return false;
             }
             //数独难度这里用挖空数量的多少来简单区分，我们简单认为挖空越多难度就越高
             //比如这里我们认为挖[10,29]是简单，[30,49]是中等，[50,59]是困难
-            freopen_s(&stream, puzzle_file, "w", stdout);
+            ofstream fclear;
+            fclear.open(puzzle_file, ios::trunc);
+            fclear.close();
+            ofstream fout;
+            fout.open(puzzle_file, ios::app);
             for (int i = 0; i < game_round; i++) {
                 int rand_num = 0;
                 switch (level) {
@@ -336,71 +309,106 @@ void ParameterHandler(char* argv[]) {
                     default:;
                 }
                 if (GenerateFinal(board, 0, 0)) {
-                    cout << "[" << i + 1 << "]" << endl;
+                    fout << "[" << i + 1 << "]" << endl;
                     DigBlanks(board, rand_num); //随机挖去seed个空格
-                    PrintBoard(board);
+                    PrintBoard(board, puzzle_file);
                     board = zero;
                 }
                 else {
-                    cout << "Generate failed!" << endl;
+                    fout << "Generate failed!" << endl;
                 }
             }
-            fclose(stdout);
+            fout.close();
         }
         else if (strcmp(argv[3], "-r") == 0) {
             if (argv[4] == nullptr) {
                 cout << "Please enter a boundary after parameter <-r>" << endl;
-                return;
+                return false;
             }
-            const char* split = "~";
             // 拆分字符串
-            char* p = strtok(argv[4], split);
+            char range[6];
+            strcpy(range, argv[4]);
+            char* p = strtok(range, "~");
             int min_num = 0, max_num = 0;
             sscanf_s(p, "%d", &min_num);
-            p = strtok(nullptr, split);
+            p = strtok(nullptr, "~");
             sscanf_s(p, "%d", &max_num);
             if (min_num < 20 || max_num > 55 || max_num < min_num) {
                 cout << "Parameter <-r> out of boundary!!! Recommended boundary:20~55" << endl;
-                return;
+                return false;
             }
-            freopen_s(&stream, puzzle_file, "w", stdout);
+            ofstream fclear;
+            fclear.open(puzzle_file, ios::trunc);
+            fclear.close();
+            ofstream fout;
+            fout.open(puzzle_file, ios::app);
             for (int i = 0; i < game_round; i++) {
                 int seed = min_num + (int)e() % (max_num - min_num + 1);
                 if (GenerateFinal(board, 0, 0)) {
-                    cout << "[" << i + 1 << "]" << endl;
+                    fout << "[" << i + 1 << "]" << endl;
                     DigBlanks(board, seed);
-                    PrintBoard(board);
+                    PrintBoard(board, puzzle_file);
                     board = zero;
                 }
                 else {
-                    cout << "Generate failed!" << endl;
+                    fout << "Generate failed!" << endl;
                 }
             }
-            fclose(stdout);
+            fout.close();
         }
         else if (strcmp(argv[3], "-u") == 0) {
-            freopen_s(&stream, puzzle_file, "w", stdout);
+            ofstream fclear;
+            fclear.open(puzzle_file, ios::trunc);
+            fclear.close();
+            ofstream fout;
+            fout.open(puzzle_file, ios::app);
             for (int i = 0; i < game_round; i++) {
                 int random_num = 1 + (int)e() % 20;
                 if (GenerateFinal(board, 0, 0)) {
-                    cout << "[" << i + 1 << "]" << endl;
+                    fout << "[" << i + 1 << "]" << endl;
                     DigBlanksOnly(board, random_num); //这里少挖一点空，挖的少唯一解概率高，随机挖去1~20个空格, 若没有唯一解则回填
-                    PrintBoard(board);
+                    PrintBoard(board, puzzle_file);
                     board = zero;
                 }
                 else {
-                    cout << "Generate failed!" << endl;
+                    fout << "Generate failed!" << endl;
                 }
             }
-            fclose(stdout);
+            fout.close();
+        }
+        else if (argv[3] != nullptr) {
+            cout << "Invalid command!!! Please follow the guidelines to input!!!" << endl;
+            return false;
+        }
+        else {//命令中只包含-n和轮数，没用到其他参数
+            ofstream fclear;
+            fclear.open(puzzle_file, ios::trunc);
+            fclear.close();
+            ofstream fout;
+            fout.open(puzzle_file, ios::app);
+            for (int i = 0; i < game_round; i++) {
+                if (GenerateFinal(board, 0, 0)) {
+                    fout << "[" << i + 1 << "]" << endl;
+                    int rand_blank = 20 + (int)e() % 36;
+                    DigBlanks(board, rand_blank); //随机挖去20-55个空格
+                    PrintBoard(board, puzzle_file);
+                    board = zero;
+                }
+                else {
+                    fout << "Failed to generate" << endl;
+                }
+            }
+            fout.close();
         }
     }
     else {
         cout << "Invalid command!!! Please follow the guidelines to input!!!" << endl;
+        return false;
     }
+    return true;
 }
 
-int main([[maybe_unused]] int argc, char* argv[]) {
-    ParameterHandler(argv);
-    return 0;
-}
+//int main([[maybe_unused]] int argc, char* argv[]) {
+//    ParameterHandler(argv);
+//    return 0;
+//}
