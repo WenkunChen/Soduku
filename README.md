@@ -1,5 +1,9 @@
 # 软件工程结对编程作业报告
 
+## **GitHub链接**
+
+<https://github.com/WenkunChen/Soduku>
+
 ## **文件结构**
 
 `sudoku.h`: 数独程序头文件
